@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "HP Pavilion 15",
+    "price": 350000,
+    "currency": "NGN",
+    "qty": 1,
+    "image": "assets/images/products/product01.png"
+  },
+  {
+    "id": 2,
+    "name": "Dell Inspiron 14",
+    "price": 280000,
+    "currency": "NGN",
+    "qty": 2,
+    "image": "assets/images/products/product02.png"
+  }
+]

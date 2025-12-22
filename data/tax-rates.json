@@ -1,0 +1,50 @@
+{
+  "taxRates": [
+    {
+      "id": 1,
+      "name": "Lagos State VAT",
+      "country": "Nigeria",
+      "state": "Lagos",
+      "rate": 0,
+      "type": "percentage",
+      "description": "Value Added Tax for Lagos State"
+    },
+    {
+      "id": 2,
+      "name": "FCT VAT",
+      "country": "Nigeria",
+      "state": "Federal Capital Territory",
+      "rate": 0,
+      "type": "percentage",
+      "description": "Value Added Tax for Federal Capital Territory"
+    },
+    {
+      "id": 3,
+      "name": "Nigeria Standard VAT",
+      "country": "Nigeria",
+      "rate": 0,
+      "type": "percentage",
+      "description": "Standard Value Added Tax for Nigeria",
+      "default": true
+    },
+    {
+      "id": 4,
+      "name": "International - No Tax",
+      "region": "International",
+      "rate": 0,
+      "type": "percentage",
+      "description": "No tax for international orders"
+    }
+  ],
+  "exemptions": {
+    "categories": ["Books", "Educational Materials"],
+    "productIds": [],
+    "minAmount": 0
+  },
+  "defaultTaxRate": {
+    "id": 0,
+    "name": "Default Tax",
+    "rate": 0,
+    "type": "percentage"
+  }
+}

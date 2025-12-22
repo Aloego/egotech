@@ -1,0 +1,701 @@
+/* ============================================
+   PRODUCT DETAILS PAGE STYLES
+   ============================================ */
+
+/* Breadcrumb */
+.egotec-breadcrumb {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.egotec-breadcrumb .breadcrumb-item a {
+  color: var(--Accent-color3, #503aa8);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.egotec-breadcrumb .breadcrumb-item a:hover {
+  color: var(--Accent-color1, #ffee58);
+}
+
+.egotec-breadcrumb .breadcrumb-item.active {
+  color: var(--Accent-color4, #686868);
+}
+
+/* Product Gallery */
+.egotec-product-gallery {
+  position: relative;
+}
+
+.egotec-main-image-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.egotec-main-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.egotec-main-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Gallery Navigation Arrows */
+.egotec-gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--Accent-color3, #503aa8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.egotec-gallery-arrow:hover {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.egotec-gallery-prev {
+  left: 1rem;
+}
+
+.egotec-gallery-next {
+  right: 1rem;
+}
+
+/* Thumbnail Wrapper */
+.egotec-thumbnail-wrapper {
+  overflow: hidden;
+}
+
+.egotec-thumbnails {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--Accent-color3, #503aa8) #e0e0e0;
+  padding: 0.5rem 0;
+}
+
+.egotec-thumbnails::-webkit-scrollbar {
+  height: 6px;
+}
+
+.egotec-thumbnails::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+.egotec-thumbnails::-webkit-scrollbar-thumb {
+  background: var(--Accent-color3, #503aa8);
+  border-radius: 3px;
+}
+
+.egotec-thumbnail {
+  flex: 0 0 80px;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.egotec-thumbnail:hover {
+  border-color: var(--Accent-color3, #503aa8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(80, 58, 168, 0.2);
+}
+
+.egotec-thumbnail.active {
+  border-color: var(--Accent-color3, #503aa8);
+  box-shadow: 0 0 0 2px rgba(80, 58, 168, 0.3);
+}
+
+.egotec-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Product Information */
+.egotec-product-info {
+  padding: 1rem 0;
+  text-align: left;
+}
+
+.egotec-product-title {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--contrast-color, #111111);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.egotec-product-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.egotec-rating-stars {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.egotec-rating-stars i {
+  color: var(--Accent-color1, #ffee58);
+  font-size: 1.1rem;
+}
+
+.egotec-rating-stars .far {
+  color: var(--Accent-color1, #ffee58);
+  opacity: 0.3;
+}
+
+.egotec-rating-text {
+  font-size: 0.95rem;
+  color: var(--Accent-color4, #686868);
+}
+
+.egotec-product-price {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--Accent-color3, #503aa8);
+  text-align: left;
+}
+
+.egotec-product-short-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--Accent-color4, #686868);
+  text-align: left;
+}
+
+/* Stock Status */
+.egotec-stock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.egotec-stock-status.in-stock {
+  background: #d4edda;
+  color: #155724;
+}
+
+.egotec-stock-status.out-of-stock {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.egotec-stock-status.low-stock {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Quantity Selector */
+.egotec-quantity-wrapper .form-label {
+  font-size: 1rem;
+  color: var(--contrast-color, #111111);
+}
+
+.egotec-quantity-selector {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.egotec-qty-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #f8f9fa;
+  color: var(--contrast-color, #111111);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.egotec-qty-btn:hover:not(:disabled) {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+}
+
+.egotec-qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.egotec-qty-input {
+  width: 60px;
+  height: 40px;
+  border: none;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--contrast-color, #111111);
+  background: #fff;
+}
+
+.egotec-qty-input:focus {
+  outline: none;
+}
+
+/* Action Buttons */
+.egotec-product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.egotec-btn-primary,
+.egotec-btn-secondary {
+  width: 100%;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.egotec-btn-primary {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+}
+
+.egotec-btn-primary:hover {
+  background: #6b4fc8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(80, 58, 168, 0.4);
+}
+
+.egotec-btn-secondary {
+  background: #fff;
+  color: var(--Accent-color3, #503aa8);
+  border: 2px solid var(--Accent-color3, #503aa8);
+}
+
+.egotec-btn-secondary:hover {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+}
+
+.egotec-btn-secondary .fa-heart.fas {
+  color: #dc3545;
+}
+
+/* Product Meta */
+.egotec-product-meta p {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--Accent-color4, #686868);
+}
+
+.egotec-product-meta strong {
+  color: var(--contrast-color, #111111);
+  margin-right: 0.5rem;
+}
+
+/* Tabs Section */
+.egotec-product-tabs {
+  background: #f8f9fa;
+}
+
+.egotec-tabs-nav {
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.egotec-tabs-nav .nav-link {
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--Accent-color4, #686868);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.egotec-tabs-nav .nav-link:hover {
+  color: var(--Accent-color3, #503aa8);
+  border-bottom-color: var(--Accent-color3, #503aa8);
+}
+
+.egotec-tabs-nav .nav-link.active {
+  color: var(--Accent-color3, #503aa8);
+  border-bottom-color: var(--Accent-color3, #503aa8);
+  background: transparent;
+}
+
+.egotec-tabs-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.egotec-tabs-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--contrast-color, #111111);
+  margin-bottom: 1rem;
+}
+
+.egotec-tabs-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--Accent-color4, #686868);
+  margin-bottom: 1rem;
+}
+
+.egotec-specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.egotec-specs-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.egotec-specs-table tr:last-child {
+  border-bottom: none;
+}
+
+.egotec-specs-table td {
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+.egotec-specs-table td:first-child {
+  font-weight: 600;
+  color: var(--contrast-color, #111111);
+  width: 30%;
+}
+
+.egotec-specs-table td:last-child {
+  color: var(--Accent-color4, #686868);
+}
+
+/* Reviews */
+.egotec-review-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.egotec-review-item:last-child {
+  border-bottom: none;
+}
+
+.egotec-review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.egotec-reviewer-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--contrast-color, #111111);
+}
+
+.egotec-review-rating {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.egotec-review-rating i {
+  color: var(--Accent-color1, #ffee58);
+  font-size: 0.9rem;
+}
+
+.egotec-review-date {
+  font-size: 0.85rem;
+  color: var(--Accent-color4, #686868);
+  margin-bottom: 0.5rem;
+}
+
+.egotec-review-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--Accent-color4, #686868);
+}
+
+/* Related Products */
+.egotec-related-products {
+  background: #fff;
+}
+
+.egotec-section-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--contrast-color, #111111);
+  margin: 0;
+}
+
+.egotec-related-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.egotec-related-arrow {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(80, 58, 168, 0.25);
+}
+
+.egotec-related-arrow:hover {
+  background: var(--Accent-color1, #ffee58);
+  color: var(--Accent-color3, #503aa8);
+  transform: scale(1.1);
+}
+
+.egotec-related-wrapper {
+  overflow: hidden;
+}
+
+.egotec-related-carousel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 1rem 0;
+}
+
+.egotec-related-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.egotec-related-card {
+  flex: 0 0 calc((100% - 4.5rem) / 4);
+  min-width: 250px;
+  max-width: 300px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.egotec-related-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  border-color: var(--Accent-color3, #503aa8);
+}
+
+.egotec-related-image {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.egotec-related-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.egotec-related-details {
+  padding: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.egotec-related-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--contrast-color, #111111);
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+
+.egotec-related-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--Accent-color3, #503aa8);
+  margin-bottom: 0.75rem;
+}
+
+.egotec-related-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.egotec-related-rating .egotec-rating-stars {
+  gap: 0.1rem;
+}
+
+.egotec-related-rating .egotec-rating-stars i {
+  font-size: 0.9rem;
+}
+
+.egotec-related-rating-count {
+  font-size: 0.7rem;
+  color: var(--Accent-color4, #686868);
+  white-space: nowrap;
+}
+
+.egotec-related-add-cart {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.egotec-related-add-cart:hover {
+  background: #6b4fc8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(80, 58, 168, 0.3);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991px) {
+  .egotec-related-card {
+    flex: 0 0 calc((100% - 3rem) / 3);
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 767px) {
+  .egotec-product-title {
+    font-size: 1.5rem;
+  }
+
+  .egotec-product-price {
+    font-size: 1.8rem;
+  }
+
+  .egotec-tabs-nav .nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .egotec-tabs-content {
+    padding: 1.5rem;
+  }
+
+  .egotec-related-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .egotec-specs-table td {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .egotec-specs-table td:first-child {
+    padding-bottom: 0.25rem;
+    width: 100%;
+  }
+
+  /* Enable touch scrolling for thumbnails */
+  .egotec-thumbnails {
+    scroll-snap-type: x mandatory;
+  }
+
+  .egotec-thumbnail {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 576px) {
+  .egotec-product-actions {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 1rem;
+    margin: 0 -1rem;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+}

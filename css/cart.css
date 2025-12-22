@@ -1,0 +1,584 @@
+/* Cart Page Styles */
+
+/* Breadcrumb Section */
+.egotec-breadcrumb-section {
+  padding: 2rem 0;
+  background: #f8f9fa;
+  margin-bottom: 3rem;
+}
+
+.egotec-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--contrast-color, #111);
+  margin-top: 0.5rem;
+}
+
+/* Cart Section */
+.egotec-cart-section {
+  padding: 2rem 0 4rem;
+  min-height: 60vh;
+}
+
+/* Empty Cart Message */
+.egotec-empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.egotec-empty-cart i {
+  font-size: 5rem;
+  color: #d1d5db;
+  margin-bottom: 1.5rem;
+}
+
+.egotec-empty-cart h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--contrast-color, #111);
+  margin-bottom: 0.5rem;
+}
+
+.egotec-empty-cart p {
+  color: var(--Accent-color4, #686868);
+  margin-bottom: 2rem;
+}
+
+.egotec-empty-cart .egotec-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.egotec-empty-cart .egotec-btn-primary:hover {
+  background: #6b4fc8;
+  transform: translateY(-2px);
+}
+
+/* Cart Table Wrapper */
+.egotec-cart-table-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Cart Table - Desktop */
+.egotec-cart-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.egotec-cart-table thead {
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.egotec-cart-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--contrast-color, #111);
+  font-size: 0.95rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.egotec-cart-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.3s ease;
+}
+
+.egotec-cart-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.egotec-cart-table td {
+  padding: 1.5rem 1rem;
+  vertical-align: middle;
+}
+
+/* Product Cell */
+.egotec-cart-product {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.egotec-cart-product-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f8f9fa;
+}
+
+.egotec-cart-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.egotec-cart-product-info h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--contrast-color, #111);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.egotec-cart-product-info p {
+  font-size: 0.85rem;
+  color: var(--Accent-color4, #686868);
+  margin: 0.25rem 0 0;
+}
+
+/* Price Cell */
+.egotec-cart-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--Accent-color3, #503aa8);
+  white-space: nowrap;
+}
+
+/* Quantity Cell */
+.egotec-qty-selector {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.egotec-qty-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #f8f9fa;
+  color: var(--contrast-color, #111);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.egotec-qty-btn:hover:not(:disabled) {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+}
+
+.egotec-qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.egotec-qty-value {
+  width: 50px;
+  height: 36px;
+  border: none;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--contrast-color, #111);
+  background: #fff;
+}
+
+.egotec-qty-value:focus {
+  outline: none;
+}
+
+/* Subtotal Cell */
+.egotec-cart-subtotal {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--contrast-color, #111);
+  white-space: nowrap;
+}
+
+/* Delete Button */
+.egotec-cart-delete {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.egotec-cart-delete:hover {
+  background: #fee2e2;
+  transform: scale(1.1);
+}
+
+/* Mobile Cart Items - Hidden on Desktop */
+.egotec-cart-mobile {
+  display: none;
+}
+
+/* Cart Totals */
+.egotec-cart-totals {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 2rem;
+}
+
+.egotec-totals-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--contrast-color, #111);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* Coupon Section */
+.egotec-coupon-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.egotec-coupon-section label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--contrast-color, #111);
+  margin-bottom: 0.5rem;
+}
+
+.egotec-coupon-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.egotec-coupon-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.egotec-coupon-input:focus {
+  outline: none;
+  border-color: var(--Accent-color3, #503aa8);
+}
+
+.egotec-coupon-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.egotec-coupon-btn:hover {
+  background: #6b4fc8;
+}
+
+.egotec-coupon-message {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: none;
+}
+
+.egotec-coupon-message.success {
+  display: block;
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.egotec-coupon-message.error {
+  display: block;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Totals Breakdown */
+.egotec-totals-breakdown {
+  margin-bottom: 1.5rem;
+}
+
+.egotec-totals-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  font-size: 0.95rem;
+  color: var(--Accent-color4, #686868);
+}
+
+.egotec-totals-row span:last-child {
+  font-weight: 600;
+  color: var(--contrast-color, #111);
+}
+
+.egotec-discount-row span {
+  color: #059669;
+}
+
+.egotec-discount-row span:last-child {
+  color: #059669;
+  font-weight: 700;
+}
+
+.egotec-total-row {
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 2px solid #e5e7eb;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--contrast-color, #111);
+}
+
+.egotec-total-row span:last-child {
+  font-size: 1.5rem;
+  color: var(--Accent-color3, #503aa8);
+}
+
+/* Action Buttons */
+.egotec-cart-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.egotec-btn-checkout,
+.egotec-btn-continue {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.egotec-btn-checkout {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+}
+
+.egotec-btn-checkout:hover {
+  background: #6b4fc8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(80, 58, 168, 0.4);
+}
+
+.egotec-btn-continue {
+  background: #fff;
+  color: var(--Accent-color3, #503aa8);
+  border: 2px solid var(--Accent-color3, #503aa8);
+}
+
+.egotec-btn-continue:hover {
+  background: var(--Accent-color3, #503aa8);
+  color: #fff;
+}
+
+/* Responsive Styles */
+
+/* Tablets */
+@media (max-width: 991px) {
+  .egotec-cart-totals {
+    position: static;
+  }
+
+  .egotec-cart-table th:first-child {
+    min-width: 250px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .egotec-breadcrumb-section {
+    padding: 1.5rem 0;
+  }
+
+  .egotec-page-title {
+    font-size: 1.5rem;
+  }
+
+  .egotec-cart-section {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .egotec-cart-table-wrapper {
+    padding: 1rem;
+  }
+
+  /* Hide desktop table, show mobile cards */
+  .egotec-cart-table {
+    display: none;
+  }
+
+  .egotec-cart-mobile {
+    display: block;
+  }
+
+  /* Mobile Cart Card */
+  .egotec-cart-mobile-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .egotec-cart-mobile-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .egotec-cart-mobile-product {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .egotec-cart-mobile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #fff;
+  }
+
+  .egotec-cart-mobile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .egotec-cart-mobile-info {
+    flex: 1;
+  }
+
+  .egotec-cart-mobile-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--contrast-color, #111);
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+
+  .egotec-cart-mobile-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--Accent-color3, #503aa8);
+  }
+
+  .egotec-cart-mobile-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .egotec-cart-mobile-subtotal {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--contrast-color, #111);
+  }
+
+  .egotec-cart-mobile-delete {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .egotec-cart-totals {
+    padding: 1.5rem;
+  }
+
+  .egotec-totals-title {
+    font-size: 1.3rem;
+  }
+
+  .egotec-empty-cart {
+    padding: 3rem 1rem;
+  }
+
+  .egotec-empty-cart i {
+    font-size: 4rem;
+  }
+
+  .egotec-empty-cart h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 575px) {
+  .egotec-coupon-input-group {
+    flex-direction: column;
+  }
+
+  .egotec-coupon-btn {
+    width: 100%;
+  }
+
+  .egotec-cart-mobile-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .egotec-qty-selector {
+    transform: scale(0.9);
+  }
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.egotec-cart-table tbody tr,
+.egotec-cart-mobile-item {
+  animation: fadeIn 0.3s ease;
+}

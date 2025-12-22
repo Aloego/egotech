@@ -1,0 +1,9 @@
+{
+  "promo": {
+    "title": "Big Harmattan Sale",
+    "message": "Save up to 40% on top electronics. Limited time only!",
+    "buttonText": "Shop Now",
+    "buttonLink": "/shop",
+    "image": "assets/images/banners/bannerrmbg.jpg"
+  }
+}

@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Checkout — EgoTech</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- fontAwesome CSS -->
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Checkout CSS -->
+    <link rel="stylesheet" href="css/checkout.css" />
+  </head>
+  <body>
+    <!-- ============================================
+         HEADER SECTION - eCommerce Navigation
+         ============================================ -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <!-- MOBILE HAMBURGER TOGGLE -->
+          <button
+            class="navbar-toggler egotec-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- LOGO -->
+          <a class="navbar-brand egotec-logo" href="index.html">
+            <strong>EgoTech</strong>
+          </a>
+
+          <!-- NAVIGATION MENU -->
+          <div
+            class="collapse navbar-collapse egotec-nav-collapse"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="shop.html">Shop</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#faq">FAQ</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- CART ICON -->
+          <div class="egotec-cart-icon dropdown">
+            <a
+              href="#"
+              class="nav-link position-relative"
+              id="cartDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-shopping-cart"></i>
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                id="cart-count"
+                >0</span
+              >
+            </a>
+
+            <!-- Cart Dropdown Menu -->
+            <div
+              class="dropdown-menu dropdown-menu-end egotec-cart-dropdown"
+              aria-labelledby="cartDropdown"
+            >
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount"
+                  >0 items</span
+                >
+              </div>
+
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+
+              <div
+                class="egotec-cart-dropdown-footer"
+                id="cartDropdownFooter"
+                style="display: none"
+              >
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span>
+                  <span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a
+                    href="cart.html"
+                    class="btn btn-outline-primary w-100 mb-2"
+                  >
+                    <i class="fas fa-shopping-cart"></i> View Cart
+                  </a>
+                  <a href="checkout.html" class="btn btn-primary w-100">
+                    <i class="fas fa-lock"></i> Checkout
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ============================================
+         BREADCRUMB SECTION
+         ============================================ -->
+    <section class="egotec-breadcrumb-section">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="cart.html">Cart</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+          </ol>
+        </nav>
+        <h1 class="egotec-page-title">Checkout</h1>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CHECKOUT SECTION
+         ============================================ -->
+    <section class="egotec-checkout-section">
+      <div class="container">
+        <!-- Empty Cart Message -->
+        <div
+          class="egotec-empty-checkout"
+          id="emptyCheckout"
+          style="display: none"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          <h3>Your cart is empty</h3>
+          <p>Add items to your cart before proceeding to checkout.</p>
+          <a href="shop.html" class="egotec-btn-primary">
+            <i class="fas fa-shopping-bag"></i>
+            Continue Shopping
+          </a>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="row" id="checkoutContent">
+          <!-- Left Column - Billing & Shipping Details -->
+          <div class="col-lg-7 mb-4">
+            <div class="egotec-checkout-form">
+              <h3 class="egotec-section-title">
+                <i class="fas fa-user-circle me-2"></i>
+                Billing & Shipping Details
+              </h3>
+
+              <form id="checkoutForm">
+                <!-- Personal Information -->
+                <div class="egotec-form-section">
+                  <h5 class="egotec-form-subtitle">Personal Information</h5>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName" class="form-label">
+                        First Name <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        name="firstName"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName" class="form-label">
+                        Last Name <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        name="lastName"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label">
+                        Email Address <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="phone" class="form-label">
+                        Phone Number <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="phone"
+                        name="phone"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="egotec-form-section">
+                  <h5 class="egotec-form-subtitle">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    Shipping Address
+                  </h5>
+
+                  <!-- Google Maps Autocomplete Field - DISABLED -->
+                  <!-- Uncomment below to enable address autocomplete -->
+                  <!--
+                  <div class="mb-3">
+                    <label for="full_address" class="form-label">
+                      <i class="fas fa-search-location me-2"></i>
+                      Search Your Address
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="full_address"
+                      name="full_address"
+                      placeholder="Start typing your address..."
+                      autocomplete="off"
+                    />
+                    <small class="text-muted">
+                      <i class="fas fa-info-circle me-1"></i>
+                      Type your address for quick auto-fill
+                    </small>
+                  </div>
+                  -->
+
+                  <div class="mb-3">
+                    <label for="address" class="form-label">
+                      Street Address <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      name="address"
+                      placeholder="House number and street name"
+                      required
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="country" class="form-label">
+                      Country <span class="text-danger">*</span>
+                    </label>
+                    <select
+                      class="form-select"
+                      id="country"
+                      name="country"
+                      required
+                    >
+                      <option value="">Select Country</option>
+                      <option value="Nigeria" selected>Nigeria</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Benin Republic">Benin Republic</option>
+                      <option value="Togo">Togo</option>
+                      <option value="Ivory Coast">Ivory Coast</option>
+                    </select>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="state" class="form-label">
+                        State/Region <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        class="form-select"
+                        id="state"
+                        name="state"
+                        required
+                      >
+                        <option value="">Select State</option>
+                      </select>
+                    </div>
+                    <div
+                      class="col-md-6 mb-3"
+                      id="lgaContainer"
+                      style="display: none"
+                    >
+                      <label for="lga" class="form-label">
+                        LGA <span class="text-danger">*</span>
+                      </label>
+                      <select class="form-select" id="lga" name="lga">
+                        <option value="">Select LGA</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="city" class="form-label">
+                      Town/City <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="city"
+                      name="city"
+                      placeholder="Enter your town/city"
+                      required
+                      autocomplete="off"
+                    />
+                  </div>
+
+                  <!-- Optional delivery details -->
+                  <div class="mb-3">
+                    <label for="landmark" class="form-label">
+                      Nearby Landmark (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="landmark"
+                      name="landmark"
+                      placeholder="E.g., Near First Bank, Opposite Police Station"
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="delivery_instructions" class="form-label">
+                      Delivery Instructions (Optional)
+                    </label>
+                    <textarea
+                      class="form-control"
+                      id="delivery_instructions"
+                      name="delivery_instructions"
+                      rows="2"
+                      placeholder="Special instructions for delivery driver"
+                    ></textarea>
+                  </div>
+
+                  <!-- Hidden fields for coordinates -->
+                  <input type="hidden" id="latitude" name="latitude" />
+                  <input type="hidden" id="longitude" name="longitude" />
+                </div>
+
+                <!-- Shipping Methods -->
+                <div class="egotec-form-section">
+                  <h5 class="egotec-form-subtitle">
+                    <i class="fas fa-shipping-fast me-2"></i>
+                    Shipping Method
+                  </h5>
+                  <div class="egotec-shipping-methods">
+                    <div class="form-check egotec-shipping-option">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="shippingMethod"
+                        id="standardShipping"
+                        value="standard"
+                        checked
+                      />
+                      <label class="form-check-label" for="standardShipping">
+                        <i class="fas fa-truck me-2"></i>
+                        <strong>Standard Shipping</strong>
+                        <span
+                          class="text-muted d-block small"
+                          id="standardShippingDetails"
+                          >Select your location to see delivery time and
+                          cost</span
+                        >
+                      </label>
+                    </div>
+                    <!-- Express Shipping - COMMENTED OUT
+                    <div class="form-check egotec-shipping-option">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="shippingMethod"
+                        id="expressShipping"
+                        value="express"
+                      />
+                      <label class="form-check-label" for="expressShipping">
+                        <i class="fas fa-rocket me-2"></i>
+                        <strong>Express Shipping</strong>
+                        <span class="text-muted d-block small"
+                          >Faster delivery (additional charges may apply)</span
+                        >
+                      </label>
+                    </div>
+                    -->
+                    <div class="form-check egotec-shipping-option">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="shippingMethod"
+                        id="pickup"
+                        value="pickup"
+                      />
+                      <label class="form-check-label" for="pickup">
+                        <i class="fas fa-store me-2"></i>
+                        <strong>Pickup</strong>
+                        <span class="text-muted d-block small"
+                          >Pick up from our store location</span
+                        >
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Pickup Location Selection (Hidden by default) -->
+                  <div
+                    id="pickupLocationContainer"
+                    style="display: none"
+                    class="mt-3"
+                  >
+                    <label for="pickupLocation" class="form-label">
+                      <i class="fas fa-map-marker-alt me-2"></i>
+                      Select Pickup Location <span class="text-danger">*</span>
+                    </label>
+                    <select
+                      class="form-select"
+                      id="pickupLocation"
+                      name="pickupLocation"
+                    >
+                      <option value="">Choose a pickup location</option>
+                      <option value="lagos-ikeja">
+                        Lagos - Ikeja Store (Computer Village)
+                      </option>
+                      <option value="lagos-island">
+                        Lagos - Victoria Island Store
+                      </option>
+                      <option value="abuja-wuse">Abuja - Wuse 2 Store</option>
+                    </select>
+                    <div
+                      class="alert alert-info mt-2"
+                      id="pickupLocationInfo"
+                      style="display: none"
+                    >
+                      <small>
+                        <i class="fas fa-info-circle me-1"></i>
+                        <strong id="pickupLocationName"></strong><br />
+                        <span id="pickupLocationAddress"></span><br />
+                        <span id="pickupLocationHours"></span>
+                      </small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional Notes -->
+                <div class="egotec-form-section">
+                  <h5 class="egotec-form-subtitle">
+                    Additional Notes (Optional)
+                  </h5>
+                  <div class="mb-3">
+                    <label for="orderNotes" class="form-label">
+                      Order Notes
+                    </label>
+                    <textarea
+                      class="form-control"
+                      id="orderNotes"
+                      name="orderNotes"
+                      rows="3"
+                      placeholder="Notes about your order, e.g. special notes for delivery"
+                    ></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right Column - Order Summary -->
+          <div class="col-lg-5">
+            <div class="egotec-order-summary sticky-top" style="top: 100px">
+              <h3 class="egotec-section-title">
+                <i class="fas fa-clipboard-list me-2"></i>
+                Order Summary
+              </h3>
+
+              <!-- Cart Items -->
+              <div class="egotec-summary-items" id="summaryItems">
+                <!-- Items will be inserted here dynamically -->
+              </div>
+
+              <!-- Shipping Zone Info -->
+              <div
+                class="egotec-shipping-info"
+                id="shippingInfo"
+                style="display: none"
+              >
+                <div class="alert alert-info">
+                  <i class="fas fa-shipping-fast me-2"></i>
+                  <strong id="shippingZoneName">Shipping Zone</strong>
+                  <p class="mb-0">
+                    <small>
+                      Estimated delivery: <span id="estimatedDays">-</span> days
+                    </small>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Order Totals -->
+              <div class="egotec-summary-totals">
+                <div class="egotec-totals-row">
+                  <span>Subtotal:</span>
+                  <span id="summarySubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-totals-row">
+                  <span>Shipping:</span>
+                  <span id="summaryShipping">Calculated at next step</span>
+                </div>
+                <div class="egotec-totals-row">
+                  <span>Tax:</span>
+                  <span id="summaryTax">Calculated at next step</span>
+                </div>
+                <div class="egotec-totals-row egotec-total-row">
+                  <span>Total:</span>
+                  <span id="summaryTotal">₦0.00</span>
+                </div>
+              </div>
+
+              <!-- Place Order Button -->
+              <button
+                type="button"
+                class="egotec-btn-place-order w-100"
+                id="placeOrderBtn"
+              >
+                <i class="fas fa-lock me-2"></i>
+                Place Order
+              </button>
+
+              <!-- Security Badge -->
+              <div class="egotec-security-badge text-center mt-3">
+                <i class="fas fa-shield-alt me-2"></i>
+                <small class="text-muted">
+                  Your payment information is secure
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER SECTION
+         ============================================ -->
+    <footer class="egotec-footer py-5">
+      <div class="container egotec-footer-main py-4">
+        <div class="row">
+          <!-- About Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">About EgoTech</h5>
+            <p class="egotec-footer-description">
+              Your trusted destination for cutting-edge electronics and gadgets.
+              Quality products, exceptional service, unbeatable prices.
+            </p>
+            <div class="egotec-social-links mt-3">
+              <a href="#" aria-label="Facebook"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="#" aria-label="Twitter"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" aria-label="Instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" aria-label="LinkedIn"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+            </div>
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#deals">Deals</a></li>
+              <li><a href="#blog">Blog</a></li>
+            </ul>
+          </div>
+
+          <!-- Customer Service Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#help">Help Center</a></li>
+              <li><a href="#shipping">Shipping Info</a></li>
+              <li><a href="#returns">Returns & Exchanges</a></li>
+              <li><a href="#warranty">Warranty</a></li>
+              <li><a href="#track">Track Order</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li>
+                <i class="fas fa-map-marker-alt"></i>
+                <span>123 Tech Street, Digital City, DC 12345</span>
+              </li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span>+1 (555) 123-4567</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span>support@egotech.com</span>
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">
+                &copy; 2025 EgoTech. All rights reserved.
+              </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms of Service</a></li>
+                <li><a href="#cookies">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Cart Dropdown JS -->
+    <script src="js/cart-dropdown.js"></script>
+
+    <!-- Google Maps API - DISABLED FOR NOW -->
+    <!-- Uncomment below to enable Google Maps autocomplete -->
+    <!--
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcrZT_uSaXRjUNKbaup0ffy-qtnjcGMyA&libraries=places&callback=initAutocomplete"
+      async
+      defer
+    ></script>
+    <script src="js/address-autocomplete.js"></script>
+    -->
+
+    <!-- Checkout JS -->
+    <script src="js/checkout.js"></script>
+  </body>
+</html>

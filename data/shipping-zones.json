@@ -1,0 +1,171 @@
+{
+  "shippingZones": [
+    {
+      "id": 1,
+      "name": "Lagos Mainland - Zone 1",
+      "country": "Nigeria",
+      "state": "Lagos",
+      "lgas": [
+        "Agege",
+        "Alimosho",
+        "Apapa",
+        "Ifako-Ijaiye",
+        "Ikeja",
+        "Kosofe",
+        "Mushin",
+        "Oshodi-Isolo",
+        "Shomolu",
+        "Surulere",
+        "Lagos Mainland"
+      ],
+      "rate": 3000,
+      "estimatedDays": "3-5",
+      "freeShippingThreshold": 400000
+    },
+    {
+      "id": 2,
+      "name": "Lagos Island - Zone 2",
+      "country": "Nigeria",
+      "state": "Lagos",
+      "lgas": ["Eti-Osa", "Lagos Island"],
+      "rate": 4000,
+      "estimatedDays": "3-5",
+      "freeShippingThreshold": 500000
+    },
+    {
+      "id": 3,
+      "name": "Lagos Outskirts - Zone 3",
+      "country": "Nigeria",
+      "state": "Lagos",
+      "lgas": [
+        "Ikorodu",
+        "Epe",
+        "Badagry",
+        "Ibeju-Lekki",
+        "Ojo",
+        "Amuwo-Odofin",
+        "Ajeromi-Ifelodun"
+      ],
+      "rate": 7000,
+      "estimatedDays": "3-5",
+      "freeShippingThreshold": 600000
+    },
+    {
+      "id": 4,
+      "name": "Abuja - FCT",
+      "country": "Nigeria",
+      "state": "Federal Capital Territory",
+      "lgas": [
+        "Abuja Municipal",
+        "Gwagwalada",
+        "Kuje",
+        "Bwari",
+        "Abaji",
+        "Kwali"
+      ],
+      "rate": 3500,
+      "estimatedDays": "2-3",
+      "freeShippingThreshold": 70000
+    },
+    {
+      "id": 5,
+      "name": "South West States",
+      "country": "Nigeria",
+      "states": ["Oyo", "Ogun", "Osun", "Ondo", "Ekiti"],
+      "rate": 4000,
+      "estimatedDays": "3-5",
+      "freeShippingThreshold": 80000
+    },
+    {
+      "id": 6,
+      "name": "South East States",
+      "country": "Nigeria",
+      "states": ["Anambra", "Enugu", "Abia", "Imo", "Ebonyi"],
+      "rate": 4500,
+      "estimatedDays": "3-5",
+      "freeShippingThreshold": 85000
+    },
+    {
+      "id": 7,
+      "name": "South South States",
+      "country": "Nigeria",
+      "states": [
+        "Rivers",
+        "Delta",
+        "Edo",
+        "Bayelsa",
+        "Cross River",
+        "Akwa Ibom"
+      ],
+      "rate": 5000,
+      "estimatedDays": "4-6",
+      "freeShippingThreshold": 90000
+    },
+    {
+      "id": 8,
+      "name": "North Central States",
+      "country": "Nigeria",
+      "states": ["Kwara", "Kogi", "Benue", "Plateau", "Nasarawa", "Niger"],
+      "rate": 4500,
+      "estimatedDays": "4-6",
+      "freeShippingThreshold": 85000000
+    },
+    {
+      "id": 9,
+      "name": "North West States",
+      "country": "Nigeria",
+      "states": [
+        "Kano",
+        "Kaduna",
+        "Katsina",
+        "Sokoto",
+        "Zamfara",
+        "Kebbi",
+        "Jigawa"
+      ],
+      "rate": 5500,
+      "estimatedDays": "5-7",
+      "freeShippingThreshold": 95000
+    },
+    {
+      "id": 10,
+      "name": "North East States",
+      "country": "Nigeria",
+      "states": ["Borno", "Yobe", "Bauchi", "Gombe", "Adamawa", "Taraba"],
+      "rate": 6000,
+      "estimatedDays": "5-7",
+      "freeShippingThreshold": 100000
+    },
+    {
+      "id": 11,
+      "name": "International - West Africa",
+      "countries": ["Ghana", "Benin Republic", "Togo", "Ivory Coast"],
+      "rate": 15000,
+      "estimatedDays": "7-14",
+      "freeShippingThreshold": 200000
+    },
+    {
+      "id": 12,
+      "name": "International - Rest of Africa",
+      "region": "Africa",
+      "rate": 25000,
+      "estimatedDays": "10-21",
+      "freeShippingThreshold": 300000
+    },
+    {
+      "id": 13,
+      "name": "International - Worldwide",
+      "region": "Global",
+      "rate": 35000,
+      "estimatedDays": "14-30",
+      "freeShippingThreshold": 500000
+    }
+  ],
+  "defaultZone": {
+    "id": 0,
+    "name": "Default Shipping",
+    "rate": 5000,
+    "estimatedDays": "3-7",
+    "freeShippingThreshold": 100000
+  }
+}

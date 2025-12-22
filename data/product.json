@@ -1,0 +1,246 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "HP Pavilion 15",
+      "brand": "HP",
+      "category": "Laptop",
+      "price": 350000,
+      "currency": "NGN",
+      "image": "assets/images/products/product01.png",
+      "images": [
+        "assets/images/products/product01.png",
+        "assets/images/products/product01.png",
+        "assets/images/products/product01.png"
+      ],
+      "description": "A fast laptop for everyday work and entertainment.",
+      "newArrival": "true",
+      "featured": "true",
+      "rating": 4.5,
+      "stock": 10,
+      "features": [
+        "Intel Core i5 Processor",
+        "8GB RAM",
+        "256GB SSD Storage",
+        "15.6 inch Full HD Display",
+        "Windows 11 Home"
+      ],
+      "specifications": {
+        "Processor": "Intel Core i5-1135G7",
+        "RAM": "8GB DDR4",
+        "Storage": "256GB SSD",
+        "Display": "15.6 inch FHD (1920x1080)",
+        "Graphics": "Intel Iris Xe Graphics",
+        "Operating System": "Windows 11 Home",
+        "Battery Life": "Up to 8 hours",
+        "Weight": "1.75 kg"
+      },
+      "reviews": [
+        {
+          "name": "John Doe",
+          "rating": 5,
+          "date": "2024-11-15",
+          "comment": "Excellent laptop for the price! Very fast and reliable."
+        },
+        {
+          "name": "Jane Smith",
+          "rating": 4,
+          "date": "2024-11-10",
+          "comment": "Good performance but battery could be better."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Dell Inspiron 14",
+      "brand": "Dell",
+      "category": "Laptop",
+      "price": 420000,
+      "currency": "NGN",
+      "image": "assets/images/products/product03.png",
+      "images": [
+        "assets/images/products/product03.png",
+        "assets/images/products/product03.png",
+        "assets/images/products/product03.png"
+      ],
+      "description": "Reliable laptop with strong performance for all your tasks.",
+      "newArrival": "false",
+      "featured": "true",
+      "rating": 4.2,
+      "stock": 5,
+      "features": [
+        "AMD Ryzen 5 Processor",
+        "16GB RAM",
+        "512GB SSD Storage",
+        "14 inch Full HD Display",
+        "Windows 11 Pro"
+      ],
+      "specifications": {
+        "Processor": "AMD Ryzen 5 5500U",
+        "RAM": "16GB DDR4",
+        "Storage": "512GB NVMe SSD",
+        "Display": "14 inch FHD (1920x1080)",
+        "Graphics": "AMD Radeon Graphics",
+        "Operating System": "Windows 11 Pro",
+        "Battery Life": "Up to 10 hours",
+        "Weight": "1.54 kg"
+      },
+      "reviews": [
+        {
+          "name": "Michael Brown",
+          "rating": 4,
+          "date": "2024-11-20",
+          "comment": "Solid laptop with good build quality."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Apple iPhone 14",
+      "brand": "Apple",
+      "category": "Mobile",
+      "price": 600000,
+      "currency": "NGN",
+      "image": "assets/images/products/applePhone.png",
+      "images": [
+        "assets/images/products/applePhone.png",
+        "assets/images/products/applePhone.png",
+        "assets/images/products/applePhone.png"
+      ],
+      "description": "The latest iPhone with amazing camera and performance.",
+      "newArrival": "true",
+      "featured": "true",
+      "rating": 4.8,
+      "stock": 8,
+      "features": [
+        "A15 Bionic chip",
+        "6.1-inch Super Retina XDR display",
+        "Dual 12MP camera system",
+        "5G capable",
+        "iOS 16"
+      ],
+      "specifications": {
+        "Processor": "A15 Bionic chip",
+        "Display": "6.1-inch Super Retina XDR",
+        "Camera": "Dual 12MP (Main + Ultra Wide)",
+        "Front Camera": "12MP TrueDepth",
+        "Storage": "128GB",
+        "Operating System": "iOS 16",
+        "Battery": "Up to 20 hours video playback",
+        "Weight": "172g"
+      },
+      "reviews": [
+        {
+          "name": "Sarah Johnson",
+          "rating": 5,
+          "date": "2024-11-25",
+          "comment": "Best phone I've ever owned! Camera is incredible."
+        },
+        {
+          "name": "David Lee",
+          "rating": 5,
+          "date": "2024-11-18",
+          "comment": "Perfect performance and battery life."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Samsung Galaxy S23",
+      "brand": "Samsung",
+      "category": "Smartphones",
+      "price": 550000,
+      "currency": "NGN",
+      "image": "assets/images/products/product07.png",
+      "description": "High-end smartphone with stunning display and features.",
+      "newArrival": "No",
+      "featured": "true",
+      "rating": 4.6,
+      "stock": 12
+    },
+    {
+      "id": 5,
+      "name": "Sony WH-1000XM4",
+      "brand": "Sony",
+      "category": "Headphones",
+      "price": 150000,
+      "currency": "NGN",
+      "image": "assets/images/products/sonyHeadphones.png",
+      "description": "Industry-leading noise canceling headphones.",
+      "newArrival": "true",
+      "featured": "No",
+      "rating": 4.7,
+      "stock": 15
+    },
+    {
+      "id": 6,
+      "name": "Bose QuietComfort 35 II",
+      "brand": "Bose",
+      "category": "Headphones",
+      "price": 140000,
+      "currency": "NGN",
+      "image": "assets/images/products/shop03.png",
+      "description": "Comfortable headphones with excellent sound quality.",
+      "newArrival": "No",
+      "featured": "true",
+      "rating": 4.5,
+      "stock": 7
+    },
+    {
+      "id": 7,
+      "name": "Apple MacBook Air",
+      "brand": "Apple",
+      "category": "Laptop",
+      "price": 800000,
+      "currency": "NGN",
+      "image": "assets/images/products/product05.png",
+      "description": "Lightweight laptop with powerful performance and long battery life.",
+      "newArrival": "true",
+      "featured": "true",
+      "rating": 4.9,
+      "stock": 4
+    },
+    {
+      "id": 8,
+      "name": "Google Pixel 7",
+      "brand": "Google",
+      "category": "Smartphones",
+      "price": 500000,
+      "currency": "NGN",
+      "image": "assets/images/products/shop02.png",
+      "description": "Smartphone with excellent camera and pure Android experience.",
+      "newArrival": "true",
+      "featured": "true",
+      "rating": 4.4,
+      "stock": 9
+    },
+    {
+      "id": 9,
+      "name": "JBL Flip 5",
+      "brand": "JBL",
+      "category": "Speakers",
+      "price": 40000,
+      "currency": "NGN",
+      "image": "assets/images/products/product04.png",
+      "description": "Portable Bluetooth speaker with powerful sound.",
+      "newArrival": "No",
+      "featured": "true",
+      "rating": 4.3,
+      "stock": 20
+    },
+    {
+      "id": 10,
+      "name": "Amazon Echo Dot (4th Gen)",
+      "brand": "Amazon",
+      "category": "Smart Home",
+      "price": 30000,
+      "currency": "NGN",
+      "image": "assets/images/products/echoDot.png",
+      "description": "Smart speaker with Alexa voice assistant.",
+      "newArrival": "true",
+      "featured": "No",
+      "rating": 4.2,
+      "stock": 25
+    }
+  ]
+}

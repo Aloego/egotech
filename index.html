@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EgoTech — Home</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
+    <!-- fontAwesome CSS -->
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Quick View Modal CSS -->
+    <link rel="stylesheet" href="css/quick-view-modal.css" />
+  </head>
+  <body>
+    <!-- ============================================
+         HEADER SECTION - eCommerce Navigation
+         ============================================ -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <!-- MOBILE HAMBURGER TOGGLE (left side, only on mobile) -->
+          <button
+            class="navbar-toggler egotec-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- LOGO (left on desktop/tablet, centered on mobile via CSS) -->
+          <a class="navbar-brand egotec-logo" href="index.html">
+            <strong>EgoTech</strong>
+          </a>
+
+          <!-- NAVIGATION MENU (centered on desktop/tablet, full-width below header on mobile) -->
+          <div
+            class="collapse navbar-collapse egotec-nav-collapse"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="shop.html">Shop</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#faq">FAQ</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- CART ICON (right side, always visible, never collapses) -->
+          <div class="egotec-cart-icon dropdown">
+            <a
+              href="#"
+              class="nav-link position-relative"
+              id="cartDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-shopping-cart"></i>
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                id="cart-count"
+                >0</span
+              >
+            </a>
+
+            <!-- Cart Dropdown Menu -->
+            <div
+              class="dropdown-menu dropdown-menu-end egotec-cart-dropdown"
+              aria-labelledby="cartDropdown"
+            >
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount"
+                  >0 items</span
+                >
+              </div>
+
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <!-- Cart items will be inserted here dynamically -->
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+
+              <div
+                class="egotec-cart-dropdown-footer"
+                id="cartDropdownFooter"
+                style="display: none"
+              >
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span>
+                  <span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a
+                    href="cart.html"
+                    class="btn btn-outline-primary w-100 mb-2"
+                  >
+                    <i class="fas fa-shopping-cart"></i> View Cart
+                  </a>
+                  <a href="checkout.html" class="btn btn-primary w-100">
+                    <i class="fas fa-lock"></i> Checkout
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ============================================
+         HERO SECTION - eCommerce Homepage Hero
+         ============================================ -->
+    <section class="egotec-hero py-5">
+      <div class="container">
+        <div class="row align-items-center gap-4 gap-lg-0">
+          <!-- LEFT COLUMN: Text Content -->
+          <div class="col-lg-6 d-flex flex-column justify-content-center">
+            <h1 class="egotec-hero-title mb-3">Future-Ready Tech, Today</h1>
+            <p class="egotec-hero-text mb-4">
+              Discover cutting-edge technology and innovative products designed
+              for modern living. Experience excellence with our curated
+              collection of premium tech gadgets and accessories.
+            </p>
+            <div>
+              <a href="product.html" class="btn btn-primary egotec-hero-btn">
+                Shop Now
+              </a>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Hero Image -->
+          <div class="col-lg-6">
+            <img
+              src="assets/images/products/product03.png"
+              alt="EgoTech Hero Image"
+              class="img-fluid egotec-hero-image rounded"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CATEGORY HIGHLIGHTS SECTION
+         ============================================ -->
+    <section class="egotec-category-highlights py-5">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0 fw-bold">Shop by Category</h2>
+          <div class="egotec-carousel-controls d-none d-md-flex gap-2">
+            <button
+              class="egotec-carousel-arrow egotec-carousel-arrow-left d-flex align-items-center justify-content-center"
+              aria-label="Scroll left"
+              type="button"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button
+              class="egotec-carousel-arrow egotec-carousel-arrow-right d-flex align-items-center justify-content-center"
+              aria-label="Scroll right"
+              type="button"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="egotec-category-carousel-wrapper position-relative">
+          <!-- Category Carousel -->
+          <div
+            class="egotec-category-carousel d-flex overflow-auto flex-nowrap"
+          >
+            <!-- Category cards will be dynamically injected here by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="egotec-featured-products py-5">
+      <div class="container">
+        <!-- Section Header with Title and Arrows -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0 fw-bold">Featured Products</h2>
+          <div class="egotec-featured-controls d-none d-md-flex gap-2">
+            <button
+              class="egotec-featured-arrow egotec-featured-arrow-left"
+              aria-label="Previous products"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button
+              class="egotec-featured-arrow egotec-featured-arrow-right"
+              aria-label="Next products"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Products Carousel Wrapper -->
+        <div class="egotec-featured-wrapper">
+          <div class="egotec-featured-carousel" id="featuredProductsCarousel">
+            <!-- Product cards will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section class="egotec-new-arrivals py-5">
+      <div class="container">
+        <!-- Section Header with Title and Arrows -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0 fw-bold">New Arrivals</h2>
+          <div class="egotec-new-arrivals-controls d-none d-md-flex gap-2">
+            <button
+              class="egotec-new-arrivals-arrow egotec-new-arrivals-arrow-left"
+              aria-label="Previous products"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button
+              class="egotec-new-arrivals-arrow egotec-new-arrivals-arrow-right"
+              aria-label="Next products"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Products Carousel Wrapper -->
+        <div class="egotec-new-arrivals-wrapper">
+          <div class="egotec-new-arrivals-carousel" id="newArrivalsCarousel">
+            <!-- Product cards will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         PROMO BANNER (dynamic from promos.json)
+         ============================================ -->
+    <section class="egotec-promo-banner position-relative">
+      <div class="egotec-promo-overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-lg-8">
+            <div class="egotec-promo-content">
+              <h2 id="promoTitle" class="egotec-promo-title mb-3"></h2>
+              <p id="promoMessage" class="egotec-promo-message mb-4"></p>
+              <a
+                id="promoCta"
+                href="#"
+                class="btn egotec-promo-btn d-inline-flex align-items-center"
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- All Products Section -->
+    <section class="egotec-all-products py-5">
+      <div class="container">
+        <!-- Section Header with Title and Arrows -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0 fw-bold">All Products</h2>
+          <div class="egotec-all-products-controls d-none d-md-flex gap-2">
+            <button
+              class="egotec-all-products-arrow egotec-all-products-arrow-left"
+              aria-label="Previous products"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button
+              class="egotec-all-products-arrow egotec-all-products-arrow-right"
+              aria-label="Next products"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Products Carousel Wrapper -->
+        <div class="egotec-all-products-wrapper">
+          <div class="egotec-all-products-carousel" id="allProductsCarousel">
+            <!-- Product cards will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Subscription Section -->
+    <section class="egotec-newsletter py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10">
+            <div class="egotec-newsletter-card">
+              <div class="egotec-newsletter-content text-center">
+                <div class="egotec-newsletter-icon mb-3">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <h2 class="egotec-newsletter-title mb-3">Stay Updated!</h2>
+                <p class="egotec-newsletter-text mb-4">
+                  Subscribe to our newsletter and be the first to know about
+                  exclusive deals, new arrivals, and special offers.
+                </p>
+
+                <form class="egotec-newsletter-form" id="newsletterForm">
+                  <div class="egotec-newsletter-input-group">
+                    <input
+                      type="email"
+                      class="egotec-newsletter-input"
+                      id="newsletterEmail"
+                      placeholder="Enter your email address"
+                      required
+                      aria-label="Email address"
+                    />
+                    <button
+                      type="submit"
+                      class="egotec-newsletter-btn"
+                      aria-label="Subscribe to newsletter"
+                    >
+                      Subscribe
+                      <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                  </div>
+                  <div
+                    class="egotec-newsletter-message mt-3"
+                    id="newsletterMessage"
+                  ></div>
+                </form>
+
+                <p class="egotec-newsletter-privacy mt-3">
+                  <small>
+                    <i class="fas fa-lock me-1"></i>
+                    We respect your privacy. Unsubscribe at any time.
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="egotec-footer">
+      <div class="container">
+        <!-- Footer Main Content -->
+        <div class="row egotec-footer-main py-5">
+          <!-- About Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
+            <p class="egotec-footer-text">
+              Your trusted destination for premium electronics and smart home
+              solutions. Quality products, unbeatable prices.
+            </p>
+            <div class="egotec-footer-social mt-4">
+              <a href="#" class="egotec-social-link" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Links Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#shop">Shop</a></li>
+              <li><a href="#categories">Categories</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Customer Service Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#help">Help Center</a></li>
+              <li><a href="#shipping">Shipping Info</a></li>
+              <li><a href="#returns">Returns & Exchanges</a></li>
+              <li><a href="#warranty">Warranty</a></li>
+              <li><a href="#track">Track Order</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info Column -->
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li>
+                <i class="fas fa-map-marker-alt"></i>
+                <span>123 Tech Street, Digital City, DC 12345</span>
+              </li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span>+1 (555) 123-4567</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span>support@egotech.com</span>
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">
+                &copy; 2025 EgoTech. All rights reserved.
+              </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="#privacy">Privacy Policy</a></li>
+                <li><a href="#terms">Terms of Service</a></li>
+                <li><a href="#cookies">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS  -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Cart Dropdown JS -->
+    <script src="js/cart-dropdown.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+    <!-- Quick View Modal JS -->
+    <script src="js/quick-view-modal.js"></script>
+  </body>
+</html>
