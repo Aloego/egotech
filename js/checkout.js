@@ -163,8 +163,34 @@ async function loadTaxRates() {
 function loadLGATowns() {
   try {
     const storedData = localStorage.getItem(LGA_TOWNS_KEY);
-    lgaTowns = storedData ? JSON.parse(storedData) : {};
-    console.log("LGA-Towns data loaded:", Object.keys(lgaTowns).length, "LGAs");
+    if (storedData) {
+      lgaTowns = JSON.parse(storedData);
+      console.log(
+        "LGA-Towns data loaded from localStorage:",
+        Object.keys(lgaTowns).length,
+        "LGAs"
+      );
+    } else {
+      // Fetch from lga-towns.json if not in localStorage
+      fetch("data/lga-towns.json")
+        .then((res) => res.json())
+        .then((json) => {
+          // Support both {towns: {...}} and flat {...}
+          lgaTowns = json.towns || json;
+          localStorage.setItem(LGA_TOWNS_KEY, JSON.stringify(lgaTowns));
+          console.log(
+            "LGA-Towns data loaded from lga-towns.json:",
+            Object.keys(lgaTowns).length,
+            "LGAs"
+          );
+          // Optionally, refresh city field if needed
+          if (typeof populateCityField === "function") populateCityField();
+        })
+        .catch((error) => {
+          console.error("Error loading LGA-Towns from JSON file:", error);
+          lgaTowns = {};
+        });
+    }
   } catch (error) {
     console.error("Error loading LGA-Towns data:", error);
     lgaTowns = {};
@@ -330,29 +356,15 @@ function displayOrderSummary() {
 function populateCountryDropdown() {
   const countrySelect = document.getElementById("country");
 
-  // Use predefined countries from countryStates object
-  const countries = Object.keys(countryStates);
-
-  // Clear and populate
-  countrySelect.innerHTML = '<option value="">Select Country</option>';
-  countries.forEach((country) => {
-    const option = document.createElement("option");
-    option.value = country;
-    option.textContent = country;
-    if (country === "Nigeria") option.selected = true;
-    countrySelect.appendChild(option);
-  });
-
-  // Add "Other" option for countries not in list
-  const otherOption = document.createElement("option");
-  otherOption.value = "Other";
-  otherOption.textContent = "Other";
-  countrySelect.appendChild(otherOption);
-
-  // Trigger state population if Nigeria is selected
-  if (countrySelect.value === "Nigeria") {
-    populateStateDropdown("Nigeria");
-  }
+  // Only show Nigeria
+  countrySelect.innerHTML = "";
+  const option = document.createElement("option");
+  option.value = "Nigeria";
+  option.textContent = "Nigeria";
+  option.selected = true;
+  countrySelect.appendChild(option);
+  // Trigger state population
+  populateStateDropdown("Nigeria");
 }
 
 /**
@@ -408,7 +420,7 @@ async function populateLGADropdown(state) {
   // Map state names to file names (handle special case for FCT)
   const stateFileName =
     state === "Abuja (FCT)" ? "Federal Capital Territory" : state;
-  const stateFilePath = `nigerian-local-government-areas/states/${stateFileName}.json`;
+  const stateFilePath = `states/${stateFileName}.json`;
 
   try {
     // Fetch LGA data from the JSON file
@@ -479,10 +491,14 @@ function populateCityField(selectedLGA = null) {
       option.value = town;
       cityDatalist.appendChild(option);
     });
+    // Set placeholder to example towns
+    const exampleTowns = lgaTowns[selectedLGA].slice(0, 3).join(", ");
+    cityInput.placeholder = `e.g. ${exampleTowns}`;
     console.log(
       `City field populated with ${lgaTowns[selectedLGA].length} towns for ${selectedLGA}`
     );
   } else {
+    cityInput.placeholder = "Enter your town/city";
     console.log("City field ready for manual input");
   }
 }

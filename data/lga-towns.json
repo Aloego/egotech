@@ -1,4 +1,10 @@
 {
   "comment": "This file stores town-LGA mappings collected from user entries over time",
-  "towns": {}
+  "towns": {
+    "Ikeja": ["Alausa", "Opebi", "Agidingbi", "Magodo", "Allen Avenue"],
+    "Surulere": ["Aguda", "Ijesha", "Ojuelegba", "Bode Thomas"],
+    "Agege": ["Dopemu", "Abule Egba", "Orile Agege"],
+    "Alimosho": ["Egbeda", "Ipaja", "Akowonjo", "Igando", "Ikotun"]
+  },
+  "note": "This data is used to populate town/city suggestions based on selected LGA during checkout"
 }

@@ -12,7 +12,7 @@
         "Ifako-Ijaiye",
         "Ikeja",
         "Kosofe",
-        "Mushin",
+        "Mushin:",
         "Oshodi-Isolo",
         "Shomolu",
         "Surulere",
@@ -63,27 +63,27 @@
         "Abaji",
         "Kwali"
       ],
-      "rate": 3500,
+      "rate": 25000,
       "estimatedDays": "2-3",
-      "freeShippingThreshold": 70000
+      "freeShippingThreshold": 7000000
     },
     {
       "id": 5,
       "name": "South West States",
       "country": "Nigeria",
       "states": ["Oyo", "Ogun", "Osun", "Ondo", "Ekiti"],
-      "rate": 4000,
+      "rate": 14000,
       "estimatedDays": "3-5",
-      "freeShippingThreshold": 80000
+      "freeShippingThreshold": 800000
     },
     {
       "id": 6,
       "name": "South East States",
       "country": "Nigeria",
       "states": ["Anambra", "Enugu", "Abia", "Imo", "Ebonyi"],
-      "rate": 4500,
+      "rate": 45000,
       "estimatedDays": "3-5",
-      "freeShippingThreshold": 85000
+      "freeShippingThreshold": 850000
     },
     {
       "id": 7,
@@ -99,7 +99,7 @@
       ],
       "rate": 5000,
       "estimatedDays": "4-6",
-      "freeShippingThreshold": 90000
+      "freeShippingThreshold": 900000
     },
     {
       "id": 8,
@@ -125,7 +125,7 @@
       ],
       "rate": 5500,
       "estimatedDays": "5-7",
-      "freeShippingThreshold": 95000
+      "freeShippingThreshold": 950000
     },
     {
       "id": 10,
@@ -133,32 +133,8 @@
       "country": "Nigeria",
       "states": ["Borno", "Yobe", "Bauchi", "Gombe", "Adamawa", "Taraba"],
       "rate": 6000,
-      "estimatedDays": "5-7",
-      "freeShippingThreshold": 100000
-    },
-    {
-      "id": 11,
-      "name": "International - West Africa",
-      "countries": ["Ghana", "Benin Republic", "Togo", "Ivory Coast"],
-      "rate": 15000,
-      "estimatedDays": "7-14",
-      "freeShippingThreshold": 200000
-    },
-    {
-      "id": 12,
-      "name": "International - Rest of Africa",
-      "region": "Africa",
-      "rate": 25000,
-      "estimatedDays": "10-21",
-      "freeShippingThreshold": 300000
-    },
-    {
-      "id": 13,
-      "name": "International - Worldwide",
-      "region": "Global",
-      "rate": 35000,
-      "estimatedDays": "14-30",
-      "freeShippingThreshold": 500000
+      "estimatedDays": "15-17",
+      "freeShippingThreshold": 1000000
     }
   ],
   "defaultZone": {
@@ -166,6 +142,6 @@
     "name": "Default Shipping",
     "rate": 5000,
     "estimatedDays": "3-7",
-    "freeShippingThreshold": 100000
+    "freeShippingThreshold": 1000000
   }
 }
