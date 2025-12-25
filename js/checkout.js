@@ -785,6 +785,32 @@ function setupEventListeners() {
       displayPickupLocationDetails(e.target.value);
     });
 
+  // State change: Show/hide pickup shipping method for Lagos only
+  document.getElementById("state").addEventListener("change", function (e) {
+    const shippingPickupOption = document
+      .getElementById("pickup")
+      .closest(".egotec-shipping-option");
+    const pickupLocationContainer = document.getElementById(
+      "pickupLocationContainer"
+    );
+    if (e.target.value === "Lagos") {
+      shippingPickupOption.style.display = "block";
+    } else {
+      // Hide pickup shipping method and location if not Lagos
+      shippingPickupOption.style.display = "none";
+      pickupLocationContainer.style.display = "none";
+      document.getElementById("pickupLocation").removeAttribute("required");
+      document.getElementById("pickupLocation").value = "";
+      document.getElementById("pickupLocationInfo").style.display = "none";
+      // If pickup was selected, reset to standard
+      const standardRadio = document.getElementById("standardShipping");
+      if (document.getElementById("pickup").checked && standardRadio) {
+        standardRadio.checked = true;
+        handleShippingMethodChange({ target: standardRadio });
+      }
+    }
+  });
+
   // Place Order button
   document
     .getElementById("placeOrderBtn")
