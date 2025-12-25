@@ -343,7 +343,7 @@ function displayOrderSummary() {
     "Enter address to calculate";
 
   // Tax is always ₦0.00 for now
-  document.getElementById("summaryTax").textContent = formatCurrency(0);
+  document.getElementById("summaryTax").textContent = "7.5%";
 
   // Update total (initially same as subtotal)
   document.getElementById("summaryTotal").textContent =
@@ -558,7 +558,7 @@ function calculateShippingPreview() {
     shippingCost === 0 ? "FREE" : formatCurrency(shippingCost);
 
   // Tax is always ₦0.00 for now
-  document.getElementById("summaryTax").textContent = formatCurrency(0);
+  document.getElementById("summaryTax").textContent = "7.5%";
   document.getElementById("summaryTotal").textContent = formatCurrency(total);
 
   // Update Standard Shipping option with delivery date and price
