@@ -684,7 +684,7 @@ function findMatchingTaxRate(location) {
 function resetShippingPreview() {
   document.getElementById("summaryShipping").textContent =
     "Calculated at next step";
-  document.getElementById("summaryTax").textContent = "Calculated at next step";
+  document.getElementById("summaryTax").textContent = "7.5%";
 
   // Reset Standard Shipping details
   const standardShippingDetails = document.getElementById(
