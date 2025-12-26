@@ -5,7 +5,7 @@
 
 // Google Sheets Webhook URL (replace with your Apps Script web app URL)
 const GOOGLE_SHEET_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbx7rjr_z5_GfkDnC2pggpPYMV2sh9hL6eOhpLV2DEs/dev"; // <-- Replace this value
+  "https://script.google.com/macros/s/AKfycbx7rjr_z5_GfkDnC2pggpPYMV2sh9hL6eOhpLV2DEs/devhttps://script.google.com/macros/s/AKfycbxrU_OepblGW2WzSXpu-61CJadYWewdr9lCDTSc3XnMFbmEPWZfQ-5hwq_py70Lk7Yy/exec"; // <-- Replace this value
 // Constants
 const CART_ITEMS_KEY = "egotec_cart_items";
 const USER_LOCATION_KEY = "egotech_user_location";
