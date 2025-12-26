@@ -1,3 +1,17 @@
+// Ensure quick view modal add-to-cart button resets on open
+document.addEventListener("DOMContentLoaded", function () {
+  const qvModal = document.getElementById("quickViewModal");
+  if (qvModal) {
+    qvModal.addEventListener("show.bs.modal", function () {
+      const addBtn = document.getElementById("qvAddToCart");
+      if (addBtn) {
+        addBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+        addBtn.style.backgroundColor = "";
+        addBtn.disabled = false;
+      }
+    });
+  }
+});
 // Quick View Modal JavaScript
 
 class QuickViewModal {
@@ -252,9 +266,27 @@ class QuickViewModal {
     this.overlay.classList.remove("active");
     document.body.classList.remove("egotec-qv-modal-open");
     this.currentProduct = null;
+    // Reset quantity input to 1 when modal closes
+    const qtyInput = document.getElementById("qvQuantity");
+    if (qtyInput) {
+      qtyInput.value = 1;
+    }
   }
 
   populateModal(product) {
+    // Reset quantity input to 1 for every product
+    const qtyInput = document.getElementById("qvQuantity");
+    if (qtyInput) {
+      qtyInput.value = 1;
+    }
+    // Reset Add to Cart button state for every product
+    const addBtn = document.getElementById("qvAddToCart");
+    if (addBtn) {
+      addBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+      addBtn.style.backgroundColor = "";
+      addBtn.disabled = false;
+    }
+
     // Title
     document.getElementById("qvTitle").textContent = product.name;
 

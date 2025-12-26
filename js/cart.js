@@ -364,7 +364,12 @@ class ShoppingCart {
 
     // Show shipping cost or TBD message
     const shippingElement = document.getElementById("cartShipping");
-    if (this.userLocation) {
+    // Only show shipping if userLocation is set and has required fields
+    if (
+      this.userLocation &&
+      this.userLocation.state &&
+      this.userLocation.address
+    ) {
       if (this.freeShippingApplied) {
         shippingElement.innerHTML = `<span style="color: #28a745; font-weight: 600;">Free Shipping!</span>`;
       } else {
@@ -381,12 +386,12 @@ class ShoppingCart {
         }
       }
     } else {
-      shippingElement.innerHTML = `<span style="color: #666; font-style: italic;">TBD on checkout</span>`;
+      shippingElement.innerHTML = `<span style=\"color: #666; font-style: italic;\">TBD on checkout</span>`;
     }
 
-    // Show tax (always ₦0.00 for now)
+    // Show tax as 7.5%
     const taxElement = document.getElementById("cartTax");
-    taxElement.textContent = this.formatCurrency(0);
+    taxElement.textContent = "7.5%";
 
     document.getElementById("cartTotal").textContent =
       this.formatCurrency(total);

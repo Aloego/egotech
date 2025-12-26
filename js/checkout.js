@@ -3,6 +3,9 @@
  * Handles checkout form, location dropdowns, shipping calculation, and order processing
  */
 
+// Google Sheets Webhook URL (replace with your Apps Script web app URL)
+const GOOGLE_SHEET_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbynUunQhm4pLZ_xxNLr13cb1ps5snl7kVkUWzl9TK5T5zPm7Aeyc-9Zolt_A3E78Q9s/exec"; // <-- Replace this value
 // Constants
 const CART_ITEMS_KEY = "egotec_cart_items";
 const USER_LOCATION_KEY = "egotech_user_location";
@@ -597,14 +600,20 @@ function calculateShippingPreview() {
 function findMatchingShippingZone(location) {
   if (!location.country) return null;
 
+  // Normalize Abuja (FCT) to Federal Capital Territory for shipping zone matching
+  let normalizedState =
+    location.state === "Abuja (FCT)"
+      ? "Federal Capital Territory"
+      : location.state;
+
   // Priority 1: Match by Country + State + LGA
-  if (location.state && location.lga) {
+  if (normalizedState && location.lga) {
     const lgaMatch = shippingZones.find(
       (zone) =>
         (zone.country === location.country ||
           zone.appliesTo?.country === location.country) &&
-        (zone.state === location.state ||
-          zone.appliesTo?.state === location.state) &&
+        (zone.state === normalizedState ||
+          zone.appliesTo?.state === normalizedState) &&
         (zone.lgas?.includes(location.lga) ||
           zone.appliesTo?.lgas?.includes(location.lga))
     );
@@ -612,13 +621,13 @@ function findMatchingShippingZone(location) {
   }
 
   // Priority 2: Match by Country + State (single state zones)
-  if (location.state) {
+  if (normalizedState) {
     const stateMatch = shippingZones.find(
       (zone) =>
         (zone.country === location.country ||
           zone.appliesTo?.country === location.country) &&
-        (zone.state === location.state ||
-          zone.appliesTo?.state === location.state) &&
+        (zone.state === normalizedState ||
+          zone.appliesTo?.state === normalizedState) &&
         !zone.lgas &&
         !zone.appliesTo?.lgas
     );
@@ -629,8 +638,8 @@ function findMatchingShippingZone(location) {
       (zone) =>
         (zone.country === location.country ||
           zone.appliesTo?.country === location.country) &&
-        (zone.states?.includes(location.state) ||
-          zone.appliesTo?.states?.includes(location.state))
+        (zone.states?.includes(normalizedState) ||
+          zone.appliesTo?.states?.includes(normalizedState))
     );
     if (multiStateMatch) return multiStateMatch;
   }
@@ -908,17 +917,10 @@ function displayPickupLocationDetails(locationValue) {
  */
 function handlePlaceOrder() {
   const form = document.getElementById("checkoutForm");
-
-  // Validate form
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
   }
-
-  // Show loading state
-  const placeOrderBtn = document.getElementById("placeOrderBtn");
-  placeOrderBtn.classList.add("loading");
-  placeOrderBtn.disabled = true;
 
   // Collect form data
   const shippingMethodElement = document.querySelector(
@@ -927,6 +929,31 @@ function handlePlaceOrder() {
   const shippingMethod = shippingMethodElement
     ? shippingMethodElement.value
     : "standard";
+
+  // Defensive check for required fields
+  const requiredFields = [
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "country",
+    "state",
+    "lga",
+    "address",
+    "city",
+    "orderNotes",
+  ];
+  let missingField = null;
+  for (const field of requiredFields) {
+    if (!document.getElementById(field)) {
+      missingField = field;
+      break;
+    }
+  }
+  if (missingField) {
+    alert(`Error: Required field missing in form: ${missingField}`);
+    return;
+  }
 
   const formData = {
     firstName: document.getElementById("firstName").value.trim(),
@@ -938,15 +965,60 @@ function handlePlaceOrder() {
     lga: document.getElementById("lga").value,
     address: document.getElementById("address").value.trim(),
     city: document.getElementById("city").value.trim(),
-    postalCode: document.getElementById("postalCode").value.trim(),
+    // postalCode is optional, only add if present
+    ...(document.getElementById("postalCode")
+      ? { postalCode: document.getElementById("postalCode").value.trim() }
+      : {}),
     shippingMethod: shippingMethod,
-    pickupLocation:
-      shippingMethod === "pickup"
-        ? document.getElementById("pickupLocation").value
-        : "",
+    // pickupLocation is optional, only add if present
+    ...(document.getElementById("pickupLocation")
+      ? { pickupLocation: document.getElementById("pickupLocation").value }
+      : {}),
     orderNotes: document.getElementById("orderNotes").value.trim(),
   };
 
+  // Show review modal with all details
+  showOrderReviewModal(formData, cartItems);
+}
+
+// Show order review modal
+function showOrderReviewModal(formData, cartItems) {
+  const modal = new bootstrap.Modal(
+    document.getElementById("orderReviewModal")
+  );
+  const detailsDiv = document.getElementById("orderReviewDetails");
+  // Build HTML summary
+  let html = `<h6>Customer Details</h6><ul class='list-group mb-3'>`;
+  for (const [key, value] of Object.entries(formData)) {
+    if (value)
+      html += `<li class='list-group-item d-flex justify-content-between'><span>${key
+        .replace(/([A-Z])/g, " $1")
+        .replace(/^./, (str) =>
+          str.toUpperCase()
+        )}</span><span>${value}</span></li>`;
+  }
+  html += `</ul><h6>Cart Items</h6><ul class='list-group'>`;
+  cartItems.forEach((item) => {
+    html += `<li class='list-group-item d-flex justify-content-between'><span>${
+      item.name
+    } (x${item.quantity || item.qty || 1})</span><span>${formatCurrency(
+      item.price * (item.quantity || item.qty || 1)
+    )}</span></li>`;
+  });
+  html += `</ul>`;
+  detailsDiv.innerHTML = html;
+
+  // Attach confirm handler
+  const confirmBtn = document.getElementById("confirmOrderBtn");
+  confirmBtn.onclick = function () {
+    modal.hide();
+    finalizeOrder(formData, cartItems);
+  };
+  modal.show();
+}
+
+// Finalize order: save, send to Google Sheets, show confirmation
+function finalizeOrder(formData, cartItems) {
   // Save user location to localStorage
   const userLocation = {
     firstName: formData.firstName,
@@ -960,18 +1032,11 @@ function handlePlaceOrder() {
     city: formData.city,
     postalCode: formData.postalCode,
   };
-
   localStorage.setItem(USER_LOCATION_KEY, JSON.stringify(userLocation));
-  console.log("User location saved:", userLocation);
 
   // Save town-LGA mapping if both are provided
   if (formData.lga && formData.city) {
-    const townAdded = addTownToLGA(formData.lga, formData.city);
-    if (townAdded) {
-      console.log(
-        `New town "${formData.city}" registered under ${formData.lga}`
-      );
-    }
+    addTownToLGA(formData.lga, formData.city);
   }
 
   // Save checkout data
@@ -980,23 +1045,73 @@ function handlePlaceOrder() {
     cartItems: cartItems,
     orderDate: new Date().toISOString(),
   };
-
   localStorage.setItem(CHECKOUT_DATA_KEY, JSON.stringify(checkoutData));
-  console.log("Checkout data saved");
 
-  // Simulate order processing (replace with actual API call)
-  setTimeout(() => {
-    placeOrderBtn.classList.remove("loading");
-    placeOrderBtn.disabled = false;
-
-    // Show success message
-    alert("Order placed successfully! Your location has been saved.");
-
-    // Redirect to cart page to see calculated shipping
-    window.location.href = "cart.html";
-  }, 2000);
+  // Send to Google Apps Script endpoint
+  fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(checkoutData), // checkoutData is your collected form/cart info
+  })
+    .then((res) => res.text())
+    .then((msg) => {
+      // Show success message or proceed
+      showFinalConfirmation();
+    })
+    .catch((err) => {
+      // Handle error
+      showFinalConfirmation();
+    });
 }
 
+// Show final confirmation message
+function showFinalConfirmation() {
+  // You can replace this with a nicer modal or UI
+  alert("Order received! We will call to confirm your order. Thank you.");
+  // Clear form fields
+  const form = document.getElementById("checkoutForm");
+  if (form) form.reset();
+  // Clear all relevant localStorage keys to fully reset session
+  localStorage.removeItem("egotec_cart_items"); // Cart contents
+  localStorage.removeItem("egotech_checkout"); // Checkout form data
+  localStorage.removeItem("egotech_user_location"); // Address/location for shipping
+  // Optionally clear learned towns for a full reset:
+  // localStorage.removeItem("egotech_lga_towns");
+  // Update cart UI if available
+  if (
+    window.EgoTechCartDropdown &&
+    window.EgoTechCartDropdown.renderCartDropdown
+  ) {
+    window.EgoTechCartDropdown.renderCartDropdown();
+    window.EgoTechCartDropdown.updateCartCount();
+  }
+  // If ShoppingCart class is available, update cart badge
+  if (
+    window.shoppingCart &&
+    typeof window.shoppingCart.saveCart === "function"
+  ) {
+    window.shoppingCart.saveCart();
+  }
+  // Update cart dropdown UI if available
+  if (window.EgoTechCartDropdown) {
+    window.EgoTechCartDropdown.renderCartDropdown();
+    window.EgoTechCartDropdown.updateCartCount();
+  }
+  // Redirect to homepage after clearing session
+  window.location.href = "index.html";
+}
+
+/**
+ * Format currency
+ */
+function formatCurrency(amount) {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
 /**
  * Format currency
  */
