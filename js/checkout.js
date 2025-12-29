@@ -3,9 +3,9 @@
  * Handles checkout form, location dropdowns, shipping calculation, and order processing
  */
 
-// Google Sheets Webhook URL (replace with your Apps Script web app URL)
-const GOOGLE_SHEET_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbxrU_OepblGW2WzSXpu-61CJadYWewdr9lCDTSc3XnMFbmEPWZfQ-5hwq_py70Lk7Yy/exec"; // <-- Replace this value
+const AIRTABLE_API_URL = "AIRTABLE_API_URL"; // <-- Replace this value
+const AIRTABLE_TOKEN = "AIRTABLE_TOKEN"; // Your Airtable token
+
 // Constants
 const CART_ITEMS_KEY = "egotec_cart_items";
 const USER_LOCATION_KEY = "egotech_user_location";
