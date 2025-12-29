@@ -3,7 +3,7 @@
  * Handles checkout form, location dropdowns, shipping calculation, and order processing
  */
 
-const AIRTABLE_API_URL = "AIRTABLE_API_URL"; // <-- Replace this value
+const AIRTABLE_API_URL = "egotech-production.up.railway.app"; // <-- Replace this value
 const AIRTABLE_TOKEN = "AIRTABLE_TOKEN"; // Your Airtable token
 
 // Constants
