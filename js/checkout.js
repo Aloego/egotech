@@ -3,7 +3,7 @@
  * Handles checkout form, location dropdowns, shipping calculation, and order processing
  */
 
-const AIRTABLE_API_URL = "egotech-production.up.railway.app"; // <-- Replace this value
+const AIRTABLE_API_URL = "https://egotech-production.up.railway.app"; // <-- Replace this value
 const AIRTABLE_TOKEN = "AIRTABLE_TOKEN"; // Your Airtable token
 
 // Constants
@@ -1048,7 +1048,7 @@ function finalizeOrder(formData, cartItems) {
   localStorage.setItem(CHECKOUT_DATA_KEY, JSON.stringify(checkoutData));
 
   // Send to Railway backend API
-  fetch("https://egotech-production.up.railway.app/api/order", {
+  fetch(AIRTABLE_API_URL + "/api/order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(checkoutData),
@@ -1063,6 +1063,7 @@ function finalizeOrder(formData, cartItems) {
     .catch((err) => {
       alert("Order failed to submit. Please try again or contact support.");
       console.error("Order submission error:", err);
+      showFinalConfirmation();
     });
 }
 
