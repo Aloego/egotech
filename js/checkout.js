@@ -1047,20 +1047,22 @@ function finalizeOrder(formData, cartItems) {
   };
   localStorage.setItem(CHECKOUT_DATA_KEY, JSON.stringify(checkoutData));
 
-  // Send to Google Apps Script endpoint
-  fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+  // Send to Railway backend API
+  fetch("https://egotech-production.up.railway.app/api/order", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(checkoutData), // checkoutData is your collected form/cart info
+    body: JSON.stringify(checkoutData),
   })
-    .then((res) => res.text())
+    .then((res) => {
+      if (!res.ok) throw new Error("Order submission failed");
+      return res.text();
+    })
     .then((msg) => {
-      // Show success message or proceed
       showFinalConfirmation();
     })
     .catch((err) => {
-      // Handle error
-      showFinalConfirmation();
+      alert("Order failed to submit. Please try again or contact support.");
+      console.error("Order submission error:", err);
     });
 }
 
