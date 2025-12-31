@@ -21,6 +21,10 @@ app.post("/api/order", async (req, res) => {
   );
   try {
     const orderData = req.body;
+    // Stringify cartItems if present
+    if (orderData.cartItems) {
+      orderData.cartItems = JSON.stringify(orderData.cartItems);
+    }
     const response = await fetch(AIRTABLE_API_URL, {
       method: "POST",
       headers: {
