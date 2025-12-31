@@ -10,6 +10,15 @@ const AIRTABLE_API_URL = process.env.AIRTABLE_API_URL; // e.g. https://api.airta
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
 
 app.post("/api/order", async (req, res) => {
+  // Debug: log token length and preview
+  console.log(
+    "Token length:",
+    AIRTABLE_TOKEN ? AIRTABLE_TOKEN.length : 0,
+    "Token preview:",
+    AIRTABLE_TOKEN
+      ? AIRTABLE_TOKEN.slice(0, 6) + "..." + AIRTABLE_TOKEN.slice(-4)
+      : "undefined"
+  );
   try {
     const orderData = req.body;
     const response = await fetch(AIRTABLE_API_URL, {
