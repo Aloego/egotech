@@ -23,6 +23,7 @@ app.post("/api/order", async (req, res) => {
     const data = await response.json();
     res.status(200).json(data);
   } catch (err) {
+    console.error("Order error:", err);
     res.status(500).json({ error: "Failed to save order" });
   }
 });
