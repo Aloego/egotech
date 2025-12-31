@@ -30,6 +30,7 @@ app.post("/api/order", async (req, res) => {
       body: JSON.stringify({ fields: orderData }),
     });
     const data = await response.json();
+    console.log("Airtable response:", data);
     res.status(200).json(data);
   } catch (err) {
     console.error("Order error:", err);
