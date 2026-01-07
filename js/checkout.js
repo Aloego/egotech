@@ -987,6 +987,65 @@ function showOrderReviewModal(formData, cartItems) {
     document.getElementById("orderReviewModal")
   );
   const detailsDiv = document.getElementById("orderReviewDetails");
+
+  // Calculate subtotal
+  let subtotal = 0;
+  cartItems.forEach((item) => {
+    subtotal += item.price * (item.quantity || item.qty || 1);
+  });
+
+  // Calculate shipping cost based on selected location and method
+  let shippingCost = 0;
+  let discount = 0;
+  let couponCode = null;
+  let couponType = null;
+  let couponValue = 0;
+
+  // Coupon logic (from localStorage)
+  try {
+    const couponData = localStorage.getItem("egotec_cart_coupon");
+    if (couponData) {
+      const coupon = JSON.parse(couponData);
+      couponCode = coupon.code;
+      couponType = coupon.type;
+      couponValue = coupon.value;
+    }
+  } catch (e) {}
+
+  // Determine shipping cost using the same logic as calculateShippingPreview
+  let location = {
+    country: formData.country,
+    state: formData.state,
+    lga: formData.lga,
+  };
+  let matchedZone = findMatchingShippingZone(location);
+  if (matchedZone) {
+    shippingCost = matchedZone.rate;
+    // Check for pickup method
+    if (formData.shippingMethod === "pickup") {
+      shippingCost = 0;
+    } else if (subtotal >= matchedZone.freeShippingThreshold) {
+      shippingCost = 0;
+    }
+  } else {
+    shippingCost = 0;
+  }
+
+  // Apply coupon logic
+  if (couponCode && couponType) {
+    if (couponType === "percentage") {
+      discount = Math.floor((subtotal * couponValue) / 100);
+    } else if (couponType === "fixed") {
+      discount = couponValue;
+    } else if (couponType === "freeship") {
+      shippingCost = 0;
+    }
+  }
+
+  // Calculate total
+  let total = subtotal + shippingCost - discount;
+  if (total < 0) total = 0;
+
   // Build HTML summary
   let html = `<h6>Customer Details</h6><ul class='list-group mb-3'>`;
   for (const [key, value] of Object.entries(formData)) {
@@ -1006,14 +1065,31 @@ function showOrderReviewModal(formData, cartItems) {
     )}</span></li>`;
   });
   html += `</ul>`;
+
+  // Add order summary (shipping, discount if any, total; no subtotal)
+  html += `<div class='egotec-summary-totals mt-3'>`;
+  html += `<div class='egotec-totals-row'><span>Shipping:</span><span>${
+    shippingCost === 0 ? "FREE" : formatCurrency(shippingCost)
+  }</span></div>`;
+  if (discount > 0) {
+    html += `<div class='egotec-totals-row'><span>Discount:</span><span>- ${formatCurrency(
+      discount
+    )}</span></div>`;
+  }
+  html += `<div class='egotec-totals-row egotec-total-row'><span>Total:</span><span>${formatCurrency(
+    total
+  )}</span></div>`;
+  html += `</div>`;
+
   detailsDiv.innerHTML = html;
 
-  // Attach confirm handler
+  // Attach confirm handler (only finalize order on Confirm, not on Edit/close)
   const confirmBtn = document.getElementById("confirmOrderBtn");
   confirmBtn.onclick = function () {
     modal.hide();
     finalizeOrder(formData, cartItems);
   };
+  // Do NOT clear form fields on modal close (Edit button or X)
   modal.show();
 }
 
@@ -1074,7 +1150,7 @@ function showFinalConfirmation() {
   // Clear form fields
   const form = document.getElementById("checkoutForm");
   if (form) form.reset();
-  // Clear all relevant localStorage keys to fully reset session
+  // Only clear localStorage after successful order
   localStorage.removeItem("egotec_cart_items"); // Cart contents
   localStorage.removeItem("egotech_checkout"); // Checkout form data
   localStorage.removeItem("egotech_user_location"); // Address/location for shipping
