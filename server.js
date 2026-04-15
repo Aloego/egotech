@@ -9,6 +9,12 @@ app.use(express.json());
 const AIRTABLE_API_URL = process.env.AIRTABLE_API_URL; // e.g. https://api.airtable.com/v0/appXXXX/Orders
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
 
+// Health check route for UptimeRobot
+app.get("/", (req, res) => {
+  res.status(200).send("EgoTech server is running!");
+});
+
+// Order route
 app.post("/api/order", async (req, res) => {
   // Debug: log token length and preview
   console.log(
