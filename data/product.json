@@ -14,8 +14,8 @@
         "assets/images/products/product01.png"
       ],
       "description": "A fast laptop for everyday work and entertainment.",
-      "newArrival": "true",
-      "featured": "true",
+      "newArrival": true,
+      "featured": true,
       "rating": 4.5,
       "stock": 10,
       "features": [
@@ -64,8 +64,8 @@
         "assets/images/products/product03.png"
       ],
       "description": "Reliable laptop with strong performance for all your tasks.",
-      "newArrival": "false",
-      "featured": "true",
+      "newArrival": false,
+      "featured": true,
       "rating": 4.2,
       "stock": 5,
       "features": [
@@ -108,8 +108,8 @@
         "assets/images/products/applePhone.png"
       ],
       "description": "The latest iPhone with amazing camera and performance.",
-      "newArrival": "true",
-      "featured": "true",
+      "newArrival": true,
+      "featured": true,
       "rating": 4.8,
       "stock": 8,
       "features": [
@@ -153,8 +153,8 @@
       "currency": "NGN",
       "image": "assets/images/products/product07.png",
       "description": "High-end smartphone with stunning display and features.",
-      "newArrival": "No",
-      "featured": "true",
+      "newArrival": false,
+      "featured": true,
       "rating": 4.6,
       "stock": 12
     },
@@ -167,8 +167,8 @@
       "currency": "NGN",
       "image": "assets/images/products/sonyHeadphones.png",
       "description": "Industry-leading noise canceling headphones.",
-      "newArrival": "true",
-      "featured": "No",
+      "newArrival": true,
+      "featured": false,
       "rating": 4.7,
       "stock": 15
     },
@@ -181,8 +181,8 @@
       "currency": "NGN",
       "image": "assets/images/products/shop03.png",
       "description": "Comfortable headphones with excellent sound quality.",
-      "newArrival": "No",
-      "featured": "true",
+      "newArrival": false,
+      "featured": true,
       "rating": 4.5,
       "stock": 7
     },
@@ -195,8 +195,8 @@
       "currency": "NGN",
       "image": "assets/images/products/product05.png",
       "description": "Lightweight laptop with powerful performance and long battery life.",
-      "newArrival": "true",
-      "featured": "true",
+      "newArrival": true,
+      "featured": true,
       "rating": 4.9,
       "stock": 4
     },
@@ -209,8 +209,8 @@
       "currency": "NGN",
       "image": "assets/images/products/shop02.png",
       "description": "Smartphone with excellent camera and pure Android experience.",
-      "newArrival": "true",
-      "featured": "true",
+      "newArrival": true,
+      "featured": true,
       "rating": 4.4,
       "stock": 9
     },
@@ -223,8 +223,8 @@
       "currency": "NGN",
       "image": "assets/images/products/product04.png",
       "description": "Portable Bluetooth speaker with powerful sound.",
-      "newArrival": "No",
-      "featured": "true",
+      "newArrival": false,
+      "featured": true,
       "rating": 4.3,
       "stock": 20
     },
@@ -237,8 +237,8 @@
       "currency": "NGN",
       "image": "assets/images/products/echoDot.png",
       "description": "Smart speaker with Alexa voice assistant.",
-      "newArrival": "true",
-      "featured": "No",
+      "newArrival": true,
+      "featured": false,
       "rating": 4.2,
       "stock": 25
     }

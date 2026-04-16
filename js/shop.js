@@ -162,14 +162,17 @@ function applyFilters() {
   // Featured filter
   if (featuredFilter.checked) {
     filteredProducts = filteredProducts.filter(
-      (product) => product.featured === "true" || product.featured === true
+      // (product) => product.featured === "true" || product.featured === true
+      (product) => product.featured === true
+
     );
   }
 
   // New Arrival filter
   if (newArrivalFilter.checked) {
     filteredProducts = filteredProducts.filter(
-      (product) => product.newArrival === "true" || product.newArrival === true
+      // (product) => product.newArrival === "true" || product.newArrival === true
+      (product) => product.newArrival === true
     );
   }
 
@@ -203,8 +206,10 @@ function applySorting() {
     case "latest":
       // Assuming products with newArrival are latest
       filteredProducts.sort((a, b) => {
-        const aNew = a.newArrival === "true" || a.newArrival === true ? 1 : 0;
-        const bNew = b.newArrival === "true" || b.newArrival === true ? 1 : 0;
+        // const aNew = a.newArrival === "true" || a.newArrival === true ? 1 : 0;
+        const aNew = a.newArrival === true ? 1 : 0;
+        // const bNew = b.newArrival === "true" || b.newArrival === true ? 1 : 0;
+        const bNew = b.newArrival === true ? 1 : 0;
         return bNew - aNew;
       });
       break;

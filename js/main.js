@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       // Filter featured products (checking for both string "true" and boolean true)
       const featuredProducts = data.products.filter(
-        (product) => product.featured === "true" || product.featured === true
+        (product) => product.featured === true
       );
 
       if (featuredProducts.length === 0) {
@@ -434,7 +434,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const newArrivalProducts = data.products
         .filter(
           (product) =>
-            product.newArrival === "true" || product.newArrival === true
+            // product.newArrival === "true" || product.newArrival === true
+            product.newArrival === true
         )
         .slice(0, 4); // Limit to 4 products
 
