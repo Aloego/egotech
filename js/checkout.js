@@ -1094,9 +1094,18 @@ function showOrderReviewModal(formData, cartItems) {
   // Attach confirm handler (only finalize order on Confirm, not on Edit/close)
   const confirmBtn = document.getElementById("confirmOrderBtn");
   confirmBtn.onclick = function () {
+    // Disable Place Order button only after customer confirms
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    placeOrderBtn.disabled = true;
+    placeOrderBtn.textContent = "Placing Order...";
     modal.hide();
     finalizeOrder(formData, cartItems);
   };
+  // Disabled to make wa for new update
+  // confirmBtn.onclick = function () {
+  //   modal.hide();
+  //   finalizeOrder(formData, cartItems);
+  // };
   // Do NOT clear form fields on modal close (Edit button or X)
   modal.show();
 }
@@ -1153,7 +1162,9 @@ function finalizeOrder(formData, cartItems) {
     //   showFinalConfirmation();
     // });
 
-    .catch((err) => {
+   .catch((err) => {
+    // Re-enable button if order fails so customer can try again
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
     placeOrderBtn.disabled = false;
     placeOrderBtn.textContent = "Place Order";
     alert("Order failed to submit. Please try again or contact support.");
