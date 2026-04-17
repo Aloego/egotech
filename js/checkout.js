@@ -923,6 +923,13 @@ function handlePlaceOrder() {
     return;
   }
 
+    // ADD THESE 3 NEW LINES UPDATE BELOW ↓
+   const placeOrderBtn = document.getElementById("placeOrderBtn");
+  placeOrderBtn.disabled = true;
+  placeOrderBtn.textContent = "Placing Order...";
+
+  // ADD THESE 3 NEW LINES UPDATE ABOVE 
+
   // Collect form data
   const shippingMethodElement = document.querySelector(
     'input[name="shippingMethod"]:checked'
@@ -1137,11 +1144,21 @@ function finalizeOrder(formData, cartItems) {
     .then((msg) => {
       showFinalConfirmation();
     })
+
+    // To be deleted but will do it later
+
+    // .catch((err) => {
+    //   alert("Order failed to submit. Please try again or contact support.");
+    //   console.error("Order submission error:", err);
+    //   showFinalConfirmation();
+    // });
+
     .catch((err) => {
-      alert("Order failed to submit. Please try again or contact support.");
-      console.error("Order submission error:", err);
-      showFinalConfirmation();
-    });
+    placeOrderBtn.disabled = false;
+    placeOrderBtn.textContent = "Place Order";
+    alert("Order failed to submit. Please try again or contact support.");
+    console.error("Order submission error:", err);
+  });
 }
 
 // Show final confirmation message
