@@ -1116,32 +1116,6 @@ function showOrderReviewModal(formData, cartItems) {
 
   modal.show();
 
-  
-  // const confirmBtn = document.getElementById("confirmOrderBtn");
-  // confirmBtn.onclick = function () {
-  //   // Disable Place Order button only after customer confirms
-  //   const placeOrderBtn = document.getElementById("placeOrderBtn");
-  //   placeOrderBtn.disabled = true;
-  //   placeOrderBtn.textContent = "Placing Order...";
-  //   modal.hide();
-  //   finalizeOrder(formData, cartItems);
-  // };
-
-  // Disabled to make wa for new update
-  // confirmBtn.onclick = function () {
-  //   modal.hide();
-  //   finalizeOrder(formData, cartItems);
-  // };
-  // Do NOT clear form fields on modal close (Edit button or X)
-  // Re-enable Place Order button if modal is dismissed via Edit or X
-  
-  // document.getElementById("orderReviewModal").addEventListener("hidden.bs.modal", function () {
-  //   const placeOrderBtn = document.getElementById("placeOrderBtn");
-  //   placeOrderBtn.disabled = false;
-  //   placeOrderBtn.textContent = "Place Order";
-  // }, { once: true });
-
-  // modal.show();
 }
 
 // Finalize order: save, send to Google Sheets, show confirmation
@@ -1188,13 +1162,6 @@ function finalizeOrder(formData, cartItems) {
       showFinalConfirmation();
     })
 
-    // To be deleted but will do it later
-
-    // .catch((err) => {
-    //   alert("Order failed to submit. Please try again or contact support.");
-    //   console.error("Order submission error:", err);
-    //   showFinalConfirmation();
-    // });
 
    .catch((err) => {
     // Re-enable button if order fails so customer can try again
@@ -1234,6 +1201,7 @@ function showFinalConfirmation() {
   ) {
     window.shoppingCart.saveCart();
   }
+  
   // Update cart dropdown UI if available
   if (window.EgoTechCartDropdown) {
     window.EgoTechCartDropdown.renderCartDropdown();
