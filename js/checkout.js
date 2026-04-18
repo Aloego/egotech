@@ -1092,15 +1092,41 @@ function showOrderReviewModal(formData, cartItems) {
   detailsDiv.innerHTML = html;
 
   // Attach confirm handler (only finalize order on Confirm, not on Edit/close)
+  
   const confirmBtn = document.getElementById("confirmOrderBtn");
+  let orderConfirmed = false; // Flag to track if Confirm was clicked
+
   confirmBtn.onclick = function () {
-    // Disable Place Order button only after customer confirms
+    orderConfirmed = true; // Mark as confirmed
     const placeOrderBtn = document.getElementById("placeOrderBtn");
     placeOrderBtn.disabled = true;
     placeOrderBtn.textContent = "Placing Order...";
     modal.hide();
     finalizeOrder(formData, cartItems);
   };
+
+  // Re-enable Place Order button ONLY if modal closed via Edit or X (not Confirm)
+  document.getElementById("orderReviewModal").addEventListener("hidden.bs.modal", function () {
+    if (!orderConfirmed) {
+      const placeOrderBtn = document.getElementById("placeOrderBtn");
+      placeOrderBtn.disabled = false;
+      placeOrderBtn.textContent = "Place Order";
+    }
+  }, { once: true });
+
+  modal.show();
+
+  
+  // const confirmBtn = document.getElementById("confirmOrderBtn");
+  // confirmBtn.onclick = function () {
+  //   // Disable Place Order button only after customer confirms
+  //   const placeOrderBtn = document.getElementById("placeOrderBtn");
+  //   placeOrderBtn.disabled = true;
+  //   placeOrderBtn.textContent = "Placing Order...";
+  //   modal.hide();
+  //   finalizeOrder(formData, cartItems);
+  // };
+
   // Disabled to make wa for new update
   // confirmBtn.onclick = function () {
   //   modal.hide();
@@ -1108,13 +1134,14 @@ function showOrderReviewModal(formData, cartItems) {
   // };
   // Do NOT clear form fields on modal close (Edit button or X)
   // Re-enable Place Order button if modal is dismissed via Edit or X
-  document.getElementById("orderReviewModal").addEventListener("hidden.bs.modal", function () {
-    const placeOrderBtn = document.getElementById("placeOrderBtn");
-    placeOrderBtn.disabled = false;
-    placeOrderBtn.textContent = "Place Order";
-  }, { once: true });
+  
+  // document.getElementById("orderReviewModal").addEventListener("hidden.bs.modal", function () {
+  //   const placeOrderBtn = document.getElementById("placeOrderBtn");
+  //   placeOrderBtn.disabled = false;
+  //   placeOrderBtn.textContent = "Place Order";
+  // }, { once: true });
 
-  modal.show();
+  // modal.show();
 }
 
 // Finalize order: save, send to Google Sheets, show confirmation
