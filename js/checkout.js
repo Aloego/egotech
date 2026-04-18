@@ -924,9 +924,9 @@ function handlePlaceOrder() {
   }
 
     // ADD THESE 3 NEW LINES UPDATE BELOW ↓
-   const placeOrderBtn = document.getElementById("placeOrderBtn");
-  placeOrderBtn.disabled = true;
-  placeOrderBtn.textContent = "Placing Order...";
+  //  const placeOrderBtn = document.getElementById("placeOrderBtn");
+  // placeOrderBtn.disabled = true;
+  // placeOrderBtn.textContent = "Placing Order...";
 
   // ADD THESE 3 NEW LINES UPDATE ABOVE 
 
@@ -1107,6 +1107,13 @@ function showOrderReviewModal(formData, cartItems) {
   //   finalizeOrder(formData, cartItems);
   // };
   // Do NOT clear form fields on modal close (Edit button or X)
+  // Re-enable Place Order button if modal is dismissed via Edit or X
+  document.getElementById("orderReviewModal").addEventListener("hidden.bs.modal", function () {
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    placeOrderBtn.disabled = false;
+    placeOrderBtn.textContent = "Place Order";
+  }, { once: true });
+
   modal.show();
 }
 
@@ -1212,14 +1219,14 @@ function showFinalConfirmation() {
 /**
  * Format currency
  */
-function formatCurrency(amount) {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
+// function formatCurrency(amount) {
+//   return new Intl.NumberFormat("en-NG", {
+//     style: "currency",
+//     currency: "NGN",
+//     minimumFractionDigits: 0,
+//     maximumFractionDigits: 0,
+//   }).format(amount);
+// }
 /**
  * Format currency
  */
