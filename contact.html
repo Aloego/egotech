@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EgoTech — Contact Us</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .egotec-contact-hero {
+        background: linear-gradient(135deg, var(--Accent-color3) 0%, #2a1a6e 100%);
+        color: #fff;
+        padding: 60px 0 50px;
+        text-align: center;
+      }
+      .egotec-contact-hero h1 {
+        font-family: var(--heading-font);
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .egotec-contact-hero p {
+        font-size: 1.05rem;
+        opacity: 0.88;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .egotec-breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 10px 0 0;
+        font-size: 0.85rem;
+        justify-content: center;
+      }
+      .egotec-breadcrumb .breadcrumb-item a { color: rgba(255,255,255,0.75); text-decoration: none; }
+      .egotec-breadcrumb .breadcrumb-item.active { color: #fff; }
+      .egotec-breadcrumb .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.5); }
+
+      .egotec-contact-section { padding: 60px 0; background-color: var(--Accent-color5); }
+      .egotec-info-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 32px 24px;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .egotec-info-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(80,58,168,0.13); }
+      .egotec-info-card .icon-wrap {
+        width: 60px; height: 60px; border-radius: 50%;
+        background: var(--Accent-color3); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; margin: 0 auto 16px;
+      }
+      .egotec-info-card h5 { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--contrast-color); }
+      .egotec-info-card p, .egotec-info-card a { font-size: 0.93rem; color: var(--Accent-color4); margin: 0; text-decoration: none; }
+      .egotec-info-card a:hover { color: var(--Accent-color3); }
+
+      .egotec-form-map-section { padding: 60px 0; background: #fff; }
+      .egotec-contact-form-wrap {
+        background: var(--Accent-color5);
+        border-radius: 14px; padding: 40px 36px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      }
+      .egotec-contact-form-wrap h3 { font-family: var(--heading-font); font-weight: 700; font-size: 1.5rem; margin-bottom: 24px; }
+      .egotec-contact-form-wrap .form-label { font-weight: 600; font-size: 0.88rem; }
+      .egotec-contact-form-wrap .form-control,
+      .egotec-contact-form-wrap .form-select {
+        border-radius: 8px; border: 1.5px solid #ddd;
+        font-size: 0.93rem; padding: 10px 14px; transition: border-color 0.2s;
+      }
+      .egotec-contact-form-wrap .form-control:focus,
+      .egotec-contact-form-wrap .form-select:focus {
+        border-color: var(--Accent-color3);
+        box-shadow: 0 0 0 3px rgba(80,58,168,0.1);
+      }
+      .egotec-contact-form-wrap textarea { resize: vertical; min-height: 130px; }
+      .egotec-send-btn {
+        background: var(--Accent-color3); color: #fff; border: none;
+        border-radius: 8px; padding: 12px 32px;
+        font-weight: 600; font-size: 0.95rem; width: 100%;
+        transition: background 0.2s, transform 0.15s;
+      }
+      .egotec-send-btn:hover { background: #3d2b8a; transform: translateY(-1px); }
+      .egotec-send-btn:disabled { background: var(--Accent-color4); cursor: not-allowed; transform: none; }
+      .egotec-form-success {
+        display: none; background: #d1fae5; border: 1px solid #6ee7b7;
+        border-radius: 8px; padding: 14px 18px; color: #065f46;
+        font-size: 0.93rem; margin-bottom: 20px;
+      }
+      .egotec-map-wrap {
+        border-radius: 14px; overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        height: 100%; min-height: 420px;
+      }
+      .egotec-map-wrap iframe { width: 100%; height: 100%; min-height: 420px; border: none; display: block; }
+
+      .egotec-social-strip { background: var(--Accent-color3); padding: 40px 0; text-align: center; color: #fff; }
+      .egotec-social-strip h4 { font-family: var(--heading-font); font-weight: 700; margin-bottom: 20px; font-size: 1.3rem; }
+      .egotec-social-strip .social-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+      .egotec-social-strip .social-links a {
+        width: 48px; height: 48px; border-radius: 50%;
+        background: rgba(255,255,255,0.15); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.1rem; text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .egotec-social-strip .social-links a:hover { background: rgba(255,255,255,0.3); transform: translateY(-3px); }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <button class="navbar-toggler egotec-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand egotec-logo" href="index.html"><strong>EgoTech</strong></a>
+          <div class="collapse navbar-collapse egotec-nav-collapse" id="navbarNav">
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+              <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="egotec-cart-icon dropdown">
+            <a href="#" class="nav-link position-relative" id="cartDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end egotec-cart-dropdown" aria-labelledby="cartDropdown">
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount">0 items</span>
+              </div>
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+              <div class="egotec-cart-dropdown-footer" id="cartDropdownFooter" style="display:none">
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span><span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a href="cart.html" class="btn btn-outline-primary w-100 mb-2"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                  <a href="checkout.html" class="btn btn-primary w-100"><i class="fas fa-lock"></i> Checkout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="egotec-contact-hero">
+      <div class="container">
+        <h1>Get In Touch</h1>
+        <p>Have a question, complaint or feedback? We'd love to hear from you. Our team is ready to help.</p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb egotec-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <!-- INFO CARDS -->
+    <section class="egotec-contact-section">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-3 col-md-6">
+            <div class="egotec-info-card">
+              <div class="icon-wrap"><i class="fas fa-phone-alt"></i></div>
+              <h5>Phone</h5>
+              <p>+234 000 000 0000</p>
+              <p style="font-size:0.82rem;margin-top:4px;color:#aaa;">Mon – Sat: 9AM – 7PM</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="egotec-info-card">
+              <div class="icon-wrap"><i class="fas fa-envelope"></i></div>
+              <h5>Email</h5>
+              <a href="mailto:support@egotech.com">support@egotech.com</a>
+              <p style="font-size:0.82rem;margin-top:4px;color:#aaa;">We reply within 24 hours</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="egotec-info-card">
+              <div class="icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+              <h5>Address</h5>
+              <p>Computer Village, Ikeja, Lagos State, Nigeria</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="egotec-info-card">
+              <div class="icon-wrap"><i class="fas fa-clock"></i></div>
+              <h5>Business Hours</h5>
+              <p>Mon – Sat: 9:00 AM – 7:00 PM</p>
+              <p style="font-size:0.82rem;margin-top:4px;color:#aaa;">Sunday: 12PM – 5PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM + MAP -->
+    <section class="egotec-form-map-section">
+      <div class="container">
+        <div class="row g-5 align-items-stretch">
+          <!-- FORM -->
+          <div class="col-lg-6">
+            <div class="egotec-contact-form-wrap">
+              <h3>Send Us a Message</h3>
+              <div class="egotec-form-success" id="formSuccess">
+                <i class="fas fa-check-circle me-2"></i>
+                Thank you! Your message has been sent. We'll get back to you shortly.
+              </div>
+              <form id="contactForm" novalidate>
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6">
+                    <label for="contactFirstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="contactFirstName" placeholder="John" required />
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="contactLastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="contactLastName" placeholder="Doe" required />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="contactEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" id="contactEmail" placeholder="johndoe@email.com" required />
+                </div>
+                <div class="mb-3">
+                  <label for="contactPhone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="contactPhone" placeholder="+234 800 000 0000" />
+                </div>
+                <div class="mb-3">
+                  <label for="contactSubject" class="form-label">Subject <span class="text-danger">*</span></label>
+                  <select class="form-select" id="contactSubject" required>
+                    <option value="">Select a subject</option>
+                    <option value="order">Order Inquiry</option>
+                    <option value="delivery">Delivery Issue</option>
+                    <option value="product">Product Question</option>
+                    <option value="return">Returns & Refunds</option>
+                    <option value="complaint">Complaint</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="mb-4">
+                  <label for="contactMessage" class="form-label">Message <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="contactMessage" placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="egotec-send-btn" id="sendMessageBtn">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+          <!-- MAP -->
+          <div class="col-lg-6">
+            <div class="egotec-map-wrap">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.3519878522087!2d3.3473!3d6.6018!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b923a89a6a3b7%3A0x2c7f7f7f7f7f7f7f!2sComputer%20Village%2C%20Ikeja%2C%20Lagos!5e0!3m2!1sen!2sng!4v1700000000000"
+                allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="EgoTech Location - Computer Village Ikeja Lagos">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL STRIP -->
+    <section class="egotec-social-strip">
+      <div class="container">
+        <h4>Follow Us on Social Media</h4>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="egotec-footer">
+      <div class="container">
+        <div class="row egotec-footer-main py-5">
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
+            <p class="egotec-footer-text">Your trusted destination for premium electronics and smart home solutions. Quality products, unbeatable prices.</p>
+            <div class="egotec-footer-social mt-4">
+              <a href="#" class="egotec-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">Returns & Exchanges</a></li>
+              <li><a href="#">Warranty</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i><span>Computer Village, Ikeja, Lagos, Nigeria</span></li>
+              <li><i class="fas fa-phone"></i><span>+234 000 000 0000</span></li>
+              <li><i class="fas fa-envelope"></i><span>support@egotech.com</span></li>
+              <li><i class="fas fa-clock"></i><span>Mon – Sat: 9:00 AM – 7:00 PM</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">&copy; 2025 EgoTech. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Cart Dropdown JS -->
+    <script src="js/cart-dropdown.js"></script>
+
+    <script>
+      const contactForm = document.getElementById("contactForm");
+      const sendBtn = document.getElementById("sendMessageBtn");
+      const formSuccess = document.getElementById("formSuccess");
+
+      contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!contactForm.checkValidity()) {
+          contactForm.reportValidity();
+          return;
+        }
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+        // Replace setTimeout with real API call when backend is ready
+        setTimeout(() => {
+          contactForm.reset();
+          formSuccess.style.display = "block";
+          sendBtn.disabled = false;
+          sendBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Message';
+          formSuccess.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 1500);
+      });
+    </script>
+  </body>
+</html>
