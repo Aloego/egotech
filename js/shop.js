@@ -51,14 +51,19 @@ async function loadProducts() {
     // Extract unique categories and brands
     extractCategoriesAndBrands();
 
-    // Populate filter dropdowns
+
+// Populate filter dropdowns
     populateFilters();
 
-    // Initialize filtered products
-    filteredProducts = [...allProducts];
+    // Apply URL parameters as filters if present,
+    // otherwise show all products
+    if (window.location.search) {
+      applyURLFilters();
+    } else {
+      filteredProducts = [...allProducts];
+      renderProducts();
+    }
 
-    // Render products
-    renderProducts();
 
     // Hide loading indicator
     loadingIndicator.classList.add("d-none");
@@ -108,6 +113,45 @@ function populateFilters() {
     option.textContent = brand;
     brandFilter.appendChild(option);
   });
+}
+
+// ============================================
+// APPLY URL PARAMETERS AS FILTERS
+// ============================================
+function applyURLFilters() {
+  const params = new URLSearchParams(window.location.search);
+  const urlCategory = params.get("category");
+  const urlBrand = params.get("brand");
+  const urlSort = params.get("sort");
+
+  // Apply category filter if present in URL
+  if (urlCategory) {
+    // Find the closest matching option in the dropdown
+    const options = Array.from(categoryFilter.options);
+    const match = options.find(
+      (opt) => opt.value.toLowerCase() === urlCategory.toLowerCase()
+    );
+    if (match) categoryFilter.value = match.value;
+  }
+
+  // Apply brand filter if present in URL
+  if (urlBrand) {
+    const options = Array.from(brandFilter.options);
+    const match = options.find(
+      (opt) => opt.value.toLowerCase() === urlBrand.toLowerCase()
+    );
+    if (match) brandFilter.value = match.value;
+  }
+
+  // Apply sort if present in URL
+  if (urlSort) {
+    sortBy.value = urlSort;
+  }
+
+  // Run filters if any URL param was found
+  if (urlCategory || urlBrand || urlSort) {
+    applyFilters();
+  }
 }
 
 // ============================================
@@ -206,11 +250,9 @@ function applySorting() {
     case "latest":
       // Assuming products with newArrival are latest
       filteredProducts.sort((a, b) => {
-        // const aNew = a.newArrival === "true" || a.newArrival === true ? 1 : 0;
-        const aNew = a.newArrival === true ? 1 : 0;
-        // const bNew = b.newArrival === "true" || b.newArrival === true ? 1 : 0;
-        const bNew = b.newArrival === true ? 1 : 0;
-        return bNew - aNew;
+       const aNew = a.newArrival === true ? 1 : 0;
+       const bNew = b.newArrival === true ? 1 : 0;
+      return bNew - aNew;
       });
       break;
     case "rating":

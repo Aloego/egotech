@@ -42,7 +42,7 @@ class ShoppingCart {
 
   loadCart() {
     // Try to load from localStorage first (use same key as cart-dropdown.js)
-    const savedCart = localStorage.getItem("egotec_cart_items");
+    const savedCart = localStorage.getItem(EgoTechUtils.CART_ITEMS_KEY);
 
     if (savedCart) {
       this.cart = JSON.parse(savedCart);
@@ -70,7 +70,7 @@ class ShoppingCart {
   }
 
   saveCart() {
-    localStorage.setItem("egotec_cart_items", JSON.stringify(this.cart));
+    localStorage.setItem(EgoTechUtils.CART_ITEMS_KEY, JSON.stringify(this.cart));
     console.log("Cart saved to localStorage");
 
     // Trigger cart dropdown update if it exists
@@ -415,14 +415,10 @@ class ShoppingCart {
     }
   }
 
-  formatCurrency(amount) {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 2,
-    }).format(amount);
+ formatCurrency(amount) {
+    return EgoTechUtils.formatCurrency(amount);
   }
-
+  
   proceedToCheckout() {
     if (this.cart.length === 0) {
       alert("Your cart is empty. Please add items before checking out.");

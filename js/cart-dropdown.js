@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  const CART_ITEMS_KEY = "egotec_cart_items";
+  const CART_ITEMS_KEY = EgoTechUtils.CART_ITEMS_KEY;
 
   /**
    * Get cart items from localStorage
@@ -73,14 +73,10 @@
    * @param {string} currency - Currency code
    * @returns {string} Formatted currency string
    */
-  function formatCurrency(amount, currency = "NGN") {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: currency,
-      minimumFractionDigits: 0,
-    }).format(amount);
-  }
-
+   
+  function formatCurrency(amount) {
+  return EgoTechUtils.formatCurrency(amount);
+}
   /**
    * Calculate cart subtotal
    * @returns {number} Subtotal amount
@@ -157,10 +153,7 @@
       // Update subtotal
       const subtotal = calculateSubtotal();
       if (subtotalEl) {
-        subtotalEl.textContent = formatCurrency(
-          subtotal,
-          cartItems[0]?.currency
-        );
+        subtotalEl.textContent = formatCurrency(subtotal);
       }
     }
 
@@ -184,19 +177,13 @@
       <div class="egotec-cart-item-number">${itemNumber}</div>
       <div class="egotec-cart-item-image">
         <img src="${item.image}" alt="${item.name}" 
-             onerror="this.src='https://via.placeholder.com/60x60?text=Product'">
+             onerror="this.src='assets/images/products/product01.png'">
       </div>
       <div class="egotec-cart-item-details">
         <h6 class="egotec-cart-item-name">${item.name}</h6>
         <div class="egotec-cart-item-info">
-          <span class="egotec-cart-item-qty">${item.qty} × ${formatCurrency(
-      item.price,
-      item.currency
-    )}</span>
-          <span class="egotec-cart-item-price">${formatCurrency(
-            itemTotal,
-            item.currency
-          )}</span>
+          <span class="egotec-cart-item-qty">${item.qty} × ${formatCurrency(item.price)}</span>
+          <span class="egotec-cart-item-price">${formatCurrency(itemTotal)}</span>
         </div>
       </div>
       <button class="egotec-cart-item-remove" data-product-id="${

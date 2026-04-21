@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Categories — EgoTech</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Product CSS -->
+    <link rel="stylesheet" type="text/css" href="css/product.css">
+    
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <button class="navbar-toggler egotec-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand egotec-logo" href="index.html"><strong>EgoTech</strong></a>
+          <div class="collapse navbar-collapse egotec-nav-collapse" id="navbarNav">
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link active" href="product.html">Categories</a></li>
+              <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="egotec-cart-icon dropdown">
+            <a href="#" class="nav-link position-relative" id="cartDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end egotec-cart-dropdown" aria-labelledby="cartDropdown">
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount">0 items</span>
+              </div>
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+              <div class="egotec-cart-dropdown-footer" id="cartDropdownFooter" style="display:none">
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span><span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a href="cart.html" class="btn btn-outline-primary w-100 mb-2"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                  <a href="checkout.html" class="btn btn-primary w-100"><i class="fas fa-lock"></i> Checkout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="egotec-cat-hero">
+      <div class="container">
+        <h1>Shop by Category</h1>
+        <p>Browse our full range of electronics, gadgets and smart home devices.</p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb egotec-cat-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <!-- SEARCH BAR -->
+    <div class="egotec-cat-search-wrap">
+      <div class="container">
+        <div class="egotec-cat-search">
+          <input type="text" id="categorySearch" placeholder="Search categories or brands e.g. Laptop, Samsung..." />
+          <button type="button" onclick="filterCategories()">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CATEGORIES GRID -->
+    <section class="egotec-categories-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <p class="egotec-section-label">Our Catalogue</p>
+          <h2 class="egotec-section-title">All Product Categories</h2>
+          <p class="egotec-section-desc mx-auto">
+            Find the right product for you. Click any category or subcategory to browse products.
+          </p>
+        </div>
+
+        <!-- No results message -->
+        <div class="egotec-no-results" id="noResults">
+          <i class="fas fa-search-minus d-block"></i>
+          <p>No categories match your search. <a href="#" onclick="clearSearch()">Clear search</a></p>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="row g-4" id="categoriesGrid">
+
+          <!-- Smartphones -->
+          <div class="col-lg-4 col-md-6 cat-item" data-name="smartphones mobile phones apple samsung google">
+            <a href="shop.html?category=Smartphones" class="egotec-cat-card">
+              <div class="egotec-cat-img-wrap">
+                <img src="assets/images/categories/Smartphones.png" alt="Smartphones" onerror="this.src='assets/images/products/Smartphone.png'" />
+                <span class="egotec-cat-badge">3 Products</span>
+              </div>
+              <div class="egotec-cat-body">
+                <h3>Smartphones</h3>
+                <p class="product-count">3 products available</p>
+                <div class="egotec-subcats">
+                  <a href="shop.html?category=Smartphones&brand=Apple" class="egotec-subcat-tag" onclick="event.stopPropagation()">Apple</a>
+                  <a href="shop.html?category=Smartphones&brand=Samsung" class="egotec-subcat-tag" onclick="event.stopPropagation()">Samsung</a>
+                  <a href="shop.html?category=Smartphones&brand=Google" class="egotec-subcat-tag" onclick="event.stopPropagation()">Google</a>
+                  <a href="shop.html?category=Mobile" class="egotec-subcat-tag" onclick="event.stopPropagation()">Mobile</a>
+                </div>
+                <span class="egotec-cat-cta">Browse Smartphones <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Laptops -->
+          <div class="col-lg-4 col-md-6 cat-item" data-name="laptops computers hp dell apple macbook">
+            <a href="shop.html?category=Laptop" class="egotec-cat-card">
+              <div class="egotec-cat-img-wrap">
+                <img src="assets/images/categories/Laptop.png" alt="Laptops" />
+                <span class="egotec-cat-badge">3 Products</span>
+              </div>
+              <div class="egotec-cat-body">
+                <h3>Laptops</h3>
+                <p class="product-count">3 products available</p>
+                <div class="egotec-subcats">
+                  <a href="shop.html?category=Laptop&brand=HP" class="egotec-subcat-tag" onclick="event.stopPropagation()">HP</a>
+                  <a href="shop.html?category=Laptop&brand=Dell" class="egotec-subcat-tag" onclick="event.stopPropagation()">Dell</a>
+                  <a href="shop.html?category=Laptop&brand=Apple" class="egotec-subcat-tag" onclick="event.stopPropagation()">Apple</a>
+                  <a href="shop.html?category=Laptop&sort=price-low" class="egotec-subcat-tag" onclick="event.stopPropagation()">Budget Picks</a>
+                </div>
+                <span class="egotec-cat-cta">Browse Laptops <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Headphones -->
+          <div class="col-lg-4 col-md-6 cat-item" data-name="headphones audio sony bose earphones">
+            <a href="shop.html?category=Headphones" class="egotec-cat-card">
+              <div class="egotec-cat-img-wrap">
+                <img src="assets/images/categories/headphones.png" alt="Headphones" />
+                <span class="egotec-cat-badge">2 Products</span>
+              </div>
+              <div class="egotec-cat-body">
+                <h3>Headphones & Audio</h3>
+                <p class="product-count">2 products available</p>
+                <div class="egotec-subcats">
+                  <a href="shop.html?category=Headphones&brand=Sony" class="egotec-subcat-tag" onclick="event.stopPropagation()">Sony</a>
+                  <a href="shop.html?category=Headphones&brand=Bose" class="egotec-subcat-tag" onclick="event.stopPropagation()">Bose</a>
+                  <a href="shop.html?category=Speakers" class="egotec-subcat-tag" onclick="event.stopPropagation()">Speakers</a>
+                </div>
+                <span class="egotec-cat-cta">Browse Audio <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Smart Home -->
+          <div class="col-lg-4 col-md-6 cat-item" data-name="smart home amazon echo speaker jbl alexa">
+            <a href="shop.html?category=Smart Home" class="egotec-cat-card">
+              <div class="egotec-cat-img-wrap">
+                <img src="assets/images/categories/Smart Home.png" alt="Smart Home" />
+                <span class="egotec-cat-badge">2 Products</span>
+              </div>
+              <div class="egotec-cat-body">
+                <h3>Smart Home</h3>
+                <p class="product-count">2 products available</p>
+                <div class="egotec-subcats">
+                  <a href="shop.html?category=Smart Home&brand=Amazon" class="egotec-subcat-tag" onclick="event.stopPropagation()">Amazon Echo</a>
+                  <a href="shop.html?category=Speakers&brand=JBL" class="egotec-subcat-tag" onclick="event.stopPropagation()">JBL Speakers</a>
+                  <a href="shop.html?category=Smart Home" class="egotec-subcat-tag" onclick="event.stopPropagation()">All Smart Home</a>
+                </div>
+                <span class="egotec-cat-cta">Browse Smart Home <i class="fas fa-arrow-right"></i></span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Coming Soon — Smart TVs -->
+          <div class="col-lg-4 col-md-6 cat-item" data-name="smart tv television samsung sony lg">
+            <a href="shop.html" class="egotec-cat-card" style="opacity:0.7;">
+              <div class="egotec-cat-img-wrap" style="background:#f0f0f0;">
+                <img src="assets/images/products/SmartTvs.png" alt="Smart TVs" onerror="this.src='assets/images/products/product01.png'" />
+                <span class="egotec-cat-badge" style="background:#686868;">Coming Soon</span>
+              </div>
+              <div class="egotec-cat-body">
+                <h3>Smart TVs</h3>
+                <p class="product-count">New arrivals coming soon</p>
+                <div class="egotec-subcats">
+                  <span class="egotec-subcat-tag">Samsung</span>
+                  <span class="egotec-subcat-tag">Sony</span>
+                  <span class="egotec-subcat-tag">LG</span>
+                </div>
+                <span class="egotec-cat-cta" style="color:#686868;">Notify Me <i class="fas fa-bell"></i></span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Coming Soon — Cameras -->
+          <div class="col-lg-4 col-md-6 cat-item" data-name="cameras photography canon nikon">
+            <a href="shop.html" class="egotec-cat-card" style="opacity:0.7;">
+              <div class="egotec-cat-img-wrap" style="background:#f0f0f0;">
+                <img src="assets/images/products/Cameras.png" alt="Cameras" onerror="this.src='assets/images/products/product01.png'" />
+                <span class="egotec-cat-badge" style="background:#686868;">Coming Soon</span>
+              </div>
+              <div class="egotec-cat-body">
+                <h3>Cameras</h3>
+                <p class="product-count">New arrivals coming soon</p>
+                <div class="egotec-subcats">
+                  <span class="egotec-subcat-tag">Canon</span>
+                  <span class="egotec-subcat-tag">Nikon</span>
+                  <span class="egotec-subcat-tag">GoPro</span>
+                </div>
+                <span class="egotec-cat-cta" style="color:#686868;">Notify Me <i class="fas fa-bell"></i></span>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- BRANDS SECTION -->
+    <section class="egotec-brands-section">
+      <div class="container">
+        <div class="text-center mb-4">
+          <p class="egotec-section-label">Our Partners</p>
+          <h2 class="egotec-section-title">Shop by Brand</h2>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+          <a href="shop.html?brand=Apple" class="egotec-brand-pill">Apple</a>
+          <a href="shop.html?brand=Samsung" class="egotec-brand-pill">Samsung</a>
+          <a href="shop.html?brand=HP" class="egotec-brand-pill">HP</a>
+          <a href="shop.html?brand=Dell" class="egotec-brand-pill">Dell</a>
+          <a href="shop.html?brand=Sony" class="egotec-brand-pill">Sony</a>
+          <a href="shop.html?brand=Bose" class="egotec-brand-pill">Bose</a>
+          <a href="shop.html?brand=JBL" class="egotec-brand-pill">JBL</a>
+          <a href="shop.html?brand=Amazon" class="egotec-brand-pill">Amazon</a>
+          <a href="shop.html?brand=Google" class="egotec-brand-pill">Google</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="egotec-cta-banner">
+      <div class="container">
+        <h2>Can't Find What You're Looking For?</h2>
+        <p>Browse our full shop to see all available products and deals.</p>
+        <a href="shop.html" class="btn btn-light">
+          <i class="fas fa-store me-2"></i>Go to Shop
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="egotec-footer">
+      <div class="container">
+        <div class="row egotec-footer-main py-5">
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
+            <p class="egotec-footer-text">Your trusted destination for premium electronics and smart home solutions.</p>
+            <div class="egotec-footer-social mt-4">
+              <a href="#" class="egotec-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="product.html">Categories</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">Returns & Exchanges</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i><span>Computer Village, Ikeja, Lagos, Nigeria</span></li>
+              <li><i class="fas fa-phone"></i><span>+234 000 000 0000</span></li>
+              <li><i class="fas fa-envelope"></i><span>support@egotech.com</span></li>
+              <li><i class="fas fa-clock"></i><span>Mon – Sat: 9:00 AM – 7:00 PM</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">&copy; 2025 EgoTech. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Shared Utilities -->
+    <script src="js/utils.js"></script>
+    <!-- Cart Dropdown JS -->
+    <script src="js/cart-dropdown.js"></script>
+
+    <script>
+      // ── Category Search ──
+      const searchInput = document.getElementById("categorySearch");
+
+      searchInput.addEventListener("input", filterCategories);
+
+      function filterCategories() {
+        const query = searchInput.value.toLowerCase().trim();
+        const items = document.querySelectorAll(".cat-item");
+        const noResults = document.getElementById("noResults");
+        let visibleCount = 0;
+
+        items.forEach((item) => {
+          const keywords = item.getAttribute("data-name").toLowerCase();
+          const matches = query === "" || keywords.includes(query);
+          item.style.display = matches ? "block" : "none";
+          if (matches) visibleCount++;
+        });
+
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+      }
+
+      function clearSearch() {
+        searchInput.value = "";
+        filterCategories();
+      }
+    </script>
+  </body>
+</html>

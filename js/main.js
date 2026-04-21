@@ -139,19 +139,15 @@ document.addEventListener("DOMContentLoaded", function () {
         name.className = "egotec-category-name";
         name.textContent = category;
 
+        // Set data-category BEFORE appending to carousel
+        card.setAttribute("data-category", category);
+        card.style.cursor = "pointer";
+
         // Assemble card
         overlay.appendChild(name);
         card.appendChild(img);
         card.appendChild(overlay);
         carousel.appendChild(card);
-
-        // Add click event to navigate to category page
-        card.addEventListener("click", function () {
-          // Navigate to category page (implement as needed)
-          window.location.href = `products.html?category=${encodeURIComponent(
-            category
-          )}`;
-        });
 
         // Add keyboard support
         card.addEventListener("keypress", function (e) {
@@ -165,6 +161,16 @@ document.addEventListener("DOMContentLoaded", function () {
       // Duplicate cards for seamless infinite scroll
       const clonedCards = carousel.innerHTML;
       carousel.innerHTML += clonedCards;
+
+      
+      // Re-attach click events after duplication (innerHTML wipes events)
+      carousel.querySelectorAll(".egotec-category-card").forEach((card) => {
+        card.addEventListener("click", function () {
+          const cat = this.getAttribute("data-category");
+          if (cat) window.location.href = `shop.html?category=${encodeURIComponent(cat)}`;
+        });
+      });
+
     })
     .catch((error) => {
       console.error("Error loading categories:", error);
@@ -260,10 +266,7 @@ document.addEventListener("DOMContentLoaded", function () {
         card.className = "egotec-product-card";
 
         // Format price with currency
-        const formattedPrice = new Intl.NumberFormat("en-NG", {
-          style: "currency",
-          currency: product.currency || "NGN",
-        }).format(product.price);
+        const formattedPrice = EgoTechUtils.formatCurrency(product.price);
 
         // Generate star rating
         const rating = product.rating || 0;
@@ -451,10 +454,7 @@ document.addEventListener("DOMContentLoaded", function () {
         card.className = "egotec-product-card";
 
         // Format price with currency
-        const formattedPrice = new Intl.NumberFormat("en-NG", {
-          style: "currency",
-          currency: product.currency || "NGN",
-        }).format(product.price);
+        const formattedPrice = EgoTechUtils.formatCurrency(product.price);
 
         card.innerHTML = `
           <a href="product-details.html?id=${
@@ -612,10 +612,7 @@ document.addEventListener("DOMContentLoaded", function () {
         card.className = "egotec-product-card";
 
         // Format price with currency
-        const formattedPrice = new Intl.NumberFormat("en-NG", {
-          style: "currency",
-          currency: product.currency || "NGN",
-        }).format(product.price);
+       const formattedPrice = EgoTechUtils.formatCurrency(product.price);
 
         // Generate star rating
         const rating = product.rating || 0;

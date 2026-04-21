@@ -8,7 +8,7 @@ const AIRTABLE_API_URL = "https://egotech.onrender.com"; // <-- Replace this val
 const AIRTABLE_TOKEN = "AIRTABLE_TOKEN"; // Your Airtable token
 
 // Constants
-const CART_ITEMS_KEY = "egotec_cart_items";
+const CART_ITEMS_KEY = EgoTechUtils.CART_ITEMS_KEY;
 const USER_LOCATION_KEY = "egotech_user_location";
 const CHECKOUT_DATA_KEY = "egotech_checkout";
 const LGA_TOWNS_KEY = "egotech_lga_towns";
@@ -923,13 +923,6 @@ function handlePlaceOrder() {
     return;
   }
 
-    // ADD THESE 3 NEW LINES UPDATE BELOW ↓
-  //  const placeOrderBtn = document.getElementById("placeOrderBtn");
-  // placeOrderBtn.disabled = true;
-  // placeOrderBtn.textContent = "Placing Order...";
-
-  // ADD THESE 3 NEW LINES UPDATE ABOVE 
-
   // Collect form data
   const shippingMethodElement = document.querySelector(
     'input[name="shippingMethod"]:checked'
@@ -1211,25 +1204,7 @@ function showFinalConfirmation() {
   window.location.href = "index.html";
 }
 
-/**
- * Format currency
- */
-// function formatCurrency(amount) {
-//   return new Intl.NumberFormat("en-NG", {
-//     style: "currency",
-//     currency: "NGN",
-//     minimumFractionDigits: 0,
-//     maximumFractionDigits: 0,
-//   }).format(amount);
-// }
-/**
- * Format currency
- */
+// formatCurrency is now provided by js/utils.js
 function formatCurrency(amount) {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return EgoTechUtils.formatCurrency(amount);
 }
