@@ -13,6 +13,14 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css" />
 
+    <!-- OwlCarousels Library CSS -->
+    <!-- OwlCarousel CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+<link rel="stylesheet" type="text/css" href="css/owlCarousels.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+<link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+
+
     <!-- Quick View Modal CSS -->
     <link rel="stylesheet" href="css/quick-view-modal.css" />
   </head>
@@ -145,7 +153,7 @@
               collection of premium tech gadgets and accessories.
             </p>
             <div>
-              <a href="product.html" class="btn btn-primary egotec-hero-btn">
+              <a href="shop.html" class="btn btn-primary egotec-hero-btn">
                 Shop Now
               </a>
             </div>
@@ -170,32 +178,12 @@
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0 fw-bold">Shop by Category</h2>
-          <div class="egotec-carousel-controls d-none d-md-flex gap-2">
-            <button
-              class="egotec-carousel-arrow egotec-carousel-arrow-left d-flex align-items-center justify-content-center"
-              aria-label="Scroll left"
-              type="button"
-            >
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button
-              class="egotec-carousel-arrow egotec-carousel-arrow-right d-flex align-items-center justify-content-center"
-              aria-label="Scroll right"
-              type="button"
-            >
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </div>
         </div>
         <div class="egotec-category-carousel-wrapper position-relative">
-          <!-- Category Carousel -->
-          <div
-            class="egotec-category-carousel d-flex overflow-auto flex-nowrap"
-          >
+          <div class="owl-carousel egotec-category-carousel">
             <!-- Category cards will be dynamically injected here by JavaScript -->
-          </div>
         </div>
-      </div>
+    </div>
     </section>
 
     <!-- Featured Products Section -->
@@ -204,7 +192,7 @@
         <!-- Section Header with Title and Arrows -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0 fw-bold">Featured Products</h2>
-          <div class="egotec-featured-controls d-none d-md-flex gap-2">
+          <!-- <div class="egotec-featured-controls d-none d-md-flex gap-2">
             <button
               class="egotec-featured-arrow egotec-featured-arrow-left"
               aria-label="Previous products"
@@ -217,12 +205,12 @@
             >
               <i class="fas fa-chevron-right"></i>
             </button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Products Carousel Wrapper -->
         <div class="egotec-featured-wrapper">
-          <div class="egotec-featured-carousel" id="featuredProductsCarousel">
+          <div class="owl-carousel egotec-featured-carousel" id="featuredProductsCarousel">
             <!-- Product cards will be dynamically inserted here -->
           </div>
         </div>
@@ -235,7 +223,7 @@
         <!-- Section Header with Title and Arrows -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0 fw-bold">New Arrivals</h2>
-          <div class="egotec-new-arrivals-controls d-none d-md-flex gap-2">
+          <!-- <div class="egotec-new-arrivals-controls d-none d-md-flex gap-2">
             <button
               class="egotec-new-arrivals-arrow egotec-new-arrivals-arrow-left"
               aria-label="Previous products"
@@ -248,12 +236,12 @@
             >
               <i class="fas fa-chevron-right"></i>
             </button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Products Carousel Wrapper -->
         <div class="egotec-new-arrivals-wrapper">
-          <div class="egotec-new-arrivals-carousel" id="newArrivalsCarousel">
+          <div class="owl-carousel egotec-new-arrivals-carousel" id="newArrivalsCarousel">
             <!-- Product cards will be dynamically inserted here -->
           </div>
         </div>
@@ -273,7 +261,7 @@
               <p id="promoMessage" class="egotec-promo-message mb-4"></p>
               <a
                 id="promoCta"
-                href="#"
+                href="shop.html"
                 class="btn egotec-promo-btn d-inline-flex align-items-center"
               ></a>
             </div>
@@ -288,7 +276,7 @@
         <!-- Section Header with Title and Arrows -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0 fw-bold">All Products</h2>
-          <div class="egotec-all-products-controls d-none d-md-flex gap-2">
+          <!-- <div class="egotec-all-products-controls d-none d-md-flex gap-2">
             <button
               class="egotec-all-products-arrow egotec-all-products-arrow-left"
               aria-label="Previous products"
@@ -301,12 +289,12 @@
             >
               <i class="fas fa-chevron-right"></i>
             </button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Products Carousel Wrapper -->
         <div class="egotec-all-products-wrapper">
-          <div class="egotec-all-products-carousel" id="allProductsCarousel">
+          <div class="owl-carousel egotec-all-products-carousel" id="allProductsCarousel">
             <!-- Product cards will be dynamically inserted here -->
           </div>
         </div>
@@ -425,15 +413,15 @@
             <ul class="egotec-footer-contact">
               <li>
                 <i class="fas fa-map-marker-alt"></i>
-                <span>123 Tech Street, Digital City, DC 12345</span>
+                <span>Computer village, Ikeja</span>
               </li>
               <li>
                 <i class="fas fa-phone"></i>
-                <span>+1 (555) 123-4567</span>
+                <span>+234 810 503 1964</span>
               </li>
               <li>
                 <i class="fas fa-envelope"></i>
-                <span>support@egotech.com</span>
+                <span>ocheialoysius@gmail.com</span>
               </li>
               <li>
                 <i class="fas fa-clock"></i>
@@ -465,13 +453,25 @@
 
     <!-- Bootstrap JS  -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- jQuery (required by OwlCarousel) -->
+    <script src="js/owljquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+<!-- OwlCarousel JS -->
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
     <!-- Shared Utilities -->
     <script src="js/utils.js"></script>
+
     <!-- Cart Dropdown JS -->
     <script src="js/cart-dropdown.js"></script>
+
     <!-- Main JS -->
     <script src="js/main.js"></script>
+
     <!-- Quick View Modal JS -->
     <script src="js/quick-view-modal.js"></script>
+    
   </body>
 </html>

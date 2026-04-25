@@ -504,6 +504,18 @@ body {
     font-size: 0.85rem;
     padding: 0.5rem 0.85rem;
   }
+
+  .owl-nav {
+    display: none !important;
+  }
+
+  .egotec-category-overlay {
+    opacity: 1;
+  }
+
+  .egotec-category-name {
+    opacity: 1;
+  }
 }
 
 /* ============================================
@@ -613,23 +625,6 @@ body {
   background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
 }
 
-.egotec-category-carousel-wrapper {
-  position: relative;
-  margin: 0 auto;
-  max-width: 100%;
-}
-
-.egotec-category-carousel {
-  scroll-behavior: smooth;
-  gap: 1.5rem;
-  padding: 1rem 0.5rem 1.5rem;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.egotec-category-carousel::-webkit-scrollbar {
-  display: none;
-}
 
 .egotec-category-card {
   position: relative;
@@ -722,12 +717,6 @@ body {
 
 /* Mobile Styles */
 @media (max-width: 767px) {
-  .egotec-category-carousel {
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-    padding: 1rem 0.25rem 1.5rem;
-  }
-
   .egotec-category-card {
     scroll-snap-align: center;
     min-width: 75vw;
@@ -771,27 +760,6 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Carousel Wrapper */
-.egotec-featured-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.egotec-featured-carousel {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 1rem 0;
-}
-
-.egotec-featured-carousel::-webkit-scrollbar {
-  display: none;
-}
 
 /* Product Card */
 .egotec-product-card {
@@ -1018,27 +986,6 @@ body {
   background-color: #ffffff;
 }
 
-/* Carousel Wrapper */
-.egotec-new-arrivals-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.egotec-new-arrivals-carousel {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 1rem 0;
-}
-
-.egotec-new-arrivals-carousel::-webkit-scrollbar {
-  display: none;
-}
 
 /* Navigation Arrows for New Arrivals */
 .egotec-new-arrivals-controls {
@@ -1154,27 +1101,6 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Carousel Wrapper */
-.egotec-all-products-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-.egotec-all-products-carousel {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 1rem 0;
-}
-
-.egotec-all-products-carousel::-webkit-scrollbar {
-  display: none;
-}
 
 /* Navigation Arrows for All Products */
 .egotec-all-products-controls {
@@ -2197,4 +2123,71 @@ body {
   .egotec-shop-promo-content {
     padding: 2rem 1rem;
   }
+}
+
+
+/* ============================================
+   OWL CAROUSEL NAV — MATCHING ORIGINAL ARROWS
+   ============================================ */
+
+/* Position nav top-right above each carousel */
+.owl-nav {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  margin: 0 !important;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+
+/* Style nav buttons — same as .egotec-carousel-arrow */
+.owl-nav button {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border: none !important;
+  background: var(--Accent-color3, #503aa8) !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  font-size: 1rem !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(80, 58, 168, 0.25) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+/* Active state — same as original */
+.owl-nav button:active {
+  transform: scale(0.95) !important;
+}
+
+/* Disabled state */
+.owl-nav button.disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+
+/* Remove OwlCarousel default span styling inside buttons */
+.owl-nav button span {
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  color: #fff !important;
+}
+
+
+/* OWL CAROUSEL NAV — HOVER EFFECT */
+.owl-nav button:hover {
+  background: #ffffff !important;
+  color: var(--Accent-color3, #503aa8) !important;
+  box-shadow: 0 2px 8px rgba(80, 58, 168, 0.25) !important;
+}
+
+.owl-nav button:hover span {
+  color: var(--Accent-color3, #503aa8) !important;
 }

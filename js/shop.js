@@ -598,21 +598,6 @@ function toggleWishlist(button, productId) {
 }
 
 // ============================================
-// QUICK VIEW FUNCTIONALITY
-// ============================================
-// Quick View is now handled by quick-view-modal.js
-// This function is no longer needed but kept for reference
-/*
-function quickView(product) {
-  console.log("Quick view:", product);
-
-  // Show quick view modal
-  // You can implement a Bootstrap modal here
-  showNotification("Quick View - Feature coming soon!", "info");
-}
-*/
-
-// ============================================
 // NOTIFICATION HELPER
 // ============================================
 function showNotification(message, type = "success") {

@@ -3,7 +3,6 @@
  * Handles checkout form, location dropdowns, shipping calculation, and order processing
  */
 
-
 const AIRTABLE_API_URL = "https://egotech.onrender.com"; // <-- Replace this value
 const AIRTABLE_TOKEN = "AIRTABLE_TOKEN"; // Your Airtable token
 
