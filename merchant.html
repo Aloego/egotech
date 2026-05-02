@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Merchant Product Submission — EgoTech</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* ── Hero ── */
+      .egotec-merchant-hero {
+        background: linear-gradient(135deg, var(--Accent-color3) 0%, #2a1a6e 100%);
+        color: #fff;
+        padding: 55px 0 45px;
+        text-align: center;
+      }
+      .egotec-merchant-hero h1 {
+        font-family: var(--heading-font);
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .egotec-merchant-hero p {
+        font-size: 1rem;
+        opacity: 0.85;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .egotec-breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 12px 0 0;
+        font-size: 0.85rem;
+        justify-content: center;
+      }
+      .egotec-breadcrumb .breadcrumb-item a { color: rgba(255,255,255,0.75); text-decoration: none; }
+      .egotec-breadcrumb .breadcrumb-item.active { color: #fff; }
+      .egotec-breadcrumb .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.5); }
+
+      /* ── Form Section ── */
+      .egotec-merchant-section { padding: 60px 0; background: var(--Accent-color5); }
+
+      .egotec-merchant-form-wrap {
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .egotec-form-section-title {
+        font-family: var(--heading-font);
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--Accent-color3);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--Accent-color5);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .egotec-merchant-form-wrap .form-label {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: var(--contrast-color);
+      }
+
+      .egotec-merchant-form-wrap .form-control,
+      .egotec-merchant-form-wrap .form-select {
+        border-radius: 8px;
+        border: 1.5px solid #ddd;
+        font-size: 0.93rem;
+        padding: 10px 14px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .egotec-merchant-form-wrap .form-control:focus,
+      .egotec-merchant-form-wrap .form-select:focus {
+        border-color: var(--Accent-color3);
+        box-shadow: 0 0 0 3px rgba(80,58,168,0.1);
+        outline: none;
+      }
+
+      .egotec-merchant-form-wrap textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      /* Image upload toggle */
+      .egotec-image-toggle {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .egotec-image-toggle-btn {
+        flex: 1;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background: #fff;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        color: var(--Accent-color4);
+      }
+
+      .egotec-image-toggle-btn.active {
+        border-color: var(--Accent-color3);
+        background: rgba(80,58,168,0.06);
+        color: var(--Accent-color3);
+      }
+
+      /* Image upload area */
+      .egotec-upload-area {
+        border: 2px dashed #ddd;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        background: var(--Accent-color5);
+      }
+
+      .egotec-upload-area:hover {
+        border-color: var(--Accent-color3);
+        background: rgba(80,58,168,0.04);
+      }
+
+      .egotec-upload-area i {
+        font-size: 2.5rem;
+        color: var(--Accent-color3);
+        margin-bottom: 12px;
+        display: block;
+      }
+
+      .egotec-upload-area p {
+        margin: 0;
+        font-size: 0.88rem;
+        color: var(--Accent-color4);
+      }
+
+      .egotec-upload-area input[type="file"] {
+        display: none;
+      }
+
+      /* Image preview */
+      .egotec-image-preview {
+        display: none;
+        margin-top: 12px;
+        position: relative;
+      }
+
+      .egotec-image-preview img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+        border-radius: 8px;
+        border: 1.5px solid #ddd;
+      }
+
+      .egotec-image-preview-remove {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Submit button */
+      .egotec-submit-btn {
+        background: var(--Accent-color3);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 14px 40px;
+        font-weight: 700;
+        font-size: 1rem;
+        width: 100%;
+        transition: background 0.2s, transform 0.15s;
+        margin-top: 10px;
+      }
+
+      .egotec-submit-btn:hover {
+        background: #3d2b8a;
+        transform: translateY(-1px);
+      }
+
+      .egotec-submit-btn:disabled {
+        background: var(--Accent-color4);
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Success message */
+      .egotec-form-success {
+        display: none;
+        background: #d1fae5;
+        border: 1px solid #6ee7b7;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        color: #065f46;
+      }
+
+      .egotec-form-success i {
+        font-size: 3rem;
+        margin-bottom: 16px;
+        display: block;
+      }
+
+      .egotec-form-success h4 {
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      /* Error message */
+      .egotec-form-error {
+        display: none;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+        border-radius: 8px;
+        padding: 14px 18px;
+        color: #991b1b;
+        font-size: 0.93rem;
+        margin-bottom: 20px;
+      }
+
+      /* Info box */
+      .egotec-info-box {
+        background: rgba(80,58,168,0.06);
+        border: 1px solid rgba(80,58,168,0.2);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-bottom: 30px;
+        font-size: 0.88rem;
+        color: var(--Accent-color3);
+      }
+
+      .egotec-info-box i { margin-right: 8px; }
+
+      /* Character counter */
+      .egotec-char-count {
+        font-size: 0.78rem;
+        color: var(--Accent-color4);
+        text-align: right;
+        margin-top: 4px;
+      }
+
+      /* Required star */
+      .text-danger { color: #dc3545 !important; }
+
+      /* Step indicator */
+      .egotec-steps {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+      }
+
+      .egotec-step {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: var(--Accent-color4);
+      }
+
+      .egotec-step-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #ddd;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.82rem;
+      }
+
+      .egotec-step.active .egotec-step-num {
+        background: var(--Accent-color3);
+      }
+
+      .egotec-step.active {
+        color: var(--Accent-color3);
+        font-weight: 600;
+      }
+
+      .egotec-step-divider {
+        width: 30px;
+        height: 2px;
+        background: #ddd;
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <button class="navbar-toggler egotec-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand egotec-logo" href="index.html"><strong>EgoTech</strong></a>
+          <div class="collapse navbar-collapse egotec-nav-collapse" id="navbarNav">
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="egotec-cart-icon dropdown">
+            <a href="#" class="nav-link position-relative" id="cartDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end egotec-cart-dropdown" aria-labelledby="cartDropdown">
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount">0 items</span>
+              </div>
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+              <div class="egotec-cart-dropdown-footer" id="cartDropdownFooter" style="display:none">
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span><span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a href="cart.html" class="btn btn-outline-primary w-100 mb-2"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                  <a href="checkout.html" class="btn btn-primary w-100"><i class="fas fa-lock"></i> Checkout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="egotec-merchant-hero">
+      <div class="container">
+        <h1>Submit Your Product</h1>
+        <p>List your product on EgoTech and reach thousands of customers across West Africa.</p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb egotec-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Merchant Form</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="egotec-merchant-section">
+      <div class="container">
+
+        <!-- Step Indicators -->
+        <div class="egotec-steps">
+          <div class="egotec-step active">
+            <div class="egotec-step-num">1</div>
+            <span>Product Info</span>
+          </div>
+          <div class="egotec-step-divider"></div>
+          <div class="egotec-step active">
+            <div class="egotec-step-num">2</div>
+            <span>Images</span>
+          </div>
+          <div class="egotec-step-divider"></div>
+          <div class="egotec-step active">
+            <div class="egotec-step-num">3</div>
+            <span>Review & Submit</span>
+          </div>
+        </div>
+
+        <div class="egotec-merchant-form-wrap">
+
+          <!-- Info Box -->
+          <div class="egotec-info-box">
+            <i class="fas fa-info-circle"></i>
+            All submissions are reviewed by our team before appearing on the site. You will be contacted once your product is approved.
+          </div>
+
+          <!-- Error Message -->
+          <div class="egotec-form-error" id="formError">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span id="formErrorText"></span>
+          </div>
+
+          <!-- Success Message -->
+          <div class="egotec-form-success" id="formSuccess">
+            <i class="fas fa-check-circle"></i>
+            <h4>Product Submitted Successfully!</h4>
+            <p>Thank you! Our team will review your product and get back to you shortly.</p>
+            <button class="egotec-submit-btn mt-3" onclick="resetForm()" style="max-width:200px;margin:16px auto 0;">
+              Submit Another
+            </button>
+          </div>
+
+          <!-- FORM -->
+          <form id="merchantForm" novalidate>
+
+            <!-- ── SECTION 1: Basic Info ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-box"></i> Basic Information
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="productName" class="form-label">Product Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="productName" placeholder="e.g. Samsung Galaxy S24" required />
+              </div>
+              <div class="col-md-6">
+                <label for="productBrand" class="form-label">Brand <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="productBrand" placeholder="e.g. Samsung" required />
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="productCategory" class="form-label">Category <span class="text-danger">*</span></label>
+                <select class="form-select" id="productCategory" required>
+                  <option value="">Select a category</option>
+                  <option value="Smartphones">Smartphones</option>
+                  <option value="Laptop">Laptop</option>
+                  <option value="Headphones">Headphones</option>
+                  <option value="Speakers">Speakers</option>
+                  <option value="Smart Home">Smart Home</option>
+                  <option value="Smart TVs">Smart TVs</option>
+                  <option value="Cameras">Cameras</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="productStock" class="form-label">Stock Quantity <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="productStock" placeholder="e.g. 50" min="1" required />
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="productPrice" class="form-label">Price (₦) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="productPrice" placeholder="e.g. 850000" min="1" required />
+              </div>
+              
+            </div>
+
+            <!-- ── SECTION 2: Description ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-align-left"></i> Product Description
+            </div>
+
+            <div class="mb-3">
+              <label for="productShortDesc" class="form-label">Short Description <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="productShortDesc"
+                placeholder="One line summary of the product" maxlength="120" required />
+              <div class="egotec-char-count"><span id="shortDescCount">0</span>/120</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="productDesc" class="form-label">Full Description <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="productDesc"
+                placeholder="Detailed description of the product — features, specs, what's in the box etc."
+                maxlength="1000" required></textarea>
+              <div class="egotec-char-count"><span id="descCount">0</span>/1000</div>
+            </div>
+
+            <!-- ── SECTION 3: Images ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-images"></i> Product Images
+            </div>
+
+            <!-- Main Image -->
+            <div class="mb-4">
+              <label class="form-label">Main Product Image <span class="text-danger">*</span></label>
+
+              <!-- Toggle buttons -->
+              <div class="egotec-image-toggle">
+                <button type="button" class="egotec-image-toggle-btn active" id="uploadToggle" onclick="switchImageMode('upload')">
+                  <i class="fas fa-upload me-2"></i>Upload Image
+                </button>
+                <button type="button" class="egotec-image-toggle-btn" id="urlToggle" onclick="switchImageMode('url')">
+                  <i class="fas fa-link me-2"></i>Image URL
+                </button>
+              </div>
+
+              <!-- Upload mode -->
+              <div id="uploadMode">
+                <div class="egotec-upload-area" id="uploadArea" onclick="document.getElementById('imageFile').click()">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p><strong>Click to upload</strong> or drag and drop</p>
+                  <p>PNG, JPG, WEBP up to 5MB</p>
+                  <input type="file" id="imageFile" accept="image/*" onchange="handleImageUpload(event, 'main')" />
+                </div>
+                <div class="egotec-image-preview" id="mainImagePreview">
+                  <img id="mainImagePreviewImg" src="" alt="Preview" />
+                  <button type="button" class="egotec-image-preview-remove" onclick="removeImage('main')">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- URL mode -->
+              <div id="urlMode" style="display:none;">
+                <input type="url" class="form-control" id="imageUrl"
+                  placeholder="https://example.com/product-image.jpg"
+                  oninput="previewImageUrl()" />
+                <div class="egotec-image-preview" id="urlImagePreview" style="margin-top:12px;">
+                  <img id="urlImagePreviewImg" src="" alt="Preview" style="display:none;" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Images -->
+            <div class="mb-4">
+              <label class="form-label">Additional Images <span class="text-muted small">(optional — separate URLs with commas)</span></label>
+              <textarea class="form-control" id="additionalImages" rows="2"
+                placeholder="https://example.com/image2.jpg, https://example.com/image3.jpg"></textarea>
+            </div>
+
+            <!-- ── SECTION 4: Merchant Info ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-user"></i> Your Information
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="merchantName" class="form-label">Your Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="merchantName" placeholder="Full name" required />
+              </div>
+              <div class="col-md-6">
+                <label for="merchantEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="merchantEmail" placeholder="your@email.com" required />
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="merchantPhone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="merchantPhone" placeholder="+234 800 000 0000" required />
+              </div>
+              <div class="col-md-6">
+                <label for="merchantBusiness" class="form-label">Business Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="merchantBusiness" placeholder="Your business or store name" required />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="egotec-submit-btn" id="submitBtn">
+              <i class="fas fa-paper-plane me-2"></i>Submit Product for Review
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="egotec-footer">
+      <div class="container">
+        <div class="row egotec-footer-main py-5">
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
+            <p class="egotec-footer-text">Your trusted destination for premium electronics and smart home solutions.</p>
+            <div class="egotec-footer-social mt-4">
+              <a href="#" class="egotec-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">Returns & Exchanges</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i><span>Computer Village, Ikeja, Lagos, Nigeria</span></li>
+              <li><i class="fas fa-phone"></i><span>+234 000 000 0000</span></li>
+              <li><i class="fas fa-envelope"></i><span>support@egotech.com</span></li>
+              <li><i class="fas fa-clock"></i><span>Mon – Sat: 9:00 AM – 7:00 PM</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">&copy; 2025 EgoTech. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cart-dropdown.js"></script>
+
+    <script>
+      // ── Configuration ──
+      const BACKEND_URL = "https://egotech.onrender.com";
+
+      // ── Image mode switching ──
+      function switchImageMode(mode) {
+        const uploadMode = document.getElementById("uploadMode");
+        const urlMode = document.getElementById("urlMode");
+        const uploadToggle = document.getElementById("uploadToggle");
+        const urlToggle = document.getElementById("urlToggle");
+
+        if (mode === "upload") {
+          uploadMode.style.display = "block";
+          urlMode.style.display = "none";
+          uploadToggle.classList.add("active");
+          urlToggle.classList.remove("active");
+        } else {
+          uploadMode.style.display = "none";
+          urlMode.style.display = "block";
+          uploadToggle.classList.remove("active");
+          urlToggle.classList.add("active");
+        }
+      }
+
+      // ── Image upload handler ──
+      function handleImageUpload(event, type) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Check file size (5MB max)
+        if (file.size > 5 * 1024 * 1024) {
+          showError("Image file must be under 5MB.");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("mainImagePreview");
+          const previewImg = document.getElementById("mainImagePreviewImg");
+          previewImg.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // ── Remove image ──
+      function removeImage(type) {
+        document.getElementById("imageFile").value = "";
+        document.getElementById("mainImagePreview").style.display = "none";
+        document.getElementById("mainImagePreviewImg").src = "";
+      }
+
+      // ── Preview image URL ──
+      function previewImageUrl() {
+        const url = document.getElementById("imageUrl").value.trim();
+        const previewImg = document.getElementById("urlImagePreviewImg");
+        if (url) {
+          previewImg.src = url;
+          previewImg.style.display = "block";
+          previewImg.onerror = function () {
+            previewImg.style.display = "none";
+          };
+        } else {
+          previewImg.style.display = "none";
+        }
+      }
+
+      // ── Character counters ──
+      document.getElementById("productShortDesc").addEventListener("input", function () {
+        document.getElementById("shortDescCount").textContent = this.value.length;
+      });
+
+      document.getElementById("productDesc").addEventListener("input", function () {
+        document.getElementById("descCount").textContent = this.value.length;
+      });
+
+      // ── Show/hide error ──
+      function showError(message) {
+        const errorEl = document.getElementById("formError");
+        document.getElementById("formErrorText").textContent = message;
+        errorEl.style.display = "block";
+        errorEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function hideError() {
+        document.getElementById("formError").style.display = "none";
+      }
+
+      // ── Get main image value ──
+      function getMainImage() {
+        const uploadToggle = document.getElementById("uploadToggle");
+        if (uploadToggle.classList.contains("active")) {
+          // Upload mode — return base64 data URL
+          const previewImg = document.getElementById("mainImagePreviewImg");
+          return previewImg.src || "";
+        } else {
+          // URL mode
+          return document.getElementById("imageUrl").value.trim();
+        }
+      }
+
+      // ── Reset form ──
+      function resetForm() {
+        document.getElementById("merchantForm").reset();
+        document.getElementById("formSuccess").style.display = "none";
+        document.getElementById("merchantForm").style.display = "block";
+        removeImage("main");
+        document.getElementById("shortDescCount").textContent = "0";
+        document.getElementById("descCount").textContent = "0";
+        switchImageMode("upload");
+      }
+
+      // ── Form submission ──
+      document.getElementById("merchantForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        hideError();
+
+        // Validate form
+        if (!this.checkValidity()) {
+          this.reportValidity();
+          return;
+        }
+
+        // Get main image
+        const mainImage = getMainImage();
+        if (!mainImage) {
+          showError("Please provide a main product image — either upload one or enter an image URL.");
+          return;
+        }
+
+        // Disable submit button
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+
+        // Build payload
+        const payload = {
+          name: document.getElementById("productName").value.trim(),
+          brand: document.getElementById("productBrand").value.trim(),
+          category: document.getElementById("productCategory").value,
+          price: parseFloat(document.getElementById("productPrice").value),
+          currency: document.getElementById("productCurrency").value,
+          stock: parseInt(document.getElementById("productStock").value),
+          shortDescription: document.getElementById("productShortDesc").value.trim(),
+          description: document.getElementById("productDesc").value.trim(),
+          image: mainImage,
+          images: document.getElementById("additionalImages").value.trim(),
+          merchantName: document.getElementById("merchantName").value.trim(),
+          merchantEmail: document.getElementById("merchantEmail").value.trim(),
+          merchantPhone: document.getElementById("merchantPhone").value.trim(),
+          merchantBusiness: document.getElementById("merchantBusiness").value.trim(),
+        };
+
+        try {
+          const response = await fetch(`${BACKEND_URL}/api/products`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || "Submission failed");
+          }
+
+          // Show success
+          document.getElementById("merchantForm").style.display = "none";
+          document.getElementById("formSuccess").style.display = "block";
+          document.getElementById("formSuccess").scrollIntoView({ behavior: "smooth" });
+
+        } catch (err) {
+          showError("Failed to submit product. Please try again. Error: " + err.message);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Product for Review';
+        }
+      });
+
+      // ── Drag and drop support ──
+      const uploadArea = document.getElementById("uploadArea");
+
+      uploadArea.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        this.style.borderColor = "var(--Accent-color3)";
+        this.style.background = "rgba(80,58,168,0.08)";
+      });
+
+      uploadArea.addEventListener("dragleave", function () {
+        this.style.borderColor = "#ddd";
+        this.style.background = "var(--Accent-color5)";
+      });
+
+      uploadArea.addEventListener("drop", function (e) {
+        e.preventDefault();
+        this.style.borderColor = "#ddd";
+        this.style.background = "var(--Accent-color5)";
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith("image/")) {
+          const input = document.getElementById("imageFile");
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          input.files = dt.files;
+          handleImageUpload({ target: { files: [file] } }, "main");
+        }
+      });
+    </script>
+  </body>
+</html>
