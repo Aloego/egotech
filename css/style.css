@@ -75,6 +75,11 @@ body {
   .egotec-toggler {
     display: none !important;
   }
+
+/*Sell button mobile styles*/
+  .egotec-sell-mobile {
+    display: none !important;
+  }
 }
 
 /* LOGO / BRAND */
@@ -739,6 +744,15 @@ body {
     position: absolute;
     bottom: 1rem;
     font-size: 1.25rem;
+  }
+
+/* ── Sell Button on mobile── */
+  .egotec-sell-btn {
+    display: none;
+  }
+
+  .egotec-sell-mobile {
+    display: flex !important;
   }
 }
 
@@ -2192,4 +2206,31 @@ body {
 .owl-nav button:hover span {
   color: var(--Accent-color3, #503aa8) !important;
 
+}
+
+
+/* ── Sell Button ── */
+.egotec-sell-btn {
+  display: inline-flex;
+  align-items: center;
+  background: var(--Accent-color1);
+  color: var(--contrast-color) !important;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 6px 16px;
+  border-radius: 50px;
+  text-decoration: none !important;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.egotec-sell-btn:hover {
+  background: var(--Accent-color3);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+/* Hide on mobile — show in hamburger menu instead */
+@media (max-width: 767px) {
+  
 }
