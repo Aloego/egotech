@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
           480: { items: 2 },
           768: { items: 3 },
           1024: { items: 4 },
-          1200: { items: 5 },
+          1200: { items: 4 },
         },
       });
 
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
         responsive: {
           0: { items: 1 },
           480: { items: 2 },
-          768: { items: 3 },
+          768: { items: 2 },
           1024: { items: 4 },
         },
       });
@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
         responsive: {
           0: { items: 1 },
           480: { items: 2 },
-          768: { items: 3 },
+          768: { items: 2 },
           1024: { items: 4 },
         },
       });
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
         responsive: {
           0: { items: 1 },
           480: { items: 2 },
-          768: { items: 3 },
+          768: { items: 2 },
           1024: { items: 4 },
         },
       });

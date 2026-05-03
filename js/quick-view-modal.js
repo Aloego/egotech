@@ -297,10 +297,7 @@ class QuickViewModal {
     this.renderStockStatus(product.stock || 0);
 
     // Price
-    const formattedPrice = new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: product.currency || "NGN",
-    }).format(product.price);
+    const formattedPrice = EgoTechUtils.formatCurrency(product.price);
     document.getElementById("qvPrice").textContent = formattedPrice;
 
     // Description
