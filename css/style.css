@@ -2186,8 +2186,10 @@ body {
   background: #ffffff !important;
   color: var(--Accent-color3, #503aa8) !important;
   box-shadow: 0 2px 8px rgba(80, 58, 168, 0.25) !important;
+;
 }
 
 .owl-nav button:hover span {
   color: var(--Accent-color3, #503aa8) !important;
+
 }
