@@ -438,28 +438,54 @@
       }
 
       // ── Get main image value ──
-      function getMainImage() {
-        const uploadToggle = document.getElementById("uploadToggle");
-        if (uploadToggle.classList.contains("active")) {
+      // function getMainImage() {
+        // const uploadToggle = document.getElementById("uploadToggle");
+        // if (uploadToggle.classList.contains("active")) {
           // Upload mode — return base64 data URL
-          const previewImg = document.getElementById("mainImagePreviewImg");
-          return previewImg.src || "";
-        } else {
+          // const previewImg = document.getElementById("mainImagePreviewImg");
+          // return previewImg.src || "";
+        // } else {
           // URL mode
-          return document.getElementById("imageUrl").value.trim();
-        }
-      }
+         // return document.getElementById("imageUrl").value.trim();
+        // }
+      // }
+
+      // Get main image value — URL only for now
+function getMainImage() {
+  return document.getElementById("imageUrl").value.trim();
+}
 
       // ── Reset form ──
+      // function resetForm() {
+      //   document.getElementById("merchantForm").reset();
+      //   document.getElementById("formSuccess").style.display = "none";
+      //   document.getElementById("merchantForm").style.display = "block";
+      //   removeImage("main");
+      //   document.getElementById("shortDescCount").textContent = "0";
+      //   document.getElementById("descCount").textContent = "0";
+      //   switchImageMode("upload");
+      // }
+
       function resetForm() {
-        document.getElementById("merchantForm").reset();
-        document.getElementById("formSuccess").style.display = "none";
-        document.getElementById("merchantForm").style.display = "block";
-        removeImage("main");
-        document.getElementById("shortDescCount").textContent = "0";
-        document.getElementById("descCount").textContent = "0";
-        switchImageMode("upload");
-      }
+  document.getElementById("merchantForm").reset();
+  document.getElementById("formSuccess").style.display = "none";
+  document.getElementById("merchantForm").style.display = "block";
+  removeImage("main");
+  document.getElementById("shortDescCount").textContent = "0";
+  document.getElementById("descCount").textContent = "0";
+  switchImageMode("upload");
+
+  // Reset submit button state
+  const submitBtn = document.getElementById("submitBtn");
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Product for Review';
+
+  // Hide any error messages
+  hideError();
+}
+
+// Switch to URL mode automatically
+switchImageMode("url");
 
       // ── Form submission ──
       document.getElementById("merchantForm").addEventListener("submit", async function (e) {
@@ -490,7 +516,8 @@
           brand: document.getElementById("productBrand").value.trim(),
           category: document.getElementById("productCategory").value,
           price: parseFloat(document.getElementById("productPrice").value),
-          currency: document.getElementById("productCurrency").value,
+          // currency: document.getElementById("productCurrency").value,
+          currency: "NGN",
           stock: parseInt(document.getElementById("productStock").value),
           shortDescription: document.getElementById("productShortDesc").value.trim(),
           description: document.getElementById("productDesc").value.trim(),
@@ -522,6 +549,10 @@
 
         } catch (err) {
           showError("Failed to submit product. Please try again. Error: " + err.message);
+          // Show timeout warning after 30 seconds
+const timeoutWarning = setTimeout(() => {
+  showError("This is taking longer than expected. Please wait or try again.");
+}, 30000);
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Submit Product for Review';
         }
