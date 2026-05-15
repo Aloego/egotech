@@ -41,4 +41,46 @@ const EgoTechUtils = {
     }
   },
 
+  // Fetch products from backend with fallback to product.json
+  async fetchProducts() {
+    try {
+      // Try backend first
+      const response = await fetch("https://egotech.onrender.com/api/products");
+      if (!response.ok) throw new Error("Backend fetch failed");
+      const data = await response.json();
+
+     async fetchProducts() {
+  try {
+    const response = await fetch("https://egotech.onrender.com/api/products");
+    if (!response.ok) throw new Error("Backend fetch failed");
+    const data = await response.json();
+
+    console.log("Products loaded from backend:", data.products.length);
+    return data.products;
+
+  } catch (err) {
+    console.warn("Backend unavailable, falling back to product.json:", err.message);
+    const response = await fetch("data/product.json");
+    if (!response.ok) throw new Error("Failed to load product.json");
+    const data = await response.json();
+    console.log("Products loaded from product.json:", data.products.length);
+    return data.products;
+  }
+},
+  
+      console.log("Products loaded from backend:", data.products.length);
+      return data.products;
+
+    } catch (err) {
+      console.warn("Backend unavailable, falling back to product.json:", err.message);
+
+      // Fallback to product.json
+      const response = await fetch("data/product.json");
+      if (!response.ok) throw new Error("Failed to load product.json");
+      const data = await response.json();
+      console.log("Products loaded from product.json:", data.products.length);
+      return data.products;
+    }
+  },
+
 };

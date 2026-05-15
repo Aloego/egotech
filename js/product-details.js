@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function loadProductDetails(productId) {
   console.log("Loading product details for ID:", productId);
   try {
-    const response = await fetch("data/product.json");
+    const response = await EgoTechUtils.fetchProducts().then(products => ({ products }));
     if (!response.ok) throw new Error("Failed to load product data");
 
     const data = await response.json();

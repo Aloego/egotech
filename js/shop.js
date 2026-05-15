@@ -42,12 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
 // ============================================
 async function loadProducts() {
   try {
-    const response = await fetch("data/product.json");
-    if (!response.ok) throw new Error("Failed to load products");
+    // Show loading spinner
+    loadingIndicator.classList.remove("d-none");
 
-    const data = await response.json();
-    allProducts = data.products || [];
-
+    allProducts = await EgoTechUtils.fetchProducts();
     // Extract unique categories and brands
     extractCategoriesAndBrands();
 
