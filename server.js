@@ -127,11 +127,12 @@ app.post("/api/products", async (req, res) => {
       }),
     });
 
-    const productSaved = await productResponse.json();
+   const productSaved = await productResponse.json();
 
-    if (!productResponse.ok) {
-      throw new Error("Failed to save product to Airtable");
-    }
+if (!productResponse.ok) {
+  console.error("Airtable Products error:", JSON.stringify(productSaved));
+  throw new Error("Failed to save product to Airtable");
+}
 
     // ── Save merchant to Merchants table ──
     const merchantResponse = await fetch(AIRTABLE_MERCHANTS_URL, {
@@ -153,11 +154,12 @@ app.post("/api/products", async (req, res) => {
       }),
     });
 
-    const merchantSaved = await merchantResponse.json();
+   const merchantSaved = await merchantResponse.json();
 
-    if (!merchantResponse.ok) {
-      throw new Error("Failed to save merchant to Airtable");
-    }
+if (!merchantResponse.ok) {
+  console.error("Airtable Merchants error:", JSON.stringify(merchantSaved));
+  throw new Error("Failed to save merchant to Airtable");
+}
 
     res.status(200).json({ 
       success: true, 
