@@ -3,13 +3,31 @@
 const express = require("express");
 const fetch = require("node-fetch");
 const cors = require("cors");
+
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+app.options("*", cors());
 app.use(express.json());
+
+// // app.use(cors());
+// app.use(cors({
+//   origin: "*",
+//   methods: ["GET", "POST", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
+// app.options("*", cors());
+
+// app.use(express.json());
 
 // These will be set as Render environment variables
 const AIRTABLE_API_URL = process.env.AIRTABLE_API_URL;
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
+const AIRTABLE_PRODUCTS_URL = process.env.AIRTABLE_PRODUCTS_URL;
+const AIRTABLE_MERCHANTS_URL = process.env.AIRTABLE_MERCHANTS_URL;
 
 // Health check route for UptimeRobot
 app.get("/", (req, res) => {
@@ -59,6 +77,7 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
+
 // ── POST /api/products ─────────────────────────────
 // Receive merchant product submission
 app.post("/api/products", async (req, res) => {
@@ -83,7 +102,8 @@ app.post("/api/products", async (req, res) => {
   // ── END VALIDATION ────────────────────────────────
 
   try {
-    const response = await fetch(process.env.AIRTABLE_PRODUCTS_URL, {
+    // ── Save product to Products table ──
+    const productResponse = await fetch(AIRTABLE_PRODUCTS_URL, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + AIRTABLE_TOKEN,
@@ -95,7 +115,6 @@ app.post("/api/products", async (req, res) => {
           category: productData.category,
           brand: productData.brand,
           price: Number(productData.price),
-          currency: productData.currency || "NGN",
           description: productData.description,
           shortDescription: productData.shortDescription || "",
           image: productData.image,
@@ -103,13 +122,49 @@ app.post("/api/products", async (req, res) => {
           stock: Number(productData.stock) || 0,
           featured: false,
           newArrival: false,
-          status: "pending", // Always pending until you approve
+          status: "pending",
         },
       }),
     });
 
-    const data = await response.json();
-    res.status(200).json({ success: true, id: data.id });
+    const productSaved = await productResponse.json();
+
+    if (!productResponse.ok) {
+      throw new Error("Failed to save product to Airtable");
+    }
+
+    // ── Save merchant to Merchants table ──
+    const merchantResponse = await fetch(AIRTABLE_MERCHANTS_URL, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_TOKEN,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fields: {
+          merchantName: productData.merchantName || "",
+          merchantEmail: productData.merchantEmail || "",
+          merchantPhone: productData.merchantPhone || "",
+          merchantBusiness: productData.merchantBusiness || "",
+          merchantAddress: productData.merchantAddress || "",
+          productName: productData.name || "",
+          status: "pending",
+        },
+      }),
+    });
+
+    const merchantSaved = await merchantResponse.json();
+
+    if (!merchantResponse.ok) {
+      throw new Error("Failed to save merchant to Airtable");
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      productId: productSaved.id,
+      merchantId: merchantSaved.id 
+    });
+
   } catch (err) {
     console.error("Product submission error:", err);
     res.status(500).json({ error: "Failed to submit product" });
@@ -196,56 +251,3 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-// Old Server Codes
-// const express = require("express");
-// const fetch = require("node-fetch");
-// const cors = require("cors");
-// const app = express();
-// app.use(cors());
-// app.use(express.json());
-
-// // These will be set as Railway environment variables
-// const AIRTABLE_API_URL = process.env.AIRTABLE_API_URL; // e.g. https://api.airtable.com/v0/appXXXX/Orders
-// const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
-
-// // Health check route for UptimeRobot
-// app.get("/", (req, res) => {
-//   res.status(200).send("EgoTech server is running!");
-// });
-
-// // Order route
-// app.post("/api/order", async (req, res) => {
-//   // Debug: log token length and preview
-//   console.log(
-//     "Token length:",
-//     AIRTABLE_TOKEN ? AIRTABLE_TOKEN.length : 0,
-//     "Token preview:",
-//     AIRTABLE_TOKEN
-//       ? AIRTABLE_TOKEN.slice(0, 6) + "..." + AIRTABLE_TOKEN.slice(-4)
-//       : "undefined"
-//   );
-//   try {
-//     const orderData = req.body;
-//     // Stringify cartItems if present
-//     if (orderData.cartItems) {
-//       orderData.cartItems = JSON.stringify(orderData.cartItems);
-//     }
-//     const response = await fetch(AIRTABLE_API_URL, {
-//       method: "POST",
-//       headers: {
-//         Authorization: "Bearer " + AIRTABLE_TOKEN,
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ fields: orderData }),
-//     });
-//     const data = await response.json();
-//     console.log("Airtable response:", data);
-//     res.status(200).json(data);
-//   } catch (err) {
-//     console.error("Order error:", err);
-//     res.status(500).json({ error: "Failed to save order" });
-//   }
-// });
-
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

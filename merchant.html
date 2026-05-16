@@ -437,22 +437,20 @@
         document.getElementById("formError").style.display = "none";
       }
 
-      // ── Get main image value ──
-      // function getMainImage() {
-        // const uploadToggle = document.getElementById("uploadToggle");
-        // if (uploadToggle.classList.contains("active")) {
-          // Upload mode — return base64 data URL
-          // const previewImg = document.getElementById("mainImagePreviewImg");
-          // return previewImg.src || "";
-        // } else {
-          // URL mode
-         // return document.getElementById("imageUrl").value.trim();
-        // }
-      // }
+      
 
       // Get main image value — URL only for now
+
 function getMainImage() {
-  return document.getElementById("imageUrl").value.trim();
+  const uploadToggle = document.getElementById("uploadToggle");
+  if (uploadToggle.classList.contains("active")) {
+    // Upload mode — return base64 data URL
+    const previewImg = document.getElementById("mainImagePreviewImg");
+    return previewImg.src && previewImg.src !== window.location.href ? previewImg.src : "";
+  } else {
+    // URL mode
+    return document.getElementById("imageUrl").value.trim();
+  }
 }
 
       // ── Reset form ──
@@ -499,11 +497,7 @@ switchImageMode("url");
         }
 
         // Get main image
-        const mainImage = getMainImage();
-        if (!mainImage) {
-          showError("Please provide a main product image — either upload one or enter an image URL.");
-          return;
-        }
+        const mainImage = getMainImage() || "https://via.placeholder.com/300x300?text=No+Image";
 
         // Disable submit button
         const submitBtn = document.getElementById("submitBtn");
@@ -527,7 +521,12 @@ switchImageMode("url");
           merchantEmail: document.getElementById("merchantEmail").value.trim(),
           merchantPhone: document.getElementById("merchantPhone").value.trim(),
           merchantBusiness: document.getElementById("merchantBusiness").value.trim(),
+          merchantAddress: document.getElementById("merchantAddress").value.trim(),
+
         };
+
+        console.log("Submitting payload:", payload);
+        console.log("Sending to:", `${BACKEND_URL}/api/products`);
 
         try {
           const response = await fetch(`${BACKEND_URL}/api/products`, {
