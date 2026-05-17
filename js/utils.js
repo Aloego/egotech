@@ -132,26 +132,47 @@ const EgoTechUtils = {
   // Fetch products from backend with fallback to product.json
   async fetchProducts() {
     try {
-      const response = await fetch("https://egotech.onrender.com/api/products");
-      if (!response.ok) throw new Error("Backend fetch failed");
-      const data = await response.json();
+      // Fetch from both sources simultaneously
+      const [backendResult, jsonResult] = await Promise.allSettled([
+        fetch("https://egotech.onrender.com/api/products")
+          .then(res => res.ok ? res.json() : Promise.reject("Backend failed"))
+          .then(data => data.products || []),
+        fetch("data/product.json")
+          .then(res => res.ok ? res.json() : Promise.reject("JSON failed"))
+          .then(data => data.products || [])
+      ]);
 
-      // If backend returns products use them
-      // Otherwise fall back to product.json
-      if (data.products && data.products.length > 0) {
-        console.log("Products loaded from backend:", data.products.length);
-        return data.products;
-      }
+      const backendProducts = backendResult.status === "fulfilled" 
+        ? backendResult.value : [];
+      const jsonProducts = jsonResult.status === "fulfilled" 
+        ? jsonResult.value : [];
 
-      throw new Error("No approved products on backend yet");
+      console.log("Backend products:", backendProducts.length);
+      console.log("JSON products:", jsonProducts.length);
+
+      // Combine both sources — backend products take priority
+      // Remove duplicates by checking product name and category
+      const combinedProducts = [...backendProducts];
+
+      jsonProducts.forEach(jsonProduct => {
+        const isDuplicate = backendProducts.some(
+          bp => bp.name.toLowerCase() === jsonProduct.name.toLowerCase() &&
+                bp.category.toLowerCase() === jsonProduct.category.toLowerCase()
+        );
+        if (!isDuplicate) {
+          combinedProducts.push(jsonProduct);
+        }
+      });
+
+      console.log("Combined products:", combinedProducts.length);
+      return combinedProducts;
 
     } catch (err) {
-      console.warn("Falling back to product.json:", err.message);
+      console.error("Error fetching products:", err);
+      // Last resort fallback
       const response = await fetch("data/product.json");
-      if (!response.ok) throw new Error("Failed to load product.json");
       const data = await response.json();
-      console.log("Products loaded from product.json:", data.products.length);
-      return data.products;
+      return data.products || [];
     }
   },
 

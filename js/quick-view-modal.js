@@ -211,36 +211,18 @@ class QuickViewModal {
     console.log("Opening Quick View for product ID:", productId);
 
     try {
-      // Fetch product data - try multiple paths
-      let response;
-      try {
-        response = await fetch("data/product.json");
-      } catch (e) {
-        console.log("First path failed, trying alternative...");
-        response = await fetch("./data/product.json");
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const products = data.products || data; // Handle both {products: [...]} and [...] formats
+      // Use EgoTechUtils to fetch from both backend and product.json
+      const products = await EgoTechUtils.fetchProducts();
       console.log("Products loaded:", products.length);
 
-      // Find product by ID (convert both to numbers for comparison)
-      const product = products.find((p) => Number(p.id) === Number(productId));
+      // Find product by ID — supports both numeric and Airtable IDs
+      const product = products.find((p) => String(p.id) === String(productId));
 
       if (!product) {
         console.error("Product not found with ID:", productId);
-        console.log(
-          "Available product IDs:",
-          products.map((p) => p.id)
-        );
         alert(`Product with ID ${productId} not found.`);
         return;
       }
-
       console.log("Product found:", product.name);
 
       this.currentProduct = product;

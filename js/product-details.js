@@ -39,13 +39,12 @@ document.addEventListener("DOMContentLoaded", function () {
 async function loadProductDetails(productId) {
   console.log("Loading product details for ID:", productId);
   try {
-    const response = await EgoTechUtils.fetchProducts().then(products => ({ products }));
-    if (!response.ok) throw new Error("Failed to load product data");
+    // allProducts = await EgoTechUtils.fetchProducts();
+    // console.log("fetchProducts returned:", allProducts, typeof allProducts);
+    // console.log("All products loaded:", allProducts.length);
 
-    const data = await response.json();
-    console.log("Product data loaded:", data);
-    allProducts = data.products || [];
-    console.log("All products:", allProducts);
+    allProducts = await EgoTechUtils.fetchProducts();
+    console.log("All products loaded:", allProducts.length);
 
     // Find product by ID
     currentProduct = allProducts.find((p) => p.id == productId);
