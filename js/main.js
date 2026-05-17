@@ -86,18 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", function () {
-  // find this
-  // fetch("data/product.json")
-  //   .then((response) => response.json())
-  //   .then((data) => {
-    // Replace with this
-    EgoTechUtils.fetchProducts()
-  .then((products) => {
-    const data = { products };
-    return data;
-  })
-  .then((data) => {
-// Replace end
+  EgoTechUtils.fetchProducts()
+    .then((products) => ({ products }))
+    .then((data) => {
+
       const categories = [...new Set(data.products.map((p) => p.category))];
       const carousel = $(".egotec-category-carousel");
 
@@ -158,10 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
  EgoTechUtils.fetchProducts()
-  .then((products) => {
-    const data = { products };
-    return data;
-  })
+  .then((products) => ({ products }))
   .then((data) => {
       const featuredProducts = data.products.filter(
         (product) => product.featured === true
@@ -249,10 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   EgoTechUtils.fetchProducts()
-  .then((products) => {
-    const data = { products };
-    return data;
-  })
+  .then((products) => ({ products }))
   .then((data) => {
       const newArrivalProducts = data.products
         .filter((product) => product.newArrival === true)

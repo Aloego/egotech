@@ -135,10 +135,18 @@ const EgoTechUtils = {
       const response = await fetch("https://egotech.onrender.com/api/products");
       if (!response.ok) throw new Error("Backend fetch failed");
       const data = await response.json();
-      console.log("Products loaded from backend:", data.products.length);
-      return data.products;
+
+      // If backend returns products use them
+      // Otherwise fall back to product.json
+      if (data.products && data.products.length > 0) {
+        console.log("Products loaded from backend:", data.products.length);
+        return data.products;
+      }
+
+      throw new Error("No approved products on backend yet");
+
     } catch (err) {
-      console.warn("Backend unavailable, falling back to product.json:", err.message);
+      console.warn("Falling back to product.json:", err.message);
       const response = await fetch("data/product.json");
       if (!response.ok) throw new Error("Failed to load product.json");
       const data = await response.json();
