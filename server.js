@@ -237,7 +237,10 @@ app.post("/api/order", async (req, res) => {
         Authorization: "Bearer " + AIRTABLE_TOKEN,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fields: orderData }),
+      body: JSON.stringify({ fields: {
+        ...orderData,
+        status: "pending",
+      }}),
     });
 
     const data = await response.json();
