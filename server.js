@@ -123,6 +123,7 @@ app.post("/api/products", async (req, res) => {
           featured: false,
           newArrival: false,
           status: "pending",
+          condition: productData.condition || "",
         },
       }),
     });

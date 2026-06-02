@@ -67,7 +67,8 @@ class QuickViewModal {
                   
                   <div class="egotec-qv-stock" id="qvStock"></div>
                   
-                  <div class="egotec-qv-price" id="qvPrice"></div>
+                <div id="qvCondition"></div>
+                <div class="egotec-qv-price" id="qvPrice"></div>
                   
                   <p class="egotec-qv-description" id="qvDescription"></p>
                   
@@ -282,6 +283,13 @@ class QuickViewModal {
     const formattedPrice = EgoTechUtils.formatCurrency(product.price);
     document.getElementById("qvPrice").textContent = formattedPrice;
 
+    // Condition badge
+    const conditionBadge = document.getElementById("qvCondition");
+    if (conditionBadge) {
+      conditionBadge.innerHTML = EgoTechUtils.getConditionBadge(product.condition);
+    }
+
+    
     // Description
     const description =
       product.description ||
@@ -506,18 +514,33 @@ class QuickViewModal {
   buyNow() {
     if (!this.currentProduct) return;
 
-    const quantity = parseInt(document.getElementById("qvQuantity").value);
-    const productId = this.currentProduct.id;
+    const quantity = parseInt(document.getElementById("qvQuantity").value) || 1;
+    const product = this.currentProduct;
 
-    console.log(`Buy Now: Product ID ${productId}, Quantity: ${quantity}`);
+    // Add to cart first
+    const cartItems = EgoTechUtils.getCartItems();
+    const existingIndex = cartItems.findIndex(item => String(item.id) === String(product.id));
 
-    // Redirect to checkout or cart page
-    // window.location.href = `checkout.html?product=${productId}&qty=${quantity}`;
+    if (existingIndex !== -1) {
+      cartItems[existingIndex].qty += quantity;
+    } else {
+      cartItems.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        currency: product.currency || "NGN",
+        qty: quantity,
+      });
+    }
 
-    // For now, just show alert
-    alert(`Proceeding to checkout with ${quantity} item(s)`);
+    EgoTechUtils.saveCartItems(cartItems);
+
+    // Close modal then redirect to checkout
+    this.close();
+    window.location.href = "checkout.html";
   }
-
+  
   toggleWishlist() {
     if (!this.currentProduct) return;
 

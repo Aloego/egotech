@@ -16,6 +16,7 @@
       "description": "A fast laptop for everyday work and entertainment.",
       "newArrival": true,
       "featured": true,
+      "condition": "new",
       "rating": 4.5,
       "stock": 10,
       "features": [
@@ -65,6 +66,7 @@
       ],
       "description": "Reliable laptop with strong performance for all your tasks.",
       "newArrival": false,
+      "condition": "new",
       "featured": true,
       "rating": 4.2,
       "stock": 5,
@@ -109,6 +111,7 @@
       ],
       "description": "The latest iPhone with amazing camera and performance.",
       "newArrival": true,
+      "condition":"new",
       "featured": true,
       "rating": 4.8,
       "stock": 8,
@@ -154,6 +157,7 @@
       "image": "assets/images/products/product07.png",
       "description": "High-end smartphone with stunning display and features.",
       "newArrival": false,
+      "condition":"new",
       "featured": true,
       "rating": 4.6,
       "stock": 12
@@ -168,6 +172,7 @@
       "image": "assets/images/products/sonyHeadphones.png",
       "description": "Industry-leading noise canceling headphones.",
       "newArrival": true,
+      "condition":"new",
       "featured": false,
       "rating": 4.7,
       "stock": 15
@@ -182,6 +187,7 @@
       "image": "assets/images/products/shop03.png",
       "description": "Comfortable headphones with excellent sound quality.",
       "newArrival": false,
+      "condition":"new",
       "featured": true,
       "rating": 4.5,
       "stock": 7
@@ -196,6 +202,7 @@
       "image": "assets/images/products/product05.png",
       "description": "Lightweight laptop with powerful performance and long battery life.",
       "newArrival": true,
+      "condition":"new",
       "featured": true,
       "rating": 4.9,
       "stock": 4
@@ -210,6 +217,7 @@
       "image": "assets/images/products/shop02.png",
       "description": "Smartphone with excellent camera and pure Android experience.",
       "newArrival": true,
+      "condition":"new",
       "featured": true,
       "rating": 4.4,
       "stock": 9
@@ -224,6 +232,7 @@
       "image": "assets/images/products/product04.png",
       "description": "Portable Bluetooth speaker with powerful sound.",
       "newArrival": false,
+      "condition": "new",
       "featured": true,
       "rating": 4.3,
       "stock": 20
@@ -238,6 +247,7 @@
       "image": "assets/images/products/echoDot.png",
       "description": "Smart speaker with Alexa voice assistant.",
       "newArrival": true,
+      "condition": "",
       "featured": false,
       "rating": 4.2,
       "stock": 25

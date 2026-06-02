@@ -2275,3 +2275,74 @@ body {
     display: none !important;
   }
 }
+
+/* ── Product Condition Badge ── */
+.egotec-condition-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.egotec-condition-new {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.egotec-condition-used {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.egotec-condition-refurbished {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Condition notice */
+.egotec-condition-notice {
+  display: block;
+  margin-top: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  line-height: 1.5;
+}
+
+
+/* Buy Now button */
+.egotec-buy-now {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: var(--Accent-color1);
+  color: var(--contrast-color);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.egotec-buy-now:hover {
+  background: #e6d500;
+  transform: translateY(-1px);
+}
+
+.egotec-buy-now:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}

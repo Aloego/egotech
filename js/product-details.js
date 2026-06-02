@@ -104,6 +104,9 @@ function renderProductDetails(product) {
   })}`;
   document.getElementById("productPrice").textContent = formattedPrice;
 
+  // Condition badge
+  document.getElementById("productCondition").innerHTML = EgoTechUtils.getConditionBadge(product.condition);
+
   // Short description
   document.getElementById("shortDescription").textContent =
     product.description || "";
@@ -437,6 +440,34 @@ function setupProductButtons(product) {
       }, 1500);
     });
   }
+
+  // Buy Now button
+  const buyNowBtn = document.getElementById("buyNowBtn");
+  if (buyNowBtn && product) {
+    buyNowBtn.addEventListener("click", () => {
+      // Add to cart first then redirect to checkout
+      const cartItems = EgoTechUtils.getCartItems();
+      const existingIndex = cartItems.findIndex(item => item.id == product.id);
+      const quantity = parseInt(document.getElementById("quantity").value) || 1;
+
+      if (existingIndex !== -1) {
+        cartItems[existingIndex].qty += quantity;
+      } else {
+        cartItems.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          currency: product.currency || "NGN",
+          qty: quantity,
+        });
+      }
+
+      EgoTechUtils.saveCartItems(cartItems);
+      window.location.href = "checkout.html";
+    });
+  }
+
 
   // Add to Wishlist button
   const addToWishlistBtn = document.getElementById("addToWishlistBtn");

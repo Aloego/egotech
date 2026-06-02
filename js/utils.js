@@ -129,6 +129,39 @@ const EgoTechUtils = {
     }
   },
 
+  // Generate condition badge HTML
+   getConditionBadge(condition) {
+  if (!condition) return "";
+  const classes = {
+    "NEW": "egotec-condition-new",
+    "USED": "egotec-condition-used",
+    "REFURBISHED": "egotec-condition-refurbished"
+  };
+  const cls = classes[condition.toUpperCase()] || "";
+  if (!cls) return "";
+
+  const notices = {
+    "USED": `<small class="egotec-condition-notice">
+      <i class="fas fa-info-circle me-1"></i>
+      This is a used product. May have minor scratches or dents, 
+      battery may not be fully optimal, and comes without warranty.
+    </small>`,
+    "REFURBISHED": `<small class="egotec-condition-notice">
+      <i class="fas fa-info-circle me-1"></i>
+      This is a refurbished product. Professionally restored to working 
+      condition. May have minor cosmetic imperfections and comes without 
+      original warranty.
+    </small>`
+  };
+
+  const notice = notices[condition.toUpperCase()] || "";
+
+  return `
+    <span class="egotec-condition-badge ${cls}">${condition}</span>
+    ${notice}
+  `;
+},
+
   // Fetch products from backend with fallback to product.json
   async fetchProducts() {
     try {

@@ -198,32 +198,39 @@
                 </select>
               </div>
 
-              <!-- Special Filters -->
-              <div class="egotec-filter-section mb-4">
-                <h5 class="egotec-filter-heading">Special Filters</h5>
-                <div class="form-check mb-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="featuredFilter"
-                    value="featured"
-                  />
-                  <label class="form-check-label" for="featuredFilter">
-                    Featured Products
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="newArrivalFilter"
-                    value="newArrival"
-                  />
-                  <label class="form-check-label" for="newArrivalFilter">
-                    New Arrivals
-                  </label>
-                </div>
-              </div>
+             <!-- Special Filters -->
+<div class="egotec-filter-section mb-4">
+  <h5 class="egotec-filter-heading">Special Filters</h5>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" id="featuredFilter" value="featured" />
+    <label class="form-check-label" for="featuredFilter">Featured Products</label>
+  </div>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" id="newArrivalFilter" value="newArrival" />
+    <label class="form-check-label" for="newArrivalFilter">New Arrivals</label>
+  </div>
+</div>
+
+<!-- Condition Filter -->
+<div class="egotec-filter-section mb-4">
+  <h5 class="egotec-filter-heading">Condition</h5>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionAll" value="all" checked />
+    <label class="form-check-label" for="conditionAll">All</label>
+  </div>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionNew" value="NEW" />
+    <label class="form-check-label" for="conditionNew">New</label>
+  </div>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionUsed" value="USED" />
+    <label class="form-check-label" for="conditionUsed">Used</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionRefurbished" value="REFURBISHED" />
+    <label class="form-check-label" for="conditionRefurbished">Refurbished</label>
+  </div>
+</div>
 
               <!-- Clear Filters Button -->
               <button class="btn btn-outline-secondary w-100" id="clearFilters">

@@ -162,6 +162,9 @@ function setupEventListeners() {
   brandFilter.addEventListener("change", applyFilters);
   featuredFilter.addEventListener("change", applyFilters);
   newArrivalFilter.addEventListener("change", applyFilters);
+  document.querySelectorAll('input[name="conditionFilter"]').forEach((radio) => {
+    radio.addEventListener("change", applyFilters);
+  });
   sortBy.addEventListener("change", applyFilters);
 
   // Clear filters button
@@ -215,6 +218,14 @@ function applyFilters() {
     filteredProducts = filteredProducts.filter(
       // (product) => product.newArrival === "true" || product.newArrival === true
       (product) => product.newArrival === true
+    );
+  }
+
+  // Condition filter
+  const selectedCondition = document.querySelector('input[name="conditionFilter"]:checked')?.value;
+  if (selectedCondition && selectedCondition !== "all") {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.condition && product.condition.toUpperCase() === selectedCondition
     );
   }
 
@@ -273,6 +284,7 @@ function clearAllFilters() {
   brandFilter.value = "all";
   featuredFilter.checked = false;
   newArrivalFilter.checked = false;
+  document.getElementById("conditionAll").checked = true;
   sortBy.value = "default";
 
   applyFilters();
@@ -399,9 +411,13 @@ function createProductCard(product) {
           <a href="product-details.html?id=${product.id}">${product.name}</a>
         </h3>
         
+        <!-- <div class="egotec-shop-product-price">${formattedPrice}</div>
+         <div class="egotec-shop-product-rating" -->
+
         <div class="egotec-shop-product-price">${formattedPrice}</div>
-        
+        ${EgoTechUtils.getConditionBadge(product.condition)}
         <div class="egotec-shop-product-rating">
+
           <div class="egotec-shop-rating-stars">${starsHTML}</div>
           <span class="egotec-shop-rating-count">(${rating.toFixed(1)})</span>
         </div>

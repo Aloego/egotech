@@ -231,6 +231,7 @@ switchImageMode("url");
           // currency: document.getElementById("productCurrency").value,
           currency: "NGN",
           stock: parseInt(document.getElementById("productStock").value),
+          condition: document.getElementById("productCondition").value,
           shortDescription: document.getElementById("productShortDesc").value.trim(),
           description: document.getElementById("productDesc").value.trim(),
           image: mainImage,

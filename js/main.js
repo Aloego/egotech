@@ -348,6 +348,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="product-details.html?id=${product.id}">${product.name}</a>
               </h3>
               <div class="egotec-product-price">${formattedPrice}</div>
+              ${EgoTechUtils.getConditionBadge(product.condition)}
               <div class="egotec-product-rating">
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>

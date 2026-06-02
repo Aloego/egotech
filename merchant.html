@@ -162,12 +162,20 @@
             </div>
 
             <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <label for="productPrice" class="form-label">Price (₦) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" id="productPrice" placeholder="e.g. 850000" min="1" required />
-              </div>
-              
-            </div>
+  <div class="col-md-6">
+    <label for="productPrice" class="form-label">Price (₦) <span class="text-danger">*</span></label>
+    <input type="number" class="form-control" id="productPrice" placeholder="e.g. 850000" min="1" required />
+  </div>
+  <div class="col-md-6">
+    <label for="productCondition" class="form-label">Condition <span class="text-danger">*</span></label>
+    <select class="form-select" id="productCondition" required>
+      <option value="">Select condition</option>
+      <option value="NEW">New</option>
+      <option value="USED">Used</option>
+      <option value="REFURBISHED">Refurbished</option>
+    </select>
+  </div>
+</div>
 
             <!-- ── SECTION 2: Description ── -->
             <div class="egotec-form-section-title">
