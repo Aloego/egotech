@@ -286,17 +286,17 @@ class QuickViewModal {
     // Condition badge
     const conditionBadge = document.getElementById("qvCondition");
     if (conditionBadge) {
-      conditionBadge.innerHTML = EgoTechUtils.getConditionBadge(product.condition);
+      conditionBadge.innerHTML = EgoTechUtils.getConditionBadgeWithNotice(product.condition);
     }
 
     
-    // Description
+    // Description — use shortDescription in quick view
     const description =
-      product.description ||
       product.shortDescription ||
+      product.description ||
       "No description available.";
     document.getElementById("qvDescription").textContent = description;
-
+    
     // Gallery
     this.renderGallery(product);
 

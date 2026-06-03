@@ -129,8 +129,22 @@ const EgoTechUtils = {
     }
   },
 
-  // Generate condition badge HTML
-   getConditionBadge(condition) {
+
+  // Generate condition badge only (for product cards)
+getConditionBadge(condition) {
+  if (!condition) return "";
+  const classes = {
+    "NEW": "egotec-condition-new",
+    "USED": "egotec-condition-used",
+    "REFURBISHED": "egotec-condition-refurbished"
+  };
+  const cls = classes[condition.toUpperCase()] || "";
+  if (!cls) return "";
+  return `<span class="egotec-condition-badge ${cls}">${condition}</span>`;
+},
+
+// Generate condition badge + notice (for product details and quick view)
+getConditionBadgeWithNotice(condition) {
   if (!condition) return "";
   const classes = {
     "NEW": "egotec-condition-new",
@@ -143,13 +157,13 @@ const EgoTechUtils = {
   const notices = {
     "USED": `<small class="egotec-condition-notice">
       <i class="fas fa-info-circle me-1"></i>
-      This is a used product. May have minor scratches or dents, 
+      This is a used product. May have minor scratches or dents,
       battery may not be fully optimal, and comes without warranty.
     </small>`,
     "REFURBISHED": `<small class="egotec-condition-notice">
       <i class="fas fa-info-circle me-1"></i>
-      This is a refurbished product. Professionally restored to working 
-      condition. May have minor cosmetic imperfections and comes without 
+      This is a refurbished product. Professionally restored to working
+      condition. May have minor cosmetic imperfections and comes without
       original warranty.
     </small>`
   };

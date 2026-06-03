@@ -105,11 +105,12 @@ function renderProductDetails(product) {
   document.getElementById("productPrice").textContent = formattedPrice;
 
   // Condition badge
-  document.getElementById("productCondition").innerHTML = EgoTechUtils.getConditionBadge(product.condition);
+  document.getElementById("productCondition").innerHTML = EgoTechUtils.getConditionBadgeWithNotice(product.condition);
 
-  // Short description
+  
+  // Short description — beside the product image
   document.getElementById("shortDescription").textContent =
-    product.description || "";
+    product.shortDescription || product.description || "";
 
   // Stock status
   renderStockStatus(product.stock);
