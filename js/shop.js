@@ -42,23 +42,26 @@ document.addEventListener("DOMContentLoaded", function () {
 // ============================================
 async function loadProducts() {
   try {
-    const response = await fetch("data/product.json");
-    if (!response.ok) throw new Error("Failed to load products");
+    // Show loading spinner
+    loadingIndicator.classList.remove("d-none");
 
-    const data = await response.json();
-    allProducts = data.products || [];
-
+    allProducts = await EgoTechUtils.fetchProducts();
     // Extract unique categories and brands
     extractCategoriesAndBrands();
 
-    // Populate filter dropdowns
+
+// Populate filter dropdowns
     populateFilters();
 
-    // Initialize filtered products
-    filteredProducts = [...allProducts];
+    // Apply URL parameters as filters if present,
+    // otherwise show all products
+    if (window.location.search) {
+      applyURLFilters();
+    } else {
+      filteredProducts = [...allProducts];
+      renderProducts();
+    }
 
-    // Render products
-    renderProducts();
 
     // Hide loading indicator
     loadingIndicator.classList.add("d-none");
@@ -111,6 +114,45 @@ function populateFilters() {
 }
 
 // ============================================
+// APPLY URL PARAMETERS AS FILTERS
+// ============================================
+function applyURLFilters() {
+  const params = new URLSearchParams(window.location.search);
+  const urlCategory = params.get("category");
+  const urlBrand = params.get("brand");
+  const urlSort = params.get("sort");
+
+  // Apply category filter if present in URL
+  if (urlCategory) {
+    // Find the closest matching option in the dropdown
+    const options = Array.from(categoryFilter.options);
+    const match = options.find(
+      (opt) => opt.value.toLowerCase() === urlCategory.toLowerCase()
+    );
+    if (match) categoryFilter.value = match.value;
+  }
+
+  // Apply brand filter if present in URL
+  if (urlBrand) {
+    const options = Array.from(brandFilter.options);
+    const match = options.find(
+      (opt) => opt.value.toLowerCase() === urlBrand.toLowerCase()
+    );
+    if (match) brandFilter.value = match.value;
+  }
+
+  // Apply sort if present in URL
+  if (urlSort) {
+    sortBy.value = urlSort;
+  }
+
+  // Run filters if any URL param was found
+  if (urlCategory || urlBrand || urlSort) {
+    applyFilters();
+  }
+}
+
+// ============================================
 // SETUP EVENT LISTENERS
 // ============================================
 function setupEventListeners() {
@@ -120,6 +162,9 @@ function setupEventListeners() {
   brandFilter.addEventListener("change", applyFilters);
   featuredFilter.addEventListener("change", applyFilters);
   newArrivalFilter.addEventListener("change", applyFilters);
+  document.querySelectorAll('input[name="conditionFilter"]').forEach((radio) => {
+    radio.addEventListener("change", applyFilters);
+  });
   sortBy.addEventListener("change", applyFilters);
 
   // Clear filters button
@@ -162,14 +207,25 @@ function applyFilters() {
   // Featured filter
   if (featuredFilter.checked) {
     filteredProducts = filteredProducts.filter(
-      (product) => product.featured === "true" || product.featured === true
+      // (product) => product.featured === "true" || product.featured === true
+      (product) => product.featured === true
+
     );
   }
 
   // New Arrival filter
   if (newArrivalFilter.checked) {
     filteredProducts = filteredProducts.filter(
-      (product) => product.newArrival === "true" || product.newArrival === true
+      // (product) => product.newArrival === "true" || product.newArrival === true
+      (product) => product.newArrival === true
+    );
+  }
+
+  // Condition filter
+  const selectedCondition = document.querySelector('input[name="conditionFilter"]:checked')?.value;
+  if (selectedCondition && selectedCondition !== "all") {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.condition && product.condition.toUpperCase() === selectedCondition
     );
   }
 
@@ -203,9 +259,9 @@ function applySorting() {
     case "latest":
       // Assuming products with newArrival are latest
       filteredProducts.sort((a, b) => {
-        const aNew = a.newArrival === "true" || a.newArrival === true ? 1 : 0;
-        const bNew = b.newArrival === "true" || b.newArrival === true ? 1 : 0;
-        return bNew - aNew;
+       const aNew = a.newArrival === true ? 1 : 0;
+       const bNew = b.newArrival === true ? 1 : 0;
+      return bNew - aNew;
       });
       break;
     case "rating":
@@ -228,6 +284,7 @@ function clearAllFilters() {
   brandFilter.value = "all";
   featuredFilter.checked = false;
   newArrivalFilter.checked = false;
+  document.getElementById("conditionAll").checked = true;
   sortBy.value = "default";
 
   applyFilters();
@@ -354,9 +411,13 @@ function createProductCard(product) {
           <a href="product-details.html?id=${product.id}">${product.name}</a>
         </h3>
         
+        <!-- <div class="egotec-shop-product-price">${formattedPrice}</div>
+         <div class="egotec-shop-product-rating" -->
+
         <div class="egotec-shop-product-price">${formattedPrice}</div>
-        
+        ${EgoTechUtils.getConditionBadge(product.condition)}
         <div class="egotec-shop-product-rating">
+
           <div class="egotec-shop-rating-stars">${starsHTML}</div>
           <span class="egotec-shop-rating-count">(${rating.toFixed(1)})</span>
         </div>
@@ -549,21 +610,6 @@ function toggleWishlist(button, productId) {
     // Remove from wishlist logic here
   }
 }
-
-// ============================================
-// QUICK VIEW FUNCTIONALITY
-// ============================================
-// Quick View is now handled by quick-view-modal.js
-// This function is no longer needed but kept for reference
-/*
-function quickView(product) {
-  console.log("Quick view:", product);
-
-  // Show quick view modal
-  // You can implement a Bootstrap modal here
-  showNotification("Quick View - Feature coming soon!", "info");
-}
-*/
 
 // ============================================
 // NOTIFICATION HELPER

@@ -3,11 +3,11 @@
  * Handles checkout form, location dropdowns, shipping calculation, and order processing
  */
 
-const AIRTABLE_API_URL = "https://egotech-production.up.railway.app"; // <-- Replace this value
+const AIRTABLE_API_URL = "https://egotech.onrender.com"; // <-- Replace this value
 const AIRTABLE_TOKEN = "AIRTABLE_TOKEN"; // Your Airtable token
 
 // Constants
-const CART_ITEMS_KEY = "egotec_cart_items";
+const CART_ITEMS_KEY = EgoTechUtils.CART_ITEMS_KEY;
 const USER_LOCATION_KEY = "egotech_user_location";
 const CHECKOUT_DATA_KEY = "egotech_checkout";
 const LGA_TOWNS_KEY = "egotech_lga_towns";
@@ -1084,13 +1084,30 @@ function showOrderReviewModal(formData, cartItems) {
   detailsDiv.innerHTML = html;
 
   // Attach confirm handler (only finalize order on Confirm, not on Edit/close)
+  
   const confirmBtn = document.getElementById("confirmOrderBtn");
+  let orderConfirmed = false; // Flag to track if Confirm was clicked
+
   confirmBtn.onclick = function () {
+    orderConfirmed = true; // Mark as confirmed
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    placeOrderBtn.disabled = true;
+    placeOrderBtn.textContent = "Placing Order...";
     modal.hide();
     finalizeOrder(formData, cartItems);
   };
-  // Do NOT clear form fields on modal close (Edit button or X)
+
+  // Re-enable Place Order button ONLY if modal closed via Edit or X (not Confirm)
+  document.getElementById("orderReviewModal").addEventListener("hidden.bs.modal", function () {
+    if (!orderConfirmed) {
+      const placeOrderBtn = document.getElementById("placeOrderBtn");
+      placeOrderBtn.disabled = false;
+      placeOrderBtn.textContent = "Place Order";
+    }
+  }, { once: true });
+
   modal.show();
+
 }
 
 // Finalize order: save, send to Google Sheets, show confirmation
@@ -1136,11 +1153,16 @@ function finalizeOrder(formData, cartItems) {
     .then((msg) => {
       showFinalConfirmation();
     })
-    .catch((err) => {
-      alert("Order failed to submit. Please try again or contact support.");
-      console.error("Order submission error:", err);
-      showFinalConfirmation();
-    });
+
+
+   .catch((err) => {
+    // Re-enable button if order fails so customer can try again
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    placeOrderBtn.disabled = false;
+    placeOrderBtn.textContent = "Place Order";
+    alert("Order failed to submit. Please try again or contact support.");
+    console.error("Order submission error:", err);
+  });
 }
 
 // Show final confirmation message
@@ -1171,6 +1193,7 @@ function showFinalConfirmation() {
   ) {
     window.shoppingCart.saveCart();
   }
+  
   // Update cart dropdown UI if available
   if (window.EgoTechCartDropdown) {
     window.EgoTechCartDropdown.renderCartDropdown();
@@ -1180,25 +1203,7 @@ function showFinalConfirmation() {
   window.location.href = "index.html";
 }
 
-/**
- * Format currency
- */
+// formatCurrency is now provided by js/utils.js
 function formatCurrency(amount) {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-/**
- * Format currency
- */
-function formatCurrency(amount) {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return EgoTechUtils.formatCurrency(amount);
 }

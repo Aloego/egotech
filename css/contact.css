@@ -1,0 +1,101 @@
+      .egotec-contact-hero {
+        background: linear-gradient(135deg, var(--Accent-color3) 0%, #2a1a6e 100%);
+        color: #fff;
+        padding: 60px 0 50px;
+        text-align: center;
+      }
+      .egotec-contact-hero h1 {
+        font-family: var(--heading-font);
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .egotec-contact-hero p {
+        font-size: 1.05rem;
+        opacity: 0.88;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .egotec-breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 10px 0 0;
+        font-size: 0.85rem;
+        justify-content: center;
+      }
+      .egotec-breadcrumb .breadcrumb-item a { color: rgba(255,255,255,0.75); text-decoration: none; }
+      .egotec-breadcrumb .breadcrumb-item.active { color: #fff; }
+      .egotec-breadcrumb .breadcrumb-item + .breadcrumb-item::before { color: rgba(255,255,255,0.5); }
+
+      .egotec-contact-section { padding: 60px 0; background-color: var(--Accent-color5); }
+      .egotec-info-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 32px 24px;
+        text-align: center;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .egotec-info-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(80,58,168,0.13); }
+      .egotec-info-card .icon-wrap {
+        width: 60px; height: 60px; border-radius: 50%;
+        background: var(--Accent-color3); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; margin: 0 auto 16px;
+      }
+      .egotec-info-card h5 { font-weight: 700; font-size: 1rem; margin-bottom: 8px; color: var(--contrast-color); }
+      .egotec-info-card p, .egotec-info-card a { font-size: 0.93rem; color: var(--Accent-color4); margin: 0; text-decoration: none; }
+      .egotec-info-card a:hover { color: var(--Accent-color3); }
+
+      .egotec-form-map-section { padding: 60px 0; background: #fff; }
+      .egotec-contact-form-wrap {
+        background: var(--Accent-color5);
+        border-radius: 14px; padding: 40px 36px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      }
+      .egotec-contact-form-wrap h3 { font-family: var(--heading-font); font-weight: 700; font-size: 1.5rem; margin-bottom: 24px; }
+      .egotec-contact-form-wrap .form-label { font-weight: 600; font-size: 0.88rem; }
+      .egotec-contact-form-wrap .form-control,
+      .egotec-contact-form-wrap .form-select {
+        border-radius: 8px; border: 1.5px solid #ddd;
+        font-size: 0.93rem; padding: 10px 14px; transition: border-color 0.2s;
+      }
+      .egotec-contact-form-wrap .form-control:focus,
+      .egotec-contact-form-wrap .form-select:focus {
+        border-color: var(--Accent-color3);
+        box-shadow: 0 0 0 3px rgba(80,58,168,0.1);
+      }
+      .egotec-contact-form-wrap textarea { resize: vertical; min-height: 130px; }
+      .egotec-send-btn {
+        background: var(--Accent-color3); color: #fff; border: none;
+        border-radius: 8px; padding: 12px 32px;
+        font-weight: 600; font-size: 0.95rem; width: 100%;
+        transition: background 0.2s, transform 0.15s;
+      }
+      .egotec-send-btn:hover { background: #3d2b8a; transform: translateY(-1px); }
+      .egotec-send-btn:disabled { background: var(--Accent-color4); cursor: not-allowed; transform: none; }
+      .egotec-form-success {
+        display: none; background: #d1fae5; border: 1px solid #6ee7b7;
+        border-radius: 8px; padding: 14px 18px; color: #065f46;
+        font-size: 0.93rem; margin-bottom: 20px;
+      }
+      .egotec-map-wrap {
+        border-radius: 14px; overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        height: 100%; min-height: 420px;
+      }
+      .egotec-map-wrap iframe { width: 100%; height: 100%; min-height: 420px; border: none; display: block; }
+
+      .egotec-social-strip { background: var(--Accent-color3); padding: 40px 0; text-align: center; color: #fff; }
+      .egotec-social-strip h4 { font-family: var(--heading-font); font-weight: 700; margin-bottom: 20px; font-size: 1.3rem; }
+      .egotec-social-strip .social-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+      .egotec-social-strip .social-links a {
+        width: 48px; height: 48px; border-radius: 50%;
+        background: rgba(255,255,255,0.15); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.1rem; text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+      }
+      .egotec-social-strip .social-links a:hover { background: rgba(255,255,255,0.3); transform: translateY(-3px); }
+    </style>

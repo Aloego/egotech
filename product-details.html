@@ -53,16 +53,19 @@
               <li class="nav-item">
                 <a class="nav-link" href="shop.html">Shop</a>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link" href="#about">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#contact">Contact</a>
+                <a class="nav-link" href="contact.html">Contact</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#faq">FAQ</a>
               </li>
             </ul>
+
+              <!-- Sell Button -->
+            <a href="merchant.html" class="egotec-sell-btn ms-3">
+              <i class="fas fa-store me-1"></i> Sell
+            </a>
           </div>
 
           <!-- CART ICON -->
@@ -218,8 +221,12 @@
                 <!-- Stars loaded dynamically -->
               </div>
 
+              <!-- Condition Badge -->
+              <div id="productCondition" class="mb-2"></div>
+
               <!-- Price -->
               <div class="egotec-product-price mb-4" id="productPrice"></div>
+
 
               <!-- Short Description -->
               <div
@@ -267,6 +274,18 @@
                   <i class="fas fa-shopping-cart me-2"></i>
                   Add to Cart
                 </button>
+
+                 <button
+                        class="egotec-buy-now"
+                        id="buyNowBtn"
+                      >
+                        <i class="fas fa-bolt me-2"></i>
+                        Buy Now
+                </button>
+
+               
+
+
                 <button
                   class="egotec-btn-secondary egotec-add-to-wishlist"
                   id="addToWishlistBtn"
@@ -445,7 +464,6 @@
             <ul class="egotec-footer-links">
               <li><a href="index.html">Home</a></li>
               <li><a href="shop.html">Shop</a></li>
-              <li><a href="#about">About Us</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
@@ -504,7 +522,8 @@
 
     <!-- Bootstrap JS  -->
     <script src="js/bootstrap.min.js"></script>
-
+    <!-- Shared Utilities -->
+    <script src="js/utils.js"></script>
     <!-- Cart Dropdown JS -->
     <script src="js/cart-dropdown.js"></script>
 

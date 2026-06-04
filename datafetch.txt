@@ -1,0 +1,35 @@
+GET http://localhost:8080/assets/images/products/echoDot.png 404 (File not found)Understand this error
+
+utils.js:61 Backend unavailable, falling back to product.json: No products from backend
+
+fetchProducts @ utils.js:61
+
+await in fetchProducts
+
+(anonymous) @ main.js:251Understand this warning
+
+utils.js:67 Products loaded from product.json: 10
+
+utils.js:61 Backend unavailable, falling back to product.json: No products from backend
+
+fetchProducts @ utils.js:61
+
+await in fetchProducts
+
+(anonymous) @ main.js:160Understand this warning
+
+utils.js:61 Backend unavailable, falling back to product.json: No products from backend
+
+fetchProducts @ utils.js:61
+
+await in fetchProducts
+
+(anonymous) @ main.js:94Understand this warning
+
+utils.js:67 Products loaded from product.json: 10
+
+sonyHeadphones.png:1  GET http://localhost:8080/assets/images/products/sonyHeadphones.png 404 (File not found)Understand this error
+
+echoDot.png:1  GET http://localhost:8080/assets/images/products/echoDot.png 404 (File not found)Understand this error
+
+utils.js:67 Products loaded from product.json: 10

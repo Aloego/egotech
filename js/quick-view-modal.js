@@ -67,7 +67,8 @@ class QuickViewModal {
                   
                   <div class="egotec-qv-stock" id="qvStock"></div>
                   
-                  <div class="egotec-qv-price" id="qvPrice"></div>
+                <div id="qvCondition"></div>
+                <div class="egotec-qv-price" id="qvPrice"></div>
                   
                   <p class="egotec-qv-description" id="qvDescription"></p>
                   
@@ -211,36 +212,18 @@ class QuickViewModal {
     console.log("Opening Quick View for product ID:", productId);
 
     try {
-      // Fetch product data - try multiple paths
-      let response;
-      try {
-        response = await fetch("data/product.json");
-      } catch (e) {
-        console.log("First path failed, trying alternative...");
-        response = await fetch("./data/product.json");
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const products = data.products || data; // Handle both {products: [...]} and [...] formats
+      // Use EgoTechUtils to fetch from both backend and product.json
+      const products = await EgoTechUtils.fetchProducts();
       console.log("Products loaded:", products.length);
 
-      // Find product by ID (convert both to numbers for comparison)
-      const product = products.find((p) => Number(p.id) === Number(productId));
+      // Find product by ID — supports both numeric and Airtable IDs
+      const product = products.find((p) => String(p.id) === String(productId));
 
       if (!product) {
         console.error("Product not found with ID:", productId);
-        console.log(
-          "Available product IDs:",
-          products.map((p) => p.id)
-        );
         alert(`Product with ID ${productId} not found.`);
         return;
       }
-
       console.log("Product found:", product.name);
 
       this.currentProduct = product;
@@ -297,19 +280,23 @@ class QuickViewModal {
     this.renderStockStatus(product.stock || 0);
 
     // Price
-    const formattedPrice = new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: product.currency || "NGN",
-    }).format(product.price);
+    const formattedPrice = EgoTechUtils.formatCurrency(product.price);
     document.getElementById("qvPrice").textContent = formattedPrice;
 
-    // Description
+    // Condition badge
+    const conditionBadge = document.getElementById("qvCondition");
+    if (conditionBadge) {
+      conditionBadge.innerHTML = EgoTechUtils.getConditionBadgeWithNotice(product.condition);
+    }
+
+    
+    // Description — use shortDescription in quick view
     const description =
-      product.description ||
       product.shortDescription ||
+      product.description ||
       "No description available.";
     document.getElementById("qvDescription").textContent = description;
-
+    
     // Gallery
     this.renderGallery(product);
 
@@ -527,18 +514,33 @@ class QuickViewModal {
   buyNow() {
     if (!this.currentProduct) return;
 
-    const quantity = parseInt(document.getElementById("qvQuantity").value);
-    const productId = this.currentProduct.id;
+    const quantity = parseInt(document.getElementById("qvQuantity").value) || 1;
+    const product = this.currentProduct;
 
-    console.log(`Buy Now: Product ID ${productId}, Quantity: ${quantity}`);
+    // Add to cart first
+    const cartItems = EgoTechUtils.getCartItems();
+    const existingIndex = cartItems.findIndex(item => String(item.id) === String(product.id));
 
-    // Redirect to checkout or cart page
-    // window.location.href = `checkout.html?product=${productId}&qty=${quantity}`;
+    if (existingIndex !== -1) {
+      cartItems[existingIndex].qty += quantity;
+    } else {
+      cartItems.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        currency: product.currency || "NGN",
+        qty: quantity,
+      });
+    }
 
-    // For now, just show alert
-    alert(`Proceeding to checkout with ${quantity} item(s)`);
+    EgoTechUtils.saveCartItems(cartItems);
+
+    // Close modal then redirect to checkout
+    this.close();
+    window.location.href = "checkout.html";
   }
-
+  
   toggleWishlist() {
     if (!this.currentProduct) return;
 

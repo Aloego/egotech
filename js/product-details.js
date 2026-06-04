@@ -39,13 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
 async function loadProductDetails(productId) {
   console.log("Loading product details for ID:", productId);
   try {
-    const response = await fetch("data/product.json");
-    if (!response.ok) throw new Error("Failed to load product data");
-
-    const data = await response.json();
-    console.log("Product data loaded:", data);
-    allProducts = data.products || [];
-    console.log("All products:", allProducts);
+    allProducts = await EgoTechUtils.fetchProducts();
+    console.log("All products loaded:", allProducts.length);
 
     // Find product by ID
     currentProduct = allProducts.find((p) => p.id == productId);
@@ -105,9 +100,13 @@ function renderProductDetails(product) {
   })}`;
   document.getElementById("productPrice").textContent = formattedPrice;
 
-  // Short description
+  // Condition badge
+  document.getElementById("productCondition").innerHTML = EgoTechUtils.getConditionBadgeWithNotice(product.condition);
+
+  
+  // Short description — beside the product image
   document.getElementById("shortDescription").textContent =
-    product.description || "";
+    product.shortDescription || product.description || "";
 
   // Stock status
   renderStockStatus(product.stock);
@@ -439,6 +438,34 @@ function setupProductButtons(product) {
     });
   }
 
+  // Buy Now button
+  const buyNowBtn = document.getElementById("buyNowBtn");
+  if (buyNowBtn && product) {
+    buyNowBtn.addEventListener("click", () => {
+      // Add to cart first then redirect to checkout
+      const cartItems = EgoTechUtils.getCartItems();
+      const existingIndex = cartItems.findIndex(item => item.id == product.id);
+      const quantity = parseInt(document.getElementById("quantity").value) || 1;
+
+      if (existingIndex !== -1) {
+        cartItems[existingIndex].qty += quantity;
+      } else {
+        cartItems.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          currency: product.currency || "NGN",
+          qty: quantity,
+        });
+      }
+
+      EgoTechUtils.saveCartItems(cartItems);
+      window.location.href = "checkout.html";
+    });
+  }
+
+
   // Add to Wishlist button
   const addToWishlistBtn = document.getElementById("addToWishlistBtn");
   if (addToWishlistBtn && product) {
@@ -516,8 +543,6 @@ function setupRelatedCarousel() {
   });
 }
 
-// Cart functionality is handled by cart-dropdown.js
-// The old addToCart function has been removed
 
 // ============================================
 // TOGGLE WISHLIST FUNCTION

@@ -3,7 +3,7 @@
     "title": "Big Harmattan Sale",
     "message": "Save up to 40% on top electronics. Limited time only!",
     "buttonText": "Shop Now",
-    "buttonLink": "/shop",
+    "buttonLink": "shop.html",
     "image": "assets/images/banners/bannerrmbg.jpg"
   }
 }

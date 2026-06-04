@@ -53,16 +53,22 @@
               <li class="nav-item">
                 <a class="nav-link active" href="shop.html">Shop</a>
               </li>
-              <li class="nav-item">
+             <!--  <li class="nav-item">
                 <a class="nav-link" href="#about">About</a>
-              </li>
+              </li> -->
               <li class="nav-item">
-                <a class="nav-link" href="#contact">Contact</a>
+                <a class="nav-link" href="contact.html">Contact</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#faq">FAQ</a>
               </li>
             </ul>
+
+              <!-- Sell Button -->
+            <a href="merchant.html" class="egotec-sell-btn ms-3">
+              <i class="fas fa-store me-1"></i> Sell
+            </a>
+
           </div>
 
           <!-- CART ICON (right side, always visible, never collapses) -->
@@ -192,32 +198,39 @@
                 </select>
               </div>
 
-              <!-- Special Filters -->
-              <div class="egotec-filter-section mb-4">
-                <h5 class="egotec-filter-heading">Special Filters</h5>
-                <div class="form-check mb-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="featuredFilter"
-                    value="featured"
-                  />
-                  <label class="form-check-label" for="featuredFilter">
-                    Featured Products
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="newArrivalFilter"
-                    value="newArrival"
-                  />
-                  <label class="form-check-label" for="newArrivalFilter">
-                    New Arrivals
-                  </label>
-                </div>
-              </div>
+             <!-- Special Filters -->
+<div class="egotec-filter-section mb-4">
+  <h5 class="egotec-filter-heading">Special Filters</h5>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" id="featuredFilter" value="featured" />
+    <label class="form-check-label" for="featuredFilter">Featured Products</label>
+  </div>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" id="newArrivalFilter" value="newArrival" />
+    <label class="form-check-label" for="newArrivalFilter">New Arrivals</label>
+  </div>
+</div>
+
+<!-- Condition Filter -->
+<div class="egotec-filter-section mb-4">
+  <h5 class="egotec-filter-heading">Condition</h5>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionAll" value="all" checked />
+    <label class="form-check-label" for="conditionAll">All</label>
+  </div>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionNew" value="NEW" />
+    <label class="form-check-label" for="conditionNew">New</label>
+  </div>
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionUsed" value="USED" />
+    <label class="form-check-label" for="conditionUsed">Used</label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="conditionFilter" id="conditionRefurbished" value="REFURBISHED" />
+    <label class="form-check-label" for="conditionRefurbished">Refurbished</label>
+  </div>
+</div>
 
               <!-- Clear Filters Button -->
               <button class="btn btn-outline-secondary w-100" id="clearFilters">
@@ -327,7 +340,7 @@
               <li><a href="index.html">Home</a></li>
               <li><a href="shop.html">Shop</a></li>
               <li><a href="#categories">Categories</a></li>
-              <li><a href="#about">About Us</a></li>
+              <!-- <li><a href="#about">About Us</a></li> -->
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
@@ -390,6 +403,8 @@
 
     <!-- Bootstrap JS  -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- Shared Utilities -->
+    <script src="js/utils.js"></script>
     <!-- Cart Dropdown JS -->
     <script src="js/cart-dropdown.js"></script>
     <!-- Shop JS -->

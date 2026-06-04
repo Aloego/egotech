@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Merchant Product Submission — EgoTech</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/merchant.css">
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <button class="navbar-toggler egotec-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand egotec-logo" href="index.html"><strong>EgoTech</strong></a>
+          <div class="collapse navbar-collapse egotec-nav-collapse" id="navbarNav">
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="egotec-cart-icon dropdown">
+            <a href="#" class="nav-link position-relative" id="cartDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end egotec-cart-dropdown" aria-labelledby="cartDropdown">
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount">0 items</span>
+              </div>
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+              <div class="egotec-cart-dropdown-footer" id="cartDropdownFooter" style="display:none">
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span><span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a href="cart.html" class="btn btn-outline-primary w-100 mb-2"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                  <a href="checkout.html" class="btn btn-primary w-100"><i class="fas fa-lock"></i> Checkout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="egotec-merchant-hero">
+      <div class="container">
+        <h1>Submit Your Product</h1>
+        <p>List your product on EgoTech and reach thousands of customers across West Africa.</p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb egotec-breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Merchant Form</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="egotec-merchant-section">
+      <div class="container">
+
+        <!-- Step Indicators -->
+        <div class="egotec-steps">
+          <div class="egotec-step active">
+            <div class="egotec-step-num">1</div>
+            <span>Product Info</span>
+          </div>
+          <div class="egotec-step-divider"></div>
+          <div class="egotec-step active">
+            <div class="egotec-step-num">2</div>
+            <span>Images</span>
+          </div>
+          <div class="egotec-step-divider"></div>
+          <div class="egotec-step active">
+            <div class="egotec-step-num">3</div>
+            <span>Review & Submit</span>
+          </div>
+        </div>
+
+        <div class="egotec-merchant-form-wrap">
+
+          <!-- Info Box -->
+          <div class="egotec-info-box">
+            <i class="fas fa-info-circle"></i>
+            All submissions are reviewed by our team before appearing on the site. You will be contacted once your product is approved.
+          </div>
+
+          <!-- Error Message -->
+          <div class="egotec-form-error" id="formError">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span id="formErrorText"></span>
+          </div>
+
+          <!-- Success Message -->
+          <div class="egotec-form-success" id="formSuccess">
+            <i class="fas fa-check-circle"></i>
+            <h4>Product Submitted Successfully!</h4>
+            <p>Thank you! Our team will review your product and get back to you shortly.</p>
+            <button class="egotec-submit-btn mt-3" onclick="resetForm()" style="max-width:200px;margin:16px auto 0;">
+              Submit Another
+            </button>
+          </div>
+
+          <!-- FORM -->
+          <form id="merchantForm" novalidate>
+
+            <!-- ── SECTION 1: Basic Info ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-box"></i> Basic Information
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="productName" class="form-label">Product Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="productName" placeholder="e.g. Samsung Galaxy S24" required />
+              </div>
+              <div class="col-md-6">
+                <label for="productBrand" class="form-label">Brand <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="productBrand" placeholder="e.g. Samsung" required />
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="productCategory" class="form-label">Category <span class="text-danger">*</span></label>
+                <select class="form-select" id="productCategory" required>
+                  <option value="">Select a category</option>
+                  <option value="Smartphones">Smartphones</option>
+                  <option value="Laptop">Laptop</option>
+                  <option value="Headphones">Headphones</option>
+                  <option value="Speakers">Speakers</option>
+                  <option value="Smart Home">Smart Home</option>
+                  <option value="Smart TVs">Smart TVs</option>
+                  <option value="Cameras">Cameras</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="productStock" class="form-label">Stock Quantity <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="productStock" placeholder="e.g. 50" min="1" required />
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <label for="productPrice" class="form-label">Price (₦) <span class="text-danger">*</span></label>
+    <input type="number" class="form-control" id="productPrice" placeholder="e.g. 850000" min="1" required />
+  </div>
+  <div class="col-md-6">
+    <label for="productCondition" class="form-label">Condition <span class="text-danger">*</span></label>
+    <select class="form-select" id="productCondition" required>
+      <option value="">Select condition</option>
+      <option value="NEW">New</option>
+      <option value="USED">Used</option>
+      <option value="REFURBISHED">Refurbished</option>
+    </select>
+  </div>
+</div>
+
+            <!-- ── SECTION 2: Description ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-align-left"></i> Product Description
+            </div>
+
+            <div class="mb-3">
+              <label for="productShortDesc" class="form-label">Short Description <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="productShortDesc"
+                placeholder="One line summary of the product" maxlength="120" required />
+              <div class="egotec-char-count"><span id="shortDescCount">0</span>/120</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="productDesc" class="form-label">Full Description <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="productDesc"
+                placeholder="Detailed description of the product — features, specs, what's in the box etc."
+                maxlength="1000" required></textarea>
+              <div class="egotec-char-count"><span id="descCount">0</span>/1000</div>
+            </div>
+
+            <!-- ── SECTION 3: Images ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-images"></i> Product Images
+            </div>
+
+            <!-- Main Image -->
+            <div class="mb-4">
+              <label class="form-label">Main Product Image <span class="text-danger">*</span></label>
+
+              <!-- Toggle buttons -->
+              <div class="egotec-image-toggle">
+                <button type="button" class="egotec-image-toggle-btn active" id="uploadToggle" onclick="switchImageMode('upload')">
+                  <i class="fas fa-upload me-2"></i>Upload Image
+                </button>
+                <button type="button" class="egotec-image-toggle-btn" id="urlToggle" onclick="switchImageMode('url')">
+                  <i class="fas fa-link me-2"></i>Image URL
+                </button>
+              </div>
+
+              <!-- Upload mode -->
+<div id="uploadMode">
+  <div class="egotec-upload-area" id="uploadArea" onclick="document.getElementById('imageFile').click()">
+    <i class="fas fa-cloud-upload-alt"></i>
+    <p><strong>Click to upload</strong> your main product image</p>
+    <p>PNG, JPG, WEBP up to 5MB</p>
+    <input type="file" id="imageFile" accept="image/*" onchange="handleImageUpload(event)" />
+  </div>
+
+  <!-- Image previews -->
+  <div id="imagePreviewContainer" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;"></div>
+
+  <!-- Add another image button -->
+  <div style="margin-top:12px;">
+    <button type="button" id="addMoreImagesBtn"
+      style="display:none;"
+      class="btn btn-outline-secondary btn-sm"
+      onclick="document.getElementById('additionalImageFile').click()">
+      <i class="fas fa-plus me-1"></i>Add Another Image
+    </button>
+    <input type="file" id="additionalImageFile" accept="image/*"
+      style="display:none;"
+      onchange="handleImageUpload(event)" />
+  </div>
+
+  <!-- Hidden inputs -->
+  <input type="hidden" id="uploadedImageUrl" value="" />
+  <input type="hidden" id="uploadedImageUrls" value="" />
+</div>
+              <!-- URL mode -->
+              <div id="urlMode" style="display:none;">
+                <input type="url" class="form-control" id="imageUrl"
+                  placeholder="https://example.com/product-image.jpg"
+                  oninput="previewImageUrl()" />
+                <div class="egotec-image-preview" id="urlImagePreview" style="margin-top:12px;">
+                  <img id="urlImagePreviewImg" src="" alt="Preview" style="display:none;" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Images -->
+            <div class="mb-4">
+              <label class="form-label">Additional Images <span class="text-muted small">(optional — separate URLs with commas)</span></label>
+              <textarea class="form-control" id="additionalImages" rows="2"
+                placeholder="https://example.com/image2.jpg, https://example.com/image3.jpg"></textarea>
+            </div>
+
+            <!-- ── SECTION 4: Merchant Info ── -->
+            <div class="egotec-form-section-title">
+              <i class="fas fa-user"></i> Your Information
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="merchantName" class="form-label">Your Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="merchantName" placeholder="Full name" required />
+              </div>
+              <div class="col-md-6">
+                <label for="merchantEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="merchantEmail" placeholder="your@email.com" required />
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="merchantPhone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="merchantPhone" placeholder="+234 800 000 0000" required />
+              </div>
+              <div class="col-md-6">
+                <label for="merchantBusiness" class="form-label">Business Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="merchantBusiness" placeholder="Your business or store name" required />
+              </div>
+            </div>
+
+
+             <div class="row g-3 mb-4">
+              <div class="col-md-12">
+                <label for="merchantAddress" class="form-label">Business Address <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="merchantAddress" placeholder="Your business address" required />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="egotec-submit-btn" id="submitBtn">
+              <i class="fas fa-paper-plane me-2"></i>Submit Product for Review
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="egotec-footer">
+      <div class="container">
+        <div class="row egotec-footer-main py-5">
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
+            <p class="egotec-footer-text">Your trusted destination for premium electronics and smart home solutions.</p>
+            <div class="egotec-footer-social mt-4">
+              <a href="#" class="egotec-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">Returns & Exchanges</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i><span>Computer Village, Ikeja, Lagos, Nigeria</span></li>
+              <li><i class="fas fa-phone"></i><span>+234 000 000 0000</span></li>
+              <li><i class="fas fa-envelope"></i><span>support@egotech.com</span></li>
+              <li><i class="fas fa-clock"></i><span>Mon – Sat: 9:00 AM – 7:00 PM</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">&copy; 2025 EgoTech. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cart-dropdown.js"></script>
+    <script src="js/merchant.js"></script>
+  </body>
+</html>
