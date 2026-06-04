@@ -1207,3 +1207,5 @@ function showFinalConfirmation() {
 function formatCurrency(amount) {
   return EgoTechUtils.formatCurrency(amount);
 }
+
+
