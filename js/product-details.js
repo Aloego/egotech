@@ -39,10 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
 async function loadProductDetails(productId) {
   console.log("Loading product details for ID:", productId);
   try {
-    // allProducts = await EgoTechUtils.fetchProducts();
-    // console.log("fetchProducts returned:", allProducts, typeof allProducts);
-    // console.log("All products loaded:", allProducts.length);
-
     allProducts = await EgoTechUtils.fetchProducts();
     console.log("All products loaded:", allProducts.length);
 
@@ -547,8 +543,6 @@ function setupRelatedCarousel() {
   });
 }
 
-// Cart functionality is handled by cart-dropdown.js
-// The old addToCart function has been removed
 
 // ============================================
 // TOGGLE WISHLIST FUNCTION

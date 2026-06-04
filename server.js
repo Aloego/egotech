@@ -13,15 +13,6 @@ app.use(cors({
 app.options("*", cors());
 app.use(express.json());
 
-// // app.use(cors());
-// app.use(cors({
-//   origin: "*",
-//   methods: ["GET", "POST", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"]
-// }));
-// app.options("*", cors());
-
-// app.use(express.json());
 
 // These will be set as Render environment variables
 const AIRTABLE_API_URL = process.env.AIRTABLE_API_URL;
