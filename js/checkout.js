@@ -1111,7 +1111,7 @@ function showOrderReviewModal(formData, cartItems) {
 }
 
 // Finalize order: save, send to Google Sheets, show confirmation
-function finalizeOrder(formData, cartItems) {
+async function finalizeOrder(formData, cartItems) {
   // Save user location to localStorage
   const userLocation = {
     firstName: formData.firstName,
@@ -1132,10 +1132,26 @@ function finalizeOrder(formData, cartItems) {
     addTownToLGA(formData.lga, formData.city);
   }
 
-  // Save checkout data
+  
+  // Enrich cart items with merchant info from product data
+  const enrichedCartItems = await Promise.all(
+    cartItems.map(async (item) => {
+      // Fetch all products to get merchant info
+      const allProducts = await EgoTechUtils.fetchProducts();
+      const product = allProducts.find(p => String(p.id) === String(item.id));
+      return {
+        ...item,
+        merchantName: product?.merchantName || item.merchantName || "",
+        merchantPhone: product?.merchantPhone || item.merchantPhone || "",
+        merchantBusiness: product?.merchantBusiness || item.merchantBusiness || "",
+        merchantAddress: product?.merchantAddress || item.merchantAddress || "",
+      };
+    })
+  );
+// Save checkout data
   const checkoutData = {
     ...formData,
-    cartItems: cartItems,
+    cartItems: enrichedCartItems,
     orderDate: new Date().toISOString(),
   };
   localStorage.setItem(CHECKOUT_DATA_KEY, JSON.stringify(checkoutData));

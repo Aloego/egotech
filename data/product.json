@@ -39,7 +39,7 @@
       },
       "reviews": [
         {
-          "name": "John Doe",
+          "name": "John Chidi",
           "rating": 5,
           "date": "2024-11-15",
           "comment": "Excellent laptop for the price! Very fast and reliable."
@@ -281,6 +281,7 @@
         "Wifi Connectivity",
         "Cellular Connectivity"
       ],
+
       "specifications": {
         "Processor": "Apple M1",
         "Storage": "256GB",
@@ -288,8 +289,56 @@
         "Operating System": "iPadOS 15",
         "Battery Life": "Up to 10 hours",
         "Weight": "682g"
-    }
+    },
+
+        "merchantName": "Ochei Aloysius",
+        "merchantPhone": "+234 810 503 1964",
+        "merchantBusiness": "EgoTech Electronics",
+        "merchantAddress": "Computer Village, Ikeja, Lagos"
+
+  },
+
+
+       {
+      "id": 12,
+      "name": "iPhone12 pro",
+      "brand": "Apple",
+      "category": "Smartphones",
+      "price": 400000,
+      "currency": "NGN",
+      "image": "assets/images/products/Iphone12_pro.jpg",
+      "shortDescription": "Original Used iPhone 12 Pro 128GB (A2172) Unlocked, Mix Colour, iOS 18.4, Data Cleared & Fully Functional with 10 Days Warranty.",
+      "description": "<strong>iPhone 12 Pro 128GB (Unlocked) –  Used. </strong> <p>Original used iPhone 12 Pro in <strong>Mix Colour</strong> (White/Ivory finish) with <strong>128GB</strong> storage. Model A2172, unlocked for CDMA networks, running iOS 18.4. Data cleared and functionality tested: <strong>PASS</strong>. Comes with a 10-day warranty check. Perfect condition for a pre-owned device.</p><p>Clean, tested, and ready to use — ideal for those looking for premium performance at a great value.</p>",
+      "newArrival": false,
+      "condition": "used",
+      "featured": false,
+      "stock": 2,
+      "features": [
+        "6.1-inch Super Retina XDR OLED display with Ceramic Shield",
+        "Triple 12MP Pro camera system (Wide, Ultra Wide, Telephoto) with Night mode, Deep Fusion, and Dolby Vision HDR recording",
+        "A14 Bionic chip – fast performance and great efficiency",
+        "Face ID, MagSafe compatible, water and dust resistant (IP68)",
+        "Premium stainless steel frame with glass back"
+      ],
+      
+      "specifications": {
+        "Model": "Apple iPhone 12 Pro (A2172)",
+        "Storage": "128GB",
+        "Color": "Mix Colour (White / Ivory)",
+        "Network": "Unlocked for CDMA / GSM (works with all major carriers)",
+        "iOS Version": "iOS 18.4"
+        }, 
+
+        "merchantName": "Ochei Aloysius",
+        "merchantPhone": "+234 810 503 1964",
+        "merchantBusiness": "EgoTech Electronics",
+        "merchantAddress": "Computer Village, Ikeja, Lagos"
   }
+
+
+
+
+
 
   ]
 }

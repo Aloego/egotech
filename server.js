@@ -19,6 +19,7 @@ const AIRTABLE_API_URL = process.env.AIRTABLE_API_URL;
 const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
 const AIRTABLE_PRODUCTS_URL = process.env.AIRTABLE_PRODUCTS_URL;
 const AIRTABLE_MERCHANTS_URL = process.env.AIRTABLE_MERCHANTS_URL;
+const AIRTABLE_ORDER_ITEMS_URL = process.env.AIRTABLE_ORDER_ITEMS_URL;
 
 // Health check route for UptimeRobot
 app.get("/", (req, res) => {
@@ -59,8 +60,13 @@ app.get("/api/products", async (req, res) => {
       stock: record.fields.stock || 0,
       featured: record.fields.featured || false,
       newArrival: record.fields.newArrival || false,
+      condition: record.fields.condition || "",
+      merchantName: record.fields.merchantName || "",
+      merchantPhone: record.fields.merchantPhone || "",
+      merchantBusiness: record.fields.merchantBusiness || "",
+      merchantAddress: record.fields.merchantAddress || "",
     }));
-
+    
     res.status(200).json({ products });
   } catch (err) {
     console.error("Products fetch error:", err);
@@ -115,6 +121,10 @@ app.post("/api/products", async (req, res) => {
           newArrival: false,
           status: "pending",
           condition: productData.condition || "",
+          merchantName: productData.merchantName || "",
+          merchantPhone: productData.merchantPhone || "",
+          merchantBusiness: productData.merchantBusiness || "",
+          merchantAddress: productData.merchantAddress || "",
         },
       }),
     });
@@ -218,26 +228,78 @@ app.post("/api/order", async (req, res) => {
   // ── END VALIDATION ────────────────────────────────────────
 
   try {
-    // Stringify cartItems before sending to Airtable
-    if (orderData.cartItems) {
-      orderData.cartItems = JSON.stringify(orderData.cartItems);
-    }
+    // Keep cart as array for OrderItems processing
+    const cartArray = Array.isArray(orderData.cartItems)
+      ? orderData.cartItems
+      : JSON.parse(orderData.cartItems || "[]");
 
-    const response = await fetch(AIRTABLE_API_URL, {
+    // Stringify cartItems before sending to Orders table
+    const orderToSave = {
+      ...orderData,
+      cartItems: JSON.stringify(cartArray),
+      status: "pending",
+    };
+
+    // ── Save order to Orders table ──
+    const orderResponse = await fetch(AIRTABLE_API_URL, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + AIRTABLE_TOKEN,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ fields: {
-        ...orderData,
-        status: "pending",
-      }}),
+      body: JSON.stringify({ fields: orderToSave }),
     });
 
-    const data = await response.json();
-    console.log("Airtable response:", data);
-    res.status(200).json(data);
+    const orderSaved = await orderResponse.json();
+    console.log("Airtable order response:", orderSaved);
+
+    if (!orderResponse.ok) {
+      console.error("Airtable Order error:", JSON.stringify(orderSaved));
+      throw new Error("Failed to save order");
+    }
+
+    // ── Save each cart item to OrderItems table ──
+    const orderId = orderSaved.id;
+
+    const orderItemPromises = cartArray.map((item) =>
+      fetch(AIRTABLE_ORDER_ITEMS_URL, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + AIRTABLE_TOKEN,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fields: {
+            orderId: orderId,
+            productName: item.name || "",
+            productId: String(item.id) || "",
+            quantity: Number(item.qty) || 1,
+            price: Number(item.price) || 0,
+            merchantName: item.merchantName || "",
+            merchantPhone: item.merchantPhone || "",
+            merchantBusiness: item.merchantBusiness || "",
+            merchantAddress: item.merchantAddress || "",
+          },
+        }),
+      })
+    );
+
+    const orderItemResults = await Promise.all(orderItemPromises);
+    
+    // Check each result for errors
+    for (let i = 0; i < orderItemResults.length; i++) {
+      const result = orderItemResults[i];
+      const resultData = await result.json();
+      if (!result.ok) {
+        console.error(`OrderItem ${i + 1} failed:`, JSON.stringify(resultData));
+      } else {
+        console.log(`OrderItem ${i + 1} saved successfully:`, resultData.id);
+      }
+    }
+    
+    console.log(`Processed ${cartArray.length} order items`);
+    
+    res.status(200).json(orderSaved);
   } catch (err) {
     console.error("Order error:", err);
     res.status(500).json({ error: "Failed to save order" });
