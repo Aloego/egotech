@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoplay: true,
         autoplayTimeout: 3000,
         autoplayHoverPause: true,
+        // margin: 20,
         nav: true,
         navText: [
           '<i class="fas fa-chevron-left"></i>',
@@ -184,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
               <img src="${product.image}" alt="${product.name}" class="img-fluid"
                 onerror="this.src='assets/images/products/product01.png'">
             </a>
+            
             <div class="egotec-product-details">
               <h3 class="egotec-product-name">
                 <a href="product-details.html?id=${product.id}">${product.name}</a>
@@ -193,8 +195,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>
               </div>
-              <button class="egotec-add-to-cart-btn egotec-btn-add-cart" data-product-id="${product.id}">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
+             <button class="egotec-add-to-cart-btn egotec-btn-add-cart"
+                data-product-id="${product.id}"
+                ${Number(product.stock) === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'shopping-cart'}"></i>
+                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Add to Cart'}
               </button>
               <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
@@ -210,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoplay: true,
         autoplayTimeout: 3000,
         autoplayHoverPause: true,
+        margin: 20,
         nav: true,
         navText: [
           '<i class="fas fa-chevron-left"></i>',
@@ -266,8 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="product-details.html?id=${product.id}">${product.name}</a>
               </h3>
               <div class="egotec-product-price">${formattedPrice}</div>
-              <button class="egotec-add-to-cart-btn egotec-btn-add-cart" data-product-id="${product.id}">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
+             <button class="egotec-add-to-cart-btn egotec-btn-add-cart"
+                data-product-id="${product.id}"
+                ${Number(product.stock) === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'shopping-cart'}"></i>
+                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Add to Cart'}
               </button>
               <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
@@ -283,6 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoplay: true,
         autoplayTimeout: 2000,
         autoplayHoverPause: true,
+        margin: 20,
         nav: true,
         navText: [
           '<i class="fas fa-chevron-left"></i>',
@@ -308,22 +318,19 @@ document.addEventListener("DOMContentLoaded", function () {
 // ============================================
 // ALL PRODUCTS CAROUSEL
 // ============================================
-
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("data/product.json")
-    .then((response) => response.json())
-    .then((data) => {
-      const allProducts = data.products;
+  EgoTechUtils.fetchProducts()
+    .then((products) => {
       const carousel = $("#allProductsCarousel");
 
-      if (allProducts.length === 0) {
+      if (products.length === 0) {
         carousel.html(
           '<p class="text-center w-100 text-muted">No products available at this time.</p>'
         );
         return;
       }
 
-      allProducts.forEach((product) => {
+      products.forEach((product) => {
         const formattedPrice = EgoTechUtils.formatCurrency(product.price);
         const rating = product.rating || 0;
         const fullStars = Math.floor(rating);
@@ -336,6 +343,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (hasHalfStar) starsHTML += '<i class="fas fa-star-half-alt"></i>';
         for (let i = 0; i < emptyStars; i++)
           starsHTML += '<i class="far fa-star"></i>';
+
+        const outOfStock = Number(product.stock) === 0;
 
         const item = `
           <div class="egotec-product-card">
@@ -353,10 +362,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>
               </div>
-              <button class="egotec-add-to-cart-btn egotec-btn-add-cart" data-product-id="${product.id}">
-                <i class="fas fa-shopping-cart"></i> Add to Cart
+              <button class="egotec-add-to-cart-btn egotec-btn-add-cart"
+                data-product-id="${product.id}"
+                ${outOfStock ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+                <i class="fas fa-${outOfStock ? 'ban' : 'shopping-cart'}"></i>
+                ${outOfStock ? 'Out of Stock' : 'Add to Cart'}
               </button>
-              <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
+              <a href="product-details.html?id=${product.id}"
+                class="egotec-quick-view-link egotec-btn-quick-view"
+                data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
               </a>
             </div>
@@ -370,6 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoplay: true,
         autoplayTimeout: 3000,
         autoplayHoverPause: true,
+        margin: 20,
         nav: true,
         navText: [
           '<i class="fas fa-chevron-left"></i>',
@@ -391,7 +406,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     });
 });
-
 // ============================================
 // NEWSLETTER SUBSCRIPTION FUNCTIONALITY
 // ============================================

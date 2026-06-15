@@ -19,7 +19,7 @@
       "featured": true,
       "condition": "new",
       "rating": 4.5,
-      "stock": 10,
+      "stock": 0,
       "features": [
         "Intel Core i5 Processor",
         "8GB RAM",
@@ -268,7 +268,7 @@
       "name": "Mint Ipad 11Gen",
       "brand": "Apple",
       "category": "Tablets",
-      "price": 650000,
+      "price": 670000,
       "currency": "NGN",
       "image": "assets/images/products/MintIpad.png",
       "shortDescription": "Powerful tablet with stunning display.",
@@ -295,7 +295,6 @@
         "merchantPhone": "+234 810 503 1964",
         "merchantBusiness": "EgoTech Electronics",
         "merchantAddress": "Computer Village, Ikeja, Lagos"
-
   },
 
 
@@ -333,7 +332,337 @@
         "merchantPhone": "+234 810 503 1964",
         "merchantBusiness": "EgoTech Electronics",
         "merchantAddress": "Computer Village, Ikeja, Lagos"
-  }
+  }, 
+
+    {
+  "id": 13,
+  "name": "Apple iPhone 15 Pro (128GB) - Grade A Unlocked",
+  "brand": "Apple",
+  "category": "Smartphones",
+  "price": 770000,
+  "currency": "NGN",
+  "image": "assets/images/products/Iphone15 Pro.jpg",
+  "shortDescription": "Grade A refurbished Apple iPhone 15 Pro in excellent condition, fully tested, unlocked for all carriers, with 128GB storage and an 83% working battery.",
+  "description": "This <strong>Apple iPhone 15 Pro 128GB</strong> is a premium Grade A refurbished smartphone available in Lagos, Nigeria. It features a beautiful Pacific Blue titanium finish and comes in the <strong>Physical + eSIM</strong> dual SIM configuration. The device is <strong>Non-LLA</strong> (not carrier-locked to any specific network), making it fully unlocked and compatible with all GSM networks in Nigeria and worldwide. It has been professionally inspected and certified with <strong>83BH</strong> reference details. This iPhone 15 Pro offers exceptional performance powered by the A17 Pro chip and boasts 128GB of internal storage. It has passed comprehensive testing including camera, sound, network connectivity, and battery health verification. The phone is in excellent Grade A condition with 100% working functionality and is fully ready for immediate use. It represents excellent value for a flagship device in pristine condition. The iPhone 15 Pro delivers a stunning 6.1-inch Super Retina XDR display with ProMotion technology, a professional-grade triple camera system (48MP main + ultrawide + 3x telephoto), advanced video recording capabilities, and all-day battery life. Built with aerospace-grade titanium and Ceramic Shield glass, it is durable, water and dust resistant (IP68), and loaded with premium features like Face ID, Dynamic Island, USB-C charging, and the latest iOS experience. Whether you need a reliable daily driver or a high-performance smartphone for photography, gaming, and productivity, this fully tested, unlocked <strong>iPhone 15 Pro 128GB Physical + eSIM Non-LLA 83BH Blue</strong> in Lagos is an outstanding choice that combines premium Apple quality with significant cost savings.",
+  "newArrival": false,
+  "condition": "refurbished",
+  "featured": false,
+  "stock": 2,
+  "features": [
+    "Grade A Condition - Professionally inspected and certified with minimal to no visible wear",
+    "Model - Apple iPhone 15 Pro 128GB (Pacific Blue / 83BH)",
+    "Battery Health - 83% (83BH) - Good capacity for daily use",
+    "Dual SIM - Physical SIM and eSIM support",
+    "Network - Fully Unlocked (Non-LLA) - Compatible with all carriers in Nigeria and worldwide",
+    "100% Working & Fully Tested - Camera, sound, network, display, and all functions verified",
+    "Ready for Immediate Use - Professionally prepared for resale in Lagos, Nigeria"
+  ],
+  "specifications": {
+    "Display": "6.1-inch Super Retina XDR OLED with ProMotion (up to 120Hz refresh rate), Always-On Display, and Dynamic Island",
+    "Processor": "Apple A17 Pro chip (6-core CPU, 6-core GPU, 16-core Neural Engine)",
+    "Storage": "128GB internal storage",
+    "Rear Camera": "Triple camera system - 48MP Main (f/1.78, sensor-shift OIS), 12MP Ultrawide, 12MP Telephoto (3x optical zoom)",
+    "Front Camera": "12MP TrueDepth camera with Face ID",
+    "Build & Design": "Aerospace-grade titanium frame, Ceramic Shield front glass, IP68 water and dust resistance",
+    "Connectivity": "5G, Wi-Fi 6E, Bluetooth 5.3, NFC, USB-C port",
+    "Battery": "Lithium-ion battery with 83% health, supports fast charging and MagSafe wireless charging",
+    "Security": "Face ID facial recognition",
+    "Operating System": "iOS (upgradable to latest version)",
+    "Additional Features": "Emergency SOS via satellite, Crash Detection, Precision Finding with Ultra Wideband, stereo speakers"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+
+{
+  "id": 14,
+  "name": "HP EliteBook 870 G1 (Intel Core i5, 8GB RAM, 500GB HDD, Backlit Keyboard)",
+  "brand": "HP",
+  "category": "Laptops",
+  "price": 180000,
+  "currency": "NGN",
+  "image": "assets/images/products/HPElitebook_870_G1.jpg",
+  "shortDescription": "Reliable business-class laptop with Intel Core i5, 8GB RAM, 500GB HDD, backlit keyboard, and original charger—built for productivity and durability.",
+  "description": "The HP EliteBook 870 G1 is a premium business-class notebook designed for professionals who demand performance, reliability, and security. Powered by a 4th Generation Intel Core i5 processor, this laptop delivers smooth multitasking and efficient performance for office applications, browsing, and productivity tasks. With 8GB of RAM and a 500GB HDD, it provides ample memory and storage for documents, media, and essential software. The backlit keyboard ensures comfortable typing even in low-light environments, while the 14-inch HD display offers crisp visuals for work and entertainment. Built with HP’s renowned EliteBook durability, the 870 G1 features a sleek magnesium-aluminum chassis tested against military-grade standards. It includes advanced security features like HP Client Security and TPM encryption, making it ideal for business users. This unit comes with its original HP charger, ensuring safe and efficient charging. Whether you’re a student, professional, or entrepreneur, the HP EliteBook 870 G1 is a dependable laptop that balances performance, durability, and affordability.",
+  "newArrival": false,
+  "condition": "used",
+  "featured": false,
+  "stock": 5,
+  "features": [
+    "Intel Core i5 4th Gen processor – reliable performance",
+    "8GB DDR3 RAM – smooth multitasking",
+    "500GB HDD – ample storage capacity",
+    "Backlit, spill-resistant keyboard – work in low-light conditions",
+    "14-inch HD LED display – clear and vibrant visuals",
+    "Magnesium-aluminum chassis – durable and professional design",
+    "Connectivity – USB 3.0, VGA, DisplayPort, Ethernet, Wi-Fi, Bluetooth",
+    "Security – TPM, HP Client Security, fingerprint reader (on select models)",
+    "Battery – long-lasting lithium-ion with efficient power management",
+    "Includes original HP charger"
+  ],
+  "specifications": {
+    "Model": "HP EliteBook 870 G1",
+    "Processor": "Intel Core i5 (4th Gen, dual-core, up to 2.6GHz)",
+    "RAM": "8GB DDR3",
+    "Storage": "500GB HDD",
+    "Display": "14-inch HD (1366 × 768) LED",
+    "Graphics": "Intel HD Graphics 4400",
+    "Keyboard": "Backlit, spill-resistant",
+    "Ports": "2 × USB 3.0, 1 × USB 2.0, VGA, DisplayPort, Ethernet, headphone/mic combo",
+    "Connectivity": "Wi-Fi, Bluetooth",
+    "Operating System": "Windows 10 Pro (upgradable)",
+    "Battery": "6-cell lithium-ion, up to 6 hours runtime",
+    "Weight": "1.58 kg (3.48 lbs)",
+    "Charger": "Original HP charger included"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+
+{
+  "id": 15,
+  "name": "Apple iPhone 12 (128GB) - UK Standard Purple",
+  "brand": "Apple",
+  "category": "Smartphones",
+  "price": 300000,
+  "currency": "NGN",
+  "image": "assets/images/products/Apple_Iphone_12.jpg",
+  "shortDescription": "UK Standard Apple iPhone 12 with 128GB storage, Purple color, and 89% battery health.",
+  "description": "The Apple iPhone 12 (UK Standard) is a sleek and powerful smartphone designed for performance and style. This model comes with 128GB of internal storage, offering ample space for apps, photos, and videos. The Purple finish adds a vibrant and unique look to the device. With 89% battery health, it ensures reliable daily usage and good longevity. The iPhone 12 features a 6.1-inch Super Retina XDR OLED display, delivering stunning visuals with HDR support. Powered by the A14 Bionic chip, it offers fast performance and efficiency for multitasking, gaming, and productivity. The dual-camera system (12MP wide and 12MP ultra-wide) captures high-quality photos and videos, while Night Mode and Deep Fusion enhance low-light photography. Additional features include Face ID, 5G connectivity, MagSafe wireless charging, and iOS support with regular updates. This UK Standard variant ensures compatibility with local networks and comes ready for use in Lagos, Nigeria.",
+  "newArrival": false,
+  "condition": "refurbished",
+  "featured": false,
+  "stock": 2,
+  "features": [
+    "UK Standard variant – compatible with Nigerian GSM networks",
+    "128GB internal storage – ample space for apps and media",
+    "Battery Health – 89% capacity for reliable daily use",
+    "Color – Purple finish for a stylish look",
+    "6.1-inch Super Retina XDR OLED display with HDR",
+    "A14 Bionic chip – fast and efficient performance",
+    "Dual 12MP camera system with Night Mode and 4K video",
+    "Face ID facial recognition for secure access",
+    "5G connectivity for faster internet speeds",
+    "MagSafe wireless charging support"
+  ],
+  "specifications": {
+    "Model": "Apple iPhone 12",
+    "Storage": "128GB",
+    "Color": "Purple",
+    "Battery Health": "89%",
+    "Display": "6.1-inch Super Retina XDR OLED, HDR10, Dolby Vision",
+    "Processor": "A14 Bionic chip with 6-core CPU and 4-core GPU",
+    "Rear Camera": "Dual 12MP (Wide f/1.6, Ultra-wide f/2.4)",
+    "Front Camera": "12MP TrueDepth with Night Mode and 4K video",
+    "Connectivity": "5G, Wi-Fi 6, Bluetooth 5.0, NFC",
+    "Security": "Face ID facial recognition",
+    "Operating System": "iOS (upgradable to latest version)",
+    "Charging": "MagSafe wireless charging, Lightning port",
+    "Build & Design": "Ceramic Shield front, aerospace-grade aluminum edges, IP68 water and dust resistance"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+
+{
+  "id": 16,
+  "name": "Apple iPhone 13 Pro (128GB) - UK Standard Blue",
+  "brand": "Apple",
+  "category": "Smartphones",
+  "price": 470000,
+  "currency": "NGN",
+  "image": "assets/images/products/Iphone13pro.jpg",
+  "shortDescription": "UK Standard Apple iPhone 13 Pro with 128GB storage, Blue color, and 90% battery health.",
+  "description": "The Apple iPhone 13 Pro (UK Standard) is a premium flagship smartphone designed for performance, photography, and style. This model comes with 128GB of internal storage, offering ample space for apps, photos, and videos. The Blue finish adds a sleek and modern look to the device. With 90% battery health, it ensures reliable daily usage and good longevity. The iPhone 13 Pro features a 6.1-inch Super Retina XDR OLED display with ProMotion technology, delivering smooth visuals at up to 120Hz refresh rate. Powered by the A15 Bionic chip, it offers exceptional speed and efficiency for multitasking, gaming, and productivity. The professional-grade triple camera system (12MP wide, 12MP ultra-wide, and 12MP telephoto with 3x optical zoom) captures stunning photos and videos, while advanced features like Night Mode, Cinematic Mode, and ProRAW enhance creative possibilities. Additional features include Face ID, 5G connectivity, MagSafe wireless charging, and iOS support with regular updates. This UK Standard variant ensures compatibility with local networks and comes ready for use in Lagos, Nigeria.",
+  "newArrival": false,
+  "condition": "refurbished",
+  "featured": false,
+  "stock": 2,
+  "features": [
+    "UK Standard variant – compatible with Nigerian GSM networks",
+    "128GB internal storage – ample space for apps and media",
+    "Battery Health – 90% capacity for reliable daily use",
+    "Color – Blue finish for a stylish look",
+    "6.1-inch Super Retina XDR OLED display with ProMotion (120Hz)",
+    "A15 Bionic chip – fast and efficient performance",
+    "Triple 12MP camera system with Cinematic Mode and ProRAW",
+    "Face ID facial recognition for secure access",
+    "5G connectivity for faster internet speeds",
+    "MagSafe wireless charging support"
+  ],
+  "specifications": {
+    "Model": "Apple iPhone 13 Pro",
+    "Storage": "128GB",
+    "Color": "Blue",
+    "Battery Health": "90%",
+    "Display": "6.1-inch Super Retina XDR OLED, ProMotion 120Hz, HDR10, Dolby Vision",
+    "Processor": "A15 Bionic chip with 6-core CPU and 5-core GPU",
+    "Rear Camera": "Triple 12MP (Wide f/1.5, Ultra-wide f/1.8, Telephoto f/2.8, 3x optical zoom)",
+    "Front Camera": "12MP TrueDepth with Night Mode, Cinematic Mode, and 4K video",
+    "Connectivity": "5G, Wi-Fi 6, Bluetooth 5.0, NFC",
+    "Security": "Face ID facial recognition",
+    "Operating System": "iOS (upgradable to latest version)",
+    "Charging": "MagSafe wireless charging, Lightning port",
+    "Build & Design": "Ceramic Shield front, stainless steel frame, IP68 water and dust resistance"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+
+{
+  "id": 17,
+  "name": "Apple iPhone 17 Pro (256GB) - US Standard Silver",
+  "brand": "Apple",
+  "category": "Smartphones",
+  "price": 1800000,
+  "currency": "NGN",
+  "image": "assets/images/products/Apple_iPhone_17_Pro.jpg",
+  "shortDescription": "US Standard Apple iPhone 17 Pro with 256GB storage, Silver color, Physical + eSIM, Non LLA, and 100% battery health.",
+  "description": "The Apple iPhone 17 Pro (US Standard, Non LLA) is a cutting-edge flagship smartphone built for performance, innovation, and style. This model offers 256GB of internal storage, providing ample space for apps, photos, and videos. The Silver finish gives the device a sleek and premium look. With 100% battery health, it ensures maximum longevity and reliable daily usage. The iPhone 17 Pro supports both Physical SIM and eSIM, offering flexible connectivity options. It features a 6.3-inch Super Retina XDR OLED display with ProMotion technology, delivering ultra-smooth visuals at up to 120Hz refresh rate. Powered by the next-generation A18 Pro Bionic chip, it delivers exceptional speed and efficiency for multitasking, gaming, and productivity. The advanced triple camera system (48MP wide, 12MP ultra-wide, and 12MP telephoto with 5x optical zoom) captures professional-grade photos and videos, enhanced by features like Night Mode, Cinematic Mode, and ProRAW. Additional highlights include Face ID, 5G connectivity, MagSafe wireless charging, and iOS support with regular updates. This US Standard variant ensures compatibility with Nigerian GSM networks and comes ready for use in Lagos, Nigeria.",
+  "newArrival": true,
+  "condition": "",
+  "featured": true,
+  "stock": 10,
+  "features": [
+    "US Standard variant – compatible with Nigerian GSM networks",
+    "256GB internal storage – ample space for apps and media",
+    "Battery Health – 100% capacity for maximum longevity",
+    "Color – Silver finish for a premium look",
+    "Supports Physical SIM + eSIM (Non LLA)",
+    "6.3-inch Super Retina XDR OLED display with ProMotion (120Hz)",
+    "A18 Pro Bionic chip – ultra-fast and efficient performance",
+    "Triple camera system with 48MP wide, 12MP ultra-wide, 12MP telephoto (5x optical zoom)",
+    "Face ID facial recognition for secure access",
+    "5G connectivity for faster internet speeds",
+    "MagSafe wireless charging support"
+  ],
+  "specifications": {
+    "Model": "Apple iPhone 17 Pro",
+    "Storage": "256GB",
+    "Color": "Silver",
+    "Battery Health": "100%",
+    "Display": "6.3-inch Super Retina XDR OLED, ProMotion 120Hz, HDR10+, Dolby Vision",
+    "Processor": "A18 Pro Bionic chip with 6-core CPU and 6-core GPU",
+    "Rear Camera": "Triple system: 48MP Wide, 12MP Ultra-wide, 12MP Telephoto (5x optical zoom)",
+    "Front Camera": "12MP TrueDepth with Night Mode, Cinematic Mode, and 4K video",
+    "Connectivity": "5G, Wi-Fi 6E, Bluetooth 5.3, NFC, Physical SIM + eSIM",
+    "Security": "Face ID facial recognition",
+    "Operating System": "iOS (upgradable to latest version)",
+    "Charging": "MagSafe wireless charging, Lightning/USB-C port",
+    "Build & Design": "Ceramic Shield front, titanium frame, IP68 water and dust resistance"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+
+{
+  "id": 18,
+  "name": "Apple iPhone 12 Mini (64GB) - UK Standard White",
+  "brand": "Apple",
+  "category": "Smartphones",
+  "price": 240000,
+  "currency": "NGN",
+  "image": "assets/images/products/Apple_iPhone_12_mini.jpg",
+  "shortDescription": "UK Standard Apple iPhone 12 Mini with 64GB storage, White color, and 88% battery health.",
+  "description": "The Apple iPhone 12 Mini (UK Standard) is a compact yet powerful smartphone designed for portability and performance. This model comes with 64GB of internal storage, suitable for essential apps, photos, and videos. The White finish gives it a clean and elegant look. With 88% battery health, it ensures reliable daily usage. The iPhone 12 Mini features a 5.4-inch Super Retina XDR OLED display, delivering sharp and vibrant visuals. Powered by the A14 Bionic chip, it offers fast performance for multitasking, gaming, and productivity. The dual-camera system (12MP wide and 12MP ultra-wide) captures stunning photos and videos, enhanced by Night Mode and Dolby Vision HDR recording. Additional features include Face ID, 5G connectivity, MagSafe wireless charging, and iOS support with regular updates. This UK Standard variant ensures compatibility with Nigerian GSM networks and comes ready for use in Lagos, Nigeria.",
+  "newArrival": false,
+  "condition": "refurbished",
+  "featured": false,
+  "stock": 3,
+  "features": [
+    "UK Standard variant – compatible with Nigerian GSM networks",
+    "64GB internal storage – space for essential apps and media",
+    "Battery Health – 88% capacity for reliable daily use",
+    "Color – White finish for a clean look",
+    "5.4-inch Super Retina XDR OLED display",
+    "A14 Bionic chip – fast and efficient performance",
+    "Dual 12MP camera system with Night Mode and Dolby Vision HDR",
+    "Face ID facial recognition for secure access",
+    "5G connectivity for faster internet speeds",
+    "MagSafe wireless charging support"
+  ],
+  "specifications": {
+    "Model": "Apple iPhone 12 Mini",
+    "Storage": "64GB",
+    "Color": "White",
+    "Battery Health": "88%",
+    "Display": "5.4-inch Super Retina XDR OLED, HDR10, Dolby Vision",
+    "Processor": "A14 Bionic chip with 6-core CPU and 4-core GPU",
+    "Rear Camera": "Dual 12MP (Wide f/1.6, Ultra-wide f/2.4)",
+    "Front Camera": "12MP TrueDepth with Night Mode and 4K video",
+    "Connectivity": "5G, Wi-Fi 6, Bluetooth 5.0, NFC",
+    "Security": "Face ID facial recognition",
+    "Operating System": "iOS (upgradable to latest version)",
+    "Charging": "MagSafe wireless charging, Lightning port",
+    "Build & Design": "Ceramic Shield front, aluminum frame, IP68 water and dust resistance"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+
+{
+  "id": 19,
+  "name": "HP Elite X2 1012 G1 (Core m5, 8GB-256GB SSD)",
+  "brand": "HP",
+  "category": "Laptops",
+  "price": 320000,
+  "currency": "NGN",
+  "image": "assets/images/products/HP_Elite_X2_1012.jpg",
+  "shortDescription": "US HP Elite X2 1012 G1 with Core m5, 8GB RAM, 256GB SSD, 6th Gen, Touchscreen, Backlit Keyboard, Type-C, and 12.5-inch FHD display.",
+  "description": "The HP Elite X2 1012 G1 is a versatile 2-in-1 business laptop designed for productivity and portability. Powered by a 6th Gen Intel Core m5 processor, it delivers efficient performance for everyday tasks. Equipped with 8GB RAM and a 256GB SSD, it ensures smooth multitasking and fast storage access. The 12.5-inch Full HD touchscreen display provides crisp visuals and interactive functionality, while the backlit keyboard enhances usability in low-light environments. With USB Type-C connectivity, it supports modern peripherals and fast data transfer. The Elite X2 combines durability, flexibility, and performance, making it ideal for professionals on the go.",
+  "newArrival": false,
+  "condition": "used",
+  "featured": false,
+  "stock": 2,
+  "features": [
+    "US Standard variant – compatible with Nigerian usage",
+    "Intel Core m5 (6th Gen) processor – efficient performance",
+    "8GB RAM – smooth multitasking",
+    "256GB SSD – fast storage and quick boot times",
+    "12.5-inch Full HD touchscreen display",
+    "Backlit keyboard – convenient for low-light use",
+    "USB Type-C connectivity – modern and versatile",
+    "2-in-1 design – laptop and tablet functionality",
+    "Durable build – designed for business professionals"
+  ],
+  "specifications": {
+    "Model": "HP Elite X2 1012 G1",
+    "Processor": "Intel Core m5, 6th Gen",
+    "Memory": "8GB RAM",
+    "Storage": "256GB SSD",
+    "Display": "12.5-inch Full HD touchscreen",
+    "Graphics": "Integrated Intel HD Graphics 515",
+    "Keyboard": "Backlit keyboard",
+    "Connectivity": "USB Type-C, Wi-Fi, Bluetooth",
+    "Operating System": "Windows 10 Pro (upgradable)",
+    "Build & Design": "2-in-1 convertible design, durable chassis"
+  },
+  "merchantName": "Ochei Aloysius",
+  "merchantPhone": "+2348105031964",
+  "merchantBusiness": "EgoTech Electronics",
+  "merchantAddress": "Computer Village, Ikeja, Lagos"
+}
+
+
+
+
+
+
+
+
+
 
 
 

@@ -41,6 +41,7 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  /*box-sizing: border-box;*/
 }
 
 /* ============================================
@@ -2200,47 +2201,6 @@ body {
 
 
 /* ── Sell Button ── */
-/* .egotec-sell-btn {
-  display: inline-flex;
-  align-items: center;
-  background: var(--Accent-color1);
-  color: var(--contrast-color) !important;
-  font-weight: 700;
-  font-size: 0.88rem;
-  padding: 6px 16px;
-  border-radius: 50px;
-  text-decoration: none !important;
-  transition: background 0.2s, transform 0.15s;
-  white-space: nowrap;
-}
-
-.egotec-sell-btn:hover {
-  background: var(--Accent-color3);
-  color: #fff !important;
-  transform: translateY(-1px);
-}
-
-
-/* Hide inline button on mobile 
-@media (max-width: 767px) {
-  .egotec-sell-btn {
-    display: none;
-  }
-/* Show sell button inside mobile dropdown menu 
-  .egotec-sell-mobile {
-    display: flex !important;
-  }
-}
-
-
-@media (min-width: 768px) {
-  .egotec-sell-mobile {
-    display: none !important;
-  }
-} */
-
-
-/* ── Sell Button ── */
 .egotec-sell-btn {
   display: inline-flex;
   align-items: center;
@@ -2349,3 +2309,5 @@ body {
   cursor: not-allowed;
   transform: none;
 }
+
+

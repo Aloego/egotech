@@ -387,7 +387,8 @@ function createProductCard(product) {
 
   col.innerHTML = `
     <div class="egotec-shop-product-card">
-      <!-- Product Image -->
+    
+     <!-- Product Image -->
       <a href="product-details.html?id=${
         product.id
       }" class="egotec-shop-product-image">
@@ -422,9 +423,10 @@ function createProductCard(product) {
           <span class="egotec-shop-rating-count">(${rating.toFixed(1)})</span>
         </div>
 
-        <button class="egotec-add-to-cart-btn" data-product-id="${product.id}">
-          <i class="fas fa-shopping-cart"></i>
-          Add to Cart
+       <button class="egotec-add-to-cart-btn" data-product-id="${product.id}"
+          ${Number(product.stock) === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+          <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'shopping-cart'}"></i>
+          ${Number(product.stock) === 0 ? 'Out of Stock' : 'Add to Cart'}
         </button>
         
         <a href="#" class="egotec-quick-view-link" data-product-id="${

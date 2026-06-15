@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terms & Conditions — EgoTech</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      /* ── Hero ── */
+      .egotec-terms-hero {
+        background: linear-gradient(135deg, var(--Accent-color3) 0%, #2a1a6e 100%);
+        color: #fff;
+        padding: 55px 0 45px;
+        text-align: center;
+      }
+      .egotec-terms-hero h1 {
+        font-family: var(--heading-font);
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .egotec-terms-hero p {
+        font-size: 1rem;
+        opacity: 0.85;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .egotec-terms-breadcrumb {
+        background: transparent;
+        padding: 0;
+        margin: 12px 0 0;
+        font-size: 0.85rem;
+        justify-content: center;
+      }
+      .egotec-terms-breadcrumb .breadcrumb-item a {
+        color: rgba(255,255,255,0.75);
+        text-decoration: none;
+      }
+      .egotec-terms-breadcrumb .breadcrumb-item.active { color: #fff; }
+      .egotec-terms-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255,255,255,0.5);
+      }
+
+      /* ── Quick Nav ── */
+      .egotec-terms-nav {
+        background: #fff;
+        border-radius: 12px;
+        padding: 24px 28px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        position: sticky;
+        top: 90px;
+      }
+      .egotec-terms-nav h6 {
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--Accent-color3);
+        margin-bottom: 14px;
+      }
+      .egotec-terms-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .egotec-terms-nav ul li {
+        margin-bottom: 10px;
+      }
+      .egotec-terms-nav ul li a {
+        color: var(--contrast-color);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .egotec-terms-nav ul li a:hover {
+        color: var(--Accent-color3);
+      }
+      .egotec-terms-nav ul li a i {
+        font-size: 0.75rem;
+        color: var(--Accent-color3);
+      }
+
+      /* ── Content ── */
+      .egotec-terms-section {
+        padding: 60px 0;
+        background: var(--Accent-color5);
+      }
+      .egotec-terms-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+        margin-bottom: 24px;
+      }
+      .egotec-terms-card:last-child {
+        margin-bottom: 0;
+      }
+      .egotec-terms-card-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--Accent-color5);
+      }
+      .egotec-terms-card-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(80,58,168,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .egotec-terms-card-icon i {
+        font-size: 1.3rem;
+        color: var(--Accent-color3);
+      }
+      .egotec-terms-card-header h2 {
+        font-family: var(--heading-font);
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--contrast-color);
+        margin: 0;
+      }
+      .egotec-terms-card h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--Accent-color3);
+        margin: 24px 0 10px;
+      }
+      .egotec-terms-card p {
+        color: var(--Accent-color4);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 12px;
+      }
+      .egotec-terms-card ul {
+        color: var(--Accent-color4);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        padding-left: 20px;
+        margin-bottom: 12px;
+      }
+      .egotec-terms-card ul li {
+        margin-bottom: 6px;
+      }
+
+      /* ── Placeholder box ── */
+      .egotec-terms-placeholder {
+        background: var(--Accent-color5);
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        color: var(--Accent-color4);
+        font-size: 0.88rem;
+        font-style: italic;
+        margin: 16px 0;
+      }
+      .egotec-terms-placeholder i {
+        display: block;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        color: #ccc;
+      }
+
+      /* ── Last updated ── */
+      .egotec-terms-meta {
+        font-size: 0.82rem;
+        color: var(--Accent-color4);
+        margin-top: 6px;
+      }
+
+      /* ── Back to top ── */
+      .egotec-back-to-top {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--Accent-color3);
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-decoration: none;
+        margin-top: 16px;
+        transition: gap 0.2s;
+      }
+      .egotec-back-to-top:hover {
+        gap: 10px;
+        color: var(--Accent-color3);
+      }
+
+      @media (max-width: 991px) {
+        .egotec-terms-nav {
+          position: static;
+          margin-bottom: 24px;
+        }
+        .egotec-terms-card {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- HEADER -->
+    <header class="egotec-header">
+      <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid egotec-navbar-container">
+          <button class="navbar-toggler egotec-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand egotec-logo" href="index.html"><strong>EgoTech</strong></a>
+          <div class="collapse navbar-collapse egotec-nav-collapse" id="navbarNav">
+            <ul class="navbar-nav egotec-nav-menu">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+            <a href="merchant.html" class="egotec-sell-btn egotec-sell-btn-desktop ms-3">
+              <i class="fas fa-store me-1"></i> Sell
+            </a>
+          </div>
+          <div class="egotec-cart-icon dropdown">
+            <a href="#" class="nav-link position-relative" id="cartDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end egotec-cart-dropdown" aria-labelledby="cartDropdown">
+              <div class="egotec-cart-dropdown-header">
+                <h6>Shopping Cart</h6>
+                <span class="egotec-cart-items-count" id="cartItemsCount">0 items</span>
+              </div>
+              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
+                <div class="egotec-cart-empty" id="cartEmptyMessage">
+                  <i class="fas fa-shopping-cart"></i>
+                  <p>Your cart is empty</p>
+                </div>
+              </div>
+              <div class="egotec-cart-dropdown-footer" id="cartDropdownFooter" style="display:none">
+                <div class="egotec-cart-subtotal">
+                  <span>Subtotal:</span><span id="cartDropdownSubtotal">₦0.00</span>
+                </div>
+                <div class="egotec-cart-actions">
+                  <a href="cart.html" class="btn btn-outline-primary w-100 mb-2"><i class="fas fa-shopping-cart"></i> View Cart</a>
+                  <a href="checkout.html" class="btn btn-primary w-100"><i class="fas fa-lock"></i> Checkout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="egotec-terms-hero" id="top">
+      <div class="container">
+        <h1>Terms & Conditions</h1>
+        <p>Please read these terms carefully before using EgoTech or listing products on our platform.</p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb egotec-terms-breadcrumb d-flex justify-content-center">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Terms & Conditions</li>
+          </ol>
+        </nav>
+        <p class="egotec-terms-meta mt-3">Last updated: <strong>January 2025</strong></p>
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <section class="egotec-terms-section">
+      <div class="container">
+        <div class="row g-4">
+
+          <!-- SIDEBAR NAV -->
+          <div class="col-lg-3">
+            <div class="egotec-terms-nav">
+              <h6><i class="fas fa-list me-2"></i>Sections</h6>
+              <ul>
+                <li>
+                  <a href="#general-terms">
+                    <i class="fas fa-chevron-right"></i>
+                    General Terms
+                  </a>
+                </li>
+                <li>
+                  <a href="#vendor-agreement">
+                    <i class="fas fa-chevron-right"></i>
+                    Vendor Agreement
+                  </a>
+                </li>
+                <li>
+                  <a href="#returns-exchange">
+                    <i class="fas fa-chevron-right"></i>
+                    Returns & Exchange
+                  </a>
+                </li>
+                <li>
+                  <a href="#privacy-policy">
+                    <i class="fas fa-chevron-right"></i>
+                    Privacy Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- MAIN CONTENT -->
+          <div class="col-lg-9">
+
+            <!-- ── SECTION 1: General Terms ── -->
+            <div class="egotec-terms-card" id="general-terms">
+              <div class="egotec-terms-card-header">
+                <div class="egotec-terms-card-icon">
+                  <i class="fas fa-file-contract"></i>
+                </div>
+                <div>
+                  <h2>General Terms</h2>
+                  <p class="egotec-terms-meta mb-0">Applies to all users of the EgoTech platform</p>
+                </div>
+              </div>
+
+              <h3>1.1 Acceptance of Terms</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your acceptance of terms content here
+              </div>
+
+              <h3>1.2 Use of the Platform</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your platform usage terms here
+              </div>
+
+              <h3>1.3 User Accounts</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your user account terms here
+              </div>
+
+              <h3>1.4 Prohibited Activities</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your prohibited activities here
+              </div>
+
+              <h3>1.5 Limitation of Liability</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your limitation of liability clause here
+              </div>
+
+              <h3>1.6 Governing Law</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your governing law clause here — e.g. Laws of the Federal Republic of Nigeria
+              </div>
+
+              <a href="#top" class="egotec-back-to-top">
+                <i class="fas fa-arrow-up"></i> Back to top
+              </a>
+            </div>
+
+            <!-- ── SECTION 2: Vendor Agreement ── -->
+            <div class="egotec-terms-card" id="vendor-agreement">
+              <div class="egotec-terms-card-header">
+                <div class="egotec-terms-card-icon">
+                  <i class="fas fa-handshake"></i>
+                </div>
+                <div>
+                  <h2>Vendor Agreement</h2>
+                  <p class="egotec-terms-meta mb-0">Applies to all merchants listing products on EgoTech</p>
+                </div>
+              </div>
+
+              <h3>2.1 Eligibility</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add vendor eligibility requirements here
+              </div>
+
+              <h3>2.2 Product Listing Requirements</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add product listing requirements here — e.g. accurate descriptions, genuine products, correct pricing
+              </div>
+
+              <h3>2.3 Listing Fees & Commission</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your listing fee and commission structure here
+              </div>
+
+              <h3>2.4 Product Approval Process</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your product review and approval process here
+              </div>
+
+              <h3>2.5 Vendor Obligations</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add vendor obligations here — e.g. stock availability, accurate descriptions, timely fulfilment
+              </div>
+
+              <h3>2.6 Product Condition Standards</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add standards for NEW, USED and REFURBISHED products here
+              </div>
+
+              <h3>2.7 Payment & Payouts</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your payment and payout terms here
+              </div>
+
+              <h3>2.8 Account Suspension & Termination</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add grounds for account suspension and termination here
+              </div>
+
+              <a href="#top" class="egotec-back-to-top">
+                <i class="fas fa-arrow-up"></i> Back to top
+              </a>
+            </div>
+
+            <!-- ── SECTION 3: Returns & Exchange ── -->
+            <div class="egotec-terms-card" id="returns-exchange">
+              <div class="egotec-terms-card-header">
+                <div class="egotec-terms-card-icon">
+                  <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div>
+                  <h2>Returns & Exchange</h2>
+                  <p class="egotec-terms-meta mb-0">Our policy for product returns and exchanges</p>
+                </div>
+              </div>
+
+              <h3>3.1 Return Window</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your return window policy here — e.g. customers have 7 days from delivery to request a return
+              </div>
+
+              <h3>3.2 Eligible Products</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add which products are eligible for return here — e.g. new products only, sealed items, etc.
+              </div>
+
+              <h3>3.3 Non-Returnable Products</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add non-returnable products here — e.g. used products, refurbished products, opened software, etc.
+              </div>
+
+              <h3>3.4 Return Conditions</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add conditions for a valid return here — e.g. product must be unused, in original packaging, with all accessories
+              </div>
+
+              <h3>3.5 Return Shipping</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add who bears the return shipping cost here — e.g. vendor bears return shipping cost
+              </div>
+
+              <h3>3.6 Refund Process</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your refund process here — e.g. refunds processed within 7 business days after return is approved
+              </div>
+
+              <h3>3.7 Exchange Process</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your exchange process here — e.g. how to request an exchange, timeline, conditions
+              </div>
+
+              <h3>3.8 Damaged or Defective Products</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your policy for damaged or defective products here
+              </div>
+
+              <a href="#top" class="egotec-back-to-top">
+                <i class="fas fa-arrow-up"></i> Back to top
+              </a>
+            </div>
+
+            <!-- ── SECTION 4: Privacy Policy ── -->
+            <div class="egotec-terms-card" id="privacy-policy">
+              <div class="egotec-terms-card-header">
+                <div class="egotec-terms-card-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                  <h2>Privacy Policy</h2>
+                  <p class="egotec-terms-meta mb-0">How EgoTech collects, uses and protects your data</p>
+                </div>
+              </div>
+
+              <h3>4.1 Information We Collect</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add what information you collect here — e.g. name, email, phone, address, order history
+              </div>
+
+              <h3>4.2 How We Use Your Information</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add how you use collected information here — e.g. order processing, customer support, marketing
+              </div>
+
+              <h3>4.3 Information Sharing</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your information sharing policy here — e.g. shared with vendors only for order fulfilment
+              </div>
+
+              <h3>4.4 Data Security</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your data security measures here
+              </div>
+
+              <h3>4.5 Cookies</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add your cookie policy here
+              </div>
+
+              <h3>4.6 Your Rights</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add user rights here — e.g. right to access, correct or delete personal data
+              </div>
+
+              <h3>4.7 Contact Us</h3>
+              <div class="egotec-terms-placeholder">
+                <i class="fas fa-pen"></i>
+                Add privacy contact details here — e.g. email address for privacy enquiries
+              </div>
+
+              <a href="#top" class="egotec-back-to-top">
+                <i class="fas fa-arrow-up"></i> Back to top
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="egotec-footer">
+      <div class="container">
+        <div class="row egotec-footer-main py-5">
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
+            <p class="egotec-footer-text">Your trusted destination for premium electronics and smart home solutions.</p>
+            <div class="egotec-footer-social mt-4">
+              <a href="#" class="egotec-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="terms.html">Terms & Conditions</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
+            <ul class="egotec-footer-links">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="terms.html#returns-exchange">Returns & Exchange</a></li>
+              <li><a href="terms.html#privacy-policy">Privacy Policy</a></li>
+              <li><a href="#">Track Order</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
+            <ul class="egotec-footer-contact">
+              <li><i class="fas fa-map-marker-alt"></i><span>Computer Village, Ikeja, Lagos, Nigeria</span></li>
+              <li><i class="fas fa-phone"></i><span>+234 810 503 1964</span></li>
+              <li><i class="fas fa-envelope"></i><span>support@egotech.com</span></li>
+              <li><i class="fas fa-clock"></i><span>Mon – Sat: 9:00 AM – 7:00 PM</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="egotec-footer-bottom py-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="egotec-footer-copyright mb-0">&copy; 2025 EgoTech. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <ul class="egotec-footer-legal">
+                <li><a href="terms.html#privacy-policy">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms of Service</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cart-dropdown.js"></script>
+
+    <script>
+      // Smooth scroll for nav links
+      document.querySelectorAll('.egotec-terms-nav a, .egotec-back-to-top').forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href.startsWith('#')) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              const offset = 100;
+              const top = target.getBoundingClientRect().top + window.scrollY - offset;
+              window.scrollTo({ top, behavior: 'smooth' });
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

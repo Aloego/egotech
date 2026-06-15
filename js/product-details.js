@@ -210,7 +210,15 @@ function renderStockStatus(stock) {
   const addToCartBtn = document.getElementById("addToCartBtn");
   if (stockNum === 0) {
     addToCartBtn.disabled = true;
-    addToCartBtn.innerHTML = '<i class="fas fa-ban me-2"></i>Out of Stock';
+    addToCartBtn.style.opacity = "0.5";
+    addToCartBtn.style.cursor = "not-allowed";
+  }
+  const buyNowBtn = document.getElementById("buyNowBtn");
+  if (buyNowBtn && stockNum === 0) {
+    buyNowBtn.disabled = true;
+    buyNowBtn.style.opacity = "0.5";
+    buyNowBtn.style.cursor = "not-allowed";
+
   }
 }
 
