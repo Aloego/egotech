@@ -423,10 +423,11 @@ function createProductCard(product) {
           <span class="egotec-shop-rating-count">(${rating.toFixed(1)})</span>
         </div>
 
-       <button class="egotec-add-to-cart-btn" data-product-id="${product.id}"
+       <button class="egotec-buy-now"
+          onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
           ${Number(product.stock) === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
-          <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'shopping-cart'}"></i>
-          ${Number(product.stock) === 0 ? 'Out of Stock' : 'Add to Cart'}
+          <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
+          ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
         </button>
         
         <a href="#" class="egotec-quick-view-link" data-product-id="${
@@ -449,8 +450,8 @@ function createProductCard(product) {
     toggleWishlist(wishlistBtn, product.id);
   });
 
-  // Add to cart button - handled by cart-dropdown.js globally
-  // Quick View link - handled by quick-view-modal.js
+ // Buy Now button handled inline via EgoTechUtils.buyNowInquiry
+ // Quick View link handled by quick-view-modal.js
 
   return col;
 }

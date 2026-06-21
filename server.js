@@ -310,3 +310,66 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
+// ── POST /api/inquiry ──────────────────────────────
+// Log a Buy Now / WhatsApp inquiry to Orders + OrderItems
+app.post("/api/inquiry", async (req, res) => {
+  const { productId, productName, price, quantity, merchantName, merchantPhone, merchantBusiness, merchantAddress } = req.body;
+
+  try {
+    // ── Save to Orders table ──
+    const orderResponse = await fetch(AIRTABLE_API_URL, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_TOKEN,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fields: {
+          firstName: "WhatsApp",
+          lastName: "Inquiry",
+          email: "n/a",
+          phone: merchantPhone || "n/a",
+          address: "n/a",
+          country: "Nigeria",
+          state: "n/a",
+          cartItems: JSON.stringify([{ id: productId, name: productName, price, qty: quantity || 1 }]),
+          orderDate: new Date().toISOString(),
+          status: "pending",
+        },
+      }),
+    });
+
+    const orderSaved = await orderResponse.json();
+    if (!orderResponse.ok) {
+      console.error("Inquiry order error:", JSON.stringify(orderSaved));
+      return res.status(500).json({ error: "Failed to log inquiry" });
+    }
+
+    // ── Save to OrderItems table ──
+    await fetch(AIRTABLE_ORDER_ITEMS_URL, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_TOKEN,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fields: {
+          orderId: orderSaved.id,
+          productName: productName || "",
+          productId: String(productId) || "",
+          quantity: Number(quantity) || 1,
+          price: Number(price) || 0,
+          merchantName: merchantName || "",
+          merchantPhone: merchantPhone || "",
+          merchantBusiness: merchantBusiness || "",
+          merchantAddress: merchantAddress || "",
+        },
+      }),
+    });
+
+    res.status(200).json({ success: true, orderId: orderSaved.id });
+  } catch (err) {
+    console.error("Inquiry error:", err);
+    res.status(500).json({ error: "Failed to log inquiry" });
+  }
+});

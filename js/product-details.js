@@ -111,6 +111,10 @@ function renderProductDetails(product) {
   // Stock status
   renderStockStatus(product.stock);
 
+  // Hide Add to Cart button
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  if (addToCartBtn) addToCartBtn.style.display = "none";
+
   // Brand & Category
   document.getElementById("productBrand").textContent = product.brand || "N/A";
   document.getElementById("productCategory").textContent =
@@ -206,19 +210,12 @@ function renderStockStatus(stock) {
   stockContainer.className = `egotec-stock-status ${statusClass}`;
   stockContainer.innerHTML = `${icon} ${statusText}`;
 
-  // Disable add to cart if out of stock
-  const addToCartBtn = document.getElementById("addToCartBtn");
-  if (stockNum === 0) {
-    addToCartBtn.disabled = true;
-    addToCartBtn.style.opacity = "0.5";
-    addToCartBtn.style.cursor = "not-allowed";
-  }
+  // Handle Buy Now button for out of stock
   const buyNowBtn = document.getElementById("buyNowBtn");
   if (buyNowBtn && stockNum === 0) {
     buyNowBtn.disabled = true;
     buyNowBtn.style.opacity = "0.5";
     buyNowBtn.style.cursor = "not-allowed";
-
   }
 }
 
@@ -357,11 +354,10 @@ function createRelatedProductCard(product) {
         <div class="egotec-rating-stars">${starsHTML}</div>
         <span class="egotec-related-rating-count">(${rating.toFixed(1)})</span>
       </div>
-      <button class="egotec-related-add-cart egotec-btn-add-cart" data-product-id="${
-        product.id
-      }">
-        <i class="fas fa-shopping-cart"></i>
-        Add to Cart
+      <button class="egotec-buy-now"
+        onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/'/g, "\\'").replace(/"/g, '&quot;')})">
+        <i class="fas fa-bolt"></i>
+        Buy Now
       </button>
     </div>
   `;
@@ -426,53 +422,18 @@ function setupEventListeners() {
 // SETUP PRODUCT BUTTONS
 // ============================================
 function setupProductButtons(product) {
-  // Add to Cart button
+ // Hide Add to Cart button entirely
   const addToCartBtn = document.getElementById("addToCartBtn");
-  if (addToCartBtn && product) {
-    // Set product ID on button for cart-dropdown.js
-    addToCartBtn.setAttribute("data-product-id", product.id);
-
-    // Visual feedback only - actual cart logic handled by cart-dropdown.js
-    addToCartBtn.addEventListener("click", () => {
-      const btn = addToCartBtn;
-      const originalHTML = btn.innerHTML;
-      btn.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-      btn.disabled = true;
-
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.disabled = false;
-      }, 1500);
-    });
-  }
+  if (addToCartBtn) addToCartBtn.style.display = "none";
 
   // Buy Now button
   const buyNowBtn = document.getElementById("buyNowBtn");
   if (buyNowBtn && product) {
     buyNowBtn.addEventListener("click", () => {
-      // Add to cart first then redirect to checkout
-      const cartItems = EgoTechUtils.getCartItems();
-      const existingIndex = cartItems.findIndex(item => item.id == product.id);
       const quantity = parseInt(document.getElementById("quantity").value) || 1;
-
-      if (existingIndex !== -1) {
-        cartItems[existingIndex].qty += quantity;
-      } else {
-        cartItems.push({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          currency: product.currency || "NGN",
-          qty: quantity,
-        });
-      }
-
-      EgoTechUtils.saveCartItems(cartItems);
-      window.location.href = "checkout.html";
+      EgoTechUtils.buyNowInquiry(product, quantity);
     });
   }
-
 
   // Add to Wishlist button
   const addToWishlistBtn = document.getElementById("addToWishlistBtn");

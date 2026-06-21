@@ -1,17 +1,3 @@
-// Ensure quick view modal add-to-cart button resets on open
-document.addEventListener("DOMContentLoaded", function () {
-  const qvModal = document.getElementById("quickViewModal");
-  if (qvModal) {
-    qvModal.addEventListener("show.bs.modal", function () {
-      const addBtn = document.getElementById("qvAddToCart");
-      if (addBtn) {
-        addBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
-        addBtn.style.backgroundColor = "";
-        addBtn.disabled = false;
-      }
-    });
-  }
-});
 // Quick View Modal JavaScript
 
 class QuickViewModal {
@@ -262,13 +248,7 @@ class QuickViewModal {
     if (qtyInput) {
       qtyInput.value = 1;
     }
-    // Reset Add to Cart button state for every product
-    const addBtn = document.getElementById("qvAddToCart");
-    if (addBtn) {
-      addBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
-      addBtn.style.backgroundColor = "";
-      addBtn.disabled = false;
-    }
+   
 
     // Title
     document.getElementById("qvTitle").textContent = product.name;
@@ -306,10 +286,10 @@ class QuickViewModal {
     // Reset quantity
     document.getElementById("qvQuantity").value = 1;
 
-    // Set product ID on add to cart button for cart-dropdown.js
+    // Hide Add to Cart button entirely — Buy Now only
     const addToCartBtn = document.getElementById("qvAddToCart");
     if (addToCartBtn) {
-      addToCartBtn.setAttribute("data-product-id", product.id);
+      addToCartBtn.style.display = "none";
     }
   }
 
@@ -360,19 +340,17 @@ class QuickViewModal {
     const addToCartBtn = document.getElementById("qvAddToCart");
     const buyNowBtn = document.getElementById("qvBuyNow");
     if (stock === 0) {
-      addToCartBtn.disabled = true;
-      buyNowBtn.disabled = true;
-      addToCartBtn.style.opacity = "0.5";
-      buyNowBtn.style.opacity = "0.5";
-      addToCartBtn.style.cursor = "not-allowed";
-      buyNowBtn.style.cursor = "not-allowed";
+      if (buyNowBtn) {
+        buyNowBtn.disabled = true;
+        buyNowBtn.style.opacity = "0.5";
+        buyNowBtn.style.cursor = "not-allowed";
+      }
     } else {
-      addToCartBtn.disabled = false;
-      buyNowBtn.disabled = false;
-      addToCartBtn.style.opacity = "1";
-      buyNowBtn.style.opacity = "1";
-      addToCartBtn.style.cursor = "pointer";
-      buyNowBtn.style.cursor = "pointer";
+      if (buyNowBtn) {
+        buyNowBtn.disabled = false;
+        buyNowBtn.style.opacity = "1";
+        buyNowBtn.style.cursor = "pointer";
+      }
     }
   }
 
@@ -496,49 +474,14 @@ class QuickViewModal {
   }
 
   addToCart() {
-    if (!this.currentProduct) return;
-
-    // Cart functionality is handled by cart-dropdown.js
-    // Just show visual feedback here
-    const btn = document.getElementById("qvAddToCart");
-    const originalHTML = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-check"></i> Added!';
-    btn.style.background = "#28a745";
-
-    setTimeout(() => {
-      btn.innerHTML = originalHTML;
-      btn.style.background = "";
-    }, 1500);
+    // Add to Cart replaced by Buy Now — no action needed
   }
 
   buyNow() {
     if (!this.currentProduct) return;
-
     const quantity = parseInt(document.getElementById("qvQuantity").value) || 1;
-    const product = this.currentProduct;
-
-    // Add to cart first
-    const cartItems = EgoTechUtils.getCartItems();
-    const existingIndex = cartItems.findIndex(item => String(item.id) === String(product.id));
-
-    if (existingIndex !== -1) {
-      cartItems[existingIndex].qty += quantity;
-    } else {
-      cartItems.push({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        currency: product.currency || "NGN",
-        qty: quantity,
-      });
-    }
-
-    EgoTechUtils.saveCartItems(cartItems);
-
-    // Close modal then redirect to checkout
+    EgoTechUtils.buyNowInquiry(this.currentProduct, quantity);
     this.close();
-    window.location.href = "checkout.html";
   }
   
   toggleWishlist() {

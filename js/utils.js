@@ -9,9 +9,6 @@
 
 const EgoTechUtils = {
 
-  // Cart localStorage key
-  CART_ITEMS_KEY: "egotec_cart_items",
-
   // Format amount as Nigerian Naira
   formatCurrency(amount) {
     return new Intl.NumberFormat("en-NG", {
@@ -22,26 +19,7 @@ const EgoTechUtils = {
     }).format(amount);
   },
 
-  // Get cart items from localStorage
-  getCartItems() {
-    try {
-      const items = localStorage.getItem(this.CART_ITEMS_KEY);
-      return items ? JSON.parse(items) : [];
-    } catch (e) {
-      console.error("Error reading cart items:", e);
-      return [];
-    }
-  },
-
-  // Save cart items to localStorage
-  saveCartItems(items) {
-    try {
-      localStorage.setItem(this.CART_ITEMS_KEY, JSON.stringify(items));
-    } catch (e) {
-      console.error("Error saving cart items:", e);
-    }
-  },
-
+  
 
   // Generate condition badge only (for product cards)
 getConditionBadge(condition) {
@@ -135,5 +113,51 @@ getConditionBadgeWithNotice(condition) {
       return data.products || [];
     }
   },
+
+  // Open WhatsApp inquiry for a product, with phone/SMS fallback
+async buyNowInquiry(product, quantity = 1) {
+  // Log inquiry to Airtable (fire and forget)
+  fetch("https://egotech.onrender.com/api/inquiry", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      productId: product.id,
+      productName: product.name,
+      price: product.price,
+      quantity: quantity,
+      merchantName: product.merchantName || "",
+      merchantPhone: product.merchantPhone || "",
+      merchantBusiness: product.merchantBusiness || "",
+      merchantAddress: product.merchantAddress || "",
+    }),
+  }).catch((err) => console.error("Inquiry logging failed:", err));
+
+  // // Build WhatsApp message
+  // const message = `Hi, I'm interested in buying *${product.name}* (₦${Number(product.price).toLocaleString()}) ${quantity > 1 ? `x${quantity} ` : ""}from EgoTech. Is it available?`;
+  // const encodedMessage = encodeURIComponent(message);
+
+
+  // Build product link so vendor knows exactly which product is being asked about
+  const productLink = `${window.location.origin}${window.location.pathname.includes("/") ? window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1) : ""}product-details.html?id=${product.id}`;
+
+  // Build WhatsApp message
+  const message = `Hi, I'm interested in buying *${product.name}* (₦${Number(product.price).toLocaleString()}) ${quantity > 1 ? `x${quantity} ` : ""}from Techpoint. Is it available?\n\nProduct link: ${productLink}`;
+  const encodedMessage = encodeURIComponent(message);
+
+
+
+  // Normalize phone number to international format
+  let phone = (product.merchantPhone || "").replace(/[^0-9]/g, "");
+  if (phone.startsWith("0")) {
+    phone = "234" + phone.slice(1);
+  }
+
+  if (phone) {
+    // Try WhatsApp first
+    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
+  } else {
+    alert("Sorry, contact details for this merchant are not available.");
+  }
+},
 
 };

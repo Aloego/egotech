@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Terms & Conditions — EgoTech</title>
+    <title>Terms & Conditions — Techpoint</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/fontawesome/css/all.css" />
     <link rel="stylesheet" href="css/style.css" />
@@ -141,15 +141,29 @@
         line-height: 1.7;
         margin-bottom: 12px;
       }
-      .egotec-terms-card ul {
+      .egotec-terms-card ul, .egotec-terms-card ol {
         color: var(--Accent-color4);
         font-size: 0.95rem;
         line-height: 1.7;
         padding-left: 20px;
         margin-bottom: 12px;
       }
-      .egotec-terms-card ul li {
+      .egotec-terms-card ul li, .egotec-terms-card ol li {
         margin-bottom: 6px;
+      }
+      .egotec-terms-intro {
+        background: rgba(80,58,168,0.05);
+        border-left: 3px solid var(--Accent-color3);
+        padding: 16px 20px;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 20px;
+      }
+      .egotec-terms-intro p {
+        margin-bottom: 8px;
+        color: var(--contrast-color);
+      }
+      .egotec-terms-intro p:last-child {
+        margin-bottom: 0;
       }
 
       /* ── Placeholder box ── */
@@ -217,7 +231,8 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand egotec-logo" href="index.html"><strong>EgoTech</strong></a>
+          <a class="navbar-brand egotec-logo" href="index.html"><strong>Techpoint
+    </strong></a>
           <div class="collapse navbar-collapse egotec-nav-collapse" id="navbarNav">
             <ul class="navbar-nav egotec-nav-menu">
               <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
@@ -228,34 +243,6 @@
               <i class="fas fa-store me-1"></i> Sell
             </a>
           </div>
-          <div class="egotec-cart-icon dropdown">
-            <a href="#" class="nav-link position-relative" id="cartDropdown"
-              role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fas fa-shopping-cart"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">0</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end egotec-cart-dropdown" aria-labelledby="cartDropdown">
-              <div class="egotec-cart-dropdown-header">
-                <h6>Shopping Cart</h6>
-                <span class="egotec-cart-items-count" id="cartItemsCount">0 items</span>
-              </div>
-              <div class="egotec-cart-dropdown-body" id="cartDropdownBody">
-                <div class="egotec-cart-empty" id="cartEmptyMessage">
-                  <i class="fas fa-shopping-cart"></i>
-                  <p>Your cart is empty</p>
-                </div>
-              </div>
-              <div class="egotec-cart-dropdown-footer" id="cartDropdownFooter" style="display:none">
-                <div class="egotec-cart-subtotal">
-                  <span>Subtotal:</span><span id="cartDropdownSubtotal">₦0.00</span>
-                </div>
-                <div class="egotec-cart-actions">
-                  <a href="cart.html" class="btn btn-outline-primary w-100 mb-2"><i class="fas fa-shopping-cart"></i> View Cart</a>
-                  <a href="checkout.html" class="btn btn-primary w-100"><i class="fas fa-lock"></i> Checkout</a>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </nav>
     </header>
@@ -264,7 +251,8 @@
     <section class="egotec-terms-hero" id="top">
       <div class="container">
         <h1>Terms & Conditions</h1>
-        <p>Please read these terms carefully before using EgoTech or listing products on our platform.</p>
+        <p>Please read these terms carefully before using Techpoint
+   or listing products on our platform.</p>
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb egotec-terms-breadcrumb d-flex justify-content-center">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -285,30 +273,10 @@
             <div class="egotec-terms-nav">
               <h6><i class="fas fa-list me-2"></i>Sections</h6>
               <ul>
-                <li>
-                  <a href="#general-terms">
-                    <i class="fas fa-chevron-right"></i>
-                    General Terms
-                  </a>
-                </li>
-                <li>
-                  <a href="#vendor-agreement">
-                    <i class="fas fa-chevron-right"></i>
-                    Vendor Agreement
-                  </a>
-                </li>
-                <li>
-                  <a href="#returns-exchange">
-                    <i class="fas fa-chevron-right"></i>
-                    Returns & Exchange
-                  </a>
-                </li>
-                <li>
-                  <a href="#privacy-policy">
-                    <i class="fas fa-chevron-right"></i>
-                    Privacy Policy
-                  </a>
-                </li>
+                <li><a href="#general-terms"><i class="fas fa-chevron-right"></i>General Terms</a></li>
+                <li><a href="#vendor-agreement"><i class="fas fa-chevron-right"></i>Vendor Agreement</a></li>
+                <li><a href="#returns-exchange"><i class="fas fa-chevron-right"></i>Returns & Exchange</a></li>
+                <li><a href="#privacy-policy"><i class="fas fa-chevron-right"></i>Privacy Policy</a></li>
               </ul>
             </div>
           </div>
@@ -324,49 +292,56 @@
                 </div>
                 <div>
                   <h2>General Terms</h2>
-                  <p class="egotec-terms-meta mb-0">Applies to all users of the EgoTech platform</p>
+                  <p class="egotec-terms-meta mb-0">Applies to all users of the Techpoint
+             platform</p>
                 </div>
               </div>
 
               <h3>1.1 Acceptance of Terms</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your acceptance of terms content here
-              </div>
+              <p>Techpoint
+         does not require visitors or customers to create an account. The Platform operates on a simple browse-and-inquire model: you browse products, click "Buy Now" on an item you are interested in, and you are connected directly with the vendor via WhatsApp to complete your purchase.</p>
+              <p>By accessing or using the Techpoint
+         website in any way — including browsing products, viewing listings, or clicking "Buy Now" to initiate a WhatsApp inquiry — you automatically accept and agree to be bound by these Terms & Conditions, whether or not you create an account. If you do not agree to these terms, please discontinue use of the Platform.</p>
 
               <h3>1.2 Use of the Platform</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your platform usage terms here
-              </div>
+              <p>Techpoint
+         is open to both individual customers shopping for personal use and businesses looking to purchase electronics in retail or bulk quantities. There is no minimum or maximum order restriction imposed by the Platform itself — order quantities and bulk pricing arrangements are agreed directly between the customer and the vendor.</p>
+              <p>Techpoint
+         is not limited to Lagos State. While many of our vendors are currently based in Lagos, customers from other Nigerian states are welcome to browse listings and reach out to vendors. Delivery arrangements and coverage outside a vendor's immediate location are agreed directly between the customer and the vendor.</p>
 
-              <h3>1.3 User Accounts</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your user account terms here
-              </div>
+              <h3>1.3 Visitor Conduct</h3>
+              <p>Techpoint
+         does not operate a user account or login system. As a visitor, you are expected to use the Platform respectfully and lawfully at all times. Any contact information you voluntarily provide — for example, when submitting a "Buy Now" inquiry — is used solely for the purposes described in our Privacy Policy below.</p>
 
               <h3>1.4 Prohibited Activities</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your prohibited activities here
-              </div>
+              <p>While using Techpoint
+        , you must not:</p>
+              <ul>
+                <li>Attempt to hack, scrape, or extract data from the website without authorization;</li>
+                <li>Post or submit fake reviews or misleading feedback;</li>
+                <li>Impersonate Techpoint
+          , a vendor, or any other person or entity;</li>
+                <li>Use the Platform for any unlawful purpose;</li>
+                <li>Send spam, harassing, or abusive messages to vendors via WhatsApp or any other contact channel made available through the Platform.</li>
+              </ul>
+              <p>Techpoint
+         reserves the right to restrict access to any visitor found engaging in the activities listed above.</p>
 
               <h3>1.5 Limitation of Liability</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your limitation of liability clause here
-              </div>
+              <p>Techpoint
+         is a marketplace platform that connects customers with vendors. Techpoint
+         is not a party to any sale, transaction, or agreement made between a customer and a vendor. Actual transactions — including price negotiation, payment, and delivery — take place directly between the customer and the vendor, typically via WhatsApp.</p>
+              <p>Accordingly, Techpoint
+         shall not be liable for the outcome of any transaction, including but not limited to product quality, payment disputes, non-delivery, late delivery, or any other issue arising from a purchase made through contact initiated on the Platform.</p>
+              <p>The Techpoint
+         website and its services are provided strictly on an "as-is" and "as-available" basis. While we make reasonable efforts to keep the Platform functional and accurate, Techpoint
+         does not guarantee uninterrupted, error-free, or fault-free operation of the website, and is not liable for any loss arising from site downtime, technical errors, or inaccuracies in listed information.</p>
 
               <h3>1.6 Governing Law</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your governing law clause here — e.g. Laws of the Federal Republic of Nigeria
-              </div>
+              <p>These Terms & Conditions shall be governed by and interpreted in accordance with the laws of the Federal Republic of Nigeria. Any dispute arising from the use of the Techpoint
+         platform that proceeds to litigation shall be subject to the exclusive jurisdiction of the courts of Lagos State, Nigeria.</p>
 
-              <a href="#top" class="egotec-back-to-top">
-                <i class="fas fa-arrow-up"></i> Back to top
-              </a>
+              <a href="#top" class="egotec-back-to-top"><i class="fas fa-arrow-up"></i> Back to top</a>
             </div>
 
             <!-- ── SECTION 2: Vendor Agreement ── -->
@@ -376,62 +351,229 @@
                   <i class="fas fa-handshake"></i>
                 </div>
                 <div>
-                  <h2>Vendor Agreement</h2>
-                  <p class="egotec-terms-meta mb-0">Applies to all merchants listing products on EgoTech</p>
+                  <h2>Vendor Product Listing Agreement</h2>
+                  <p class="egotec-terms-meta mb-0">Applies to all merchants listing products on Techpoint
+            </p>
                 </div>
               </div>
 
-              <h3>2.1 Eligibility</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add vendor eligibility requirements here
+              <div class="egotec-terms-intro">
+                <p>This Vendor Listing Agreement ("Agreement") is entered into between <strong>Techpoint
+          </strong> ("Techpoint
+        ", "Marketplace", "Platform", "we", "us", or "our"), an online marketplace platform, and the Vendor ("Vendor", "Seller", "you", or "your").</p>
+                <p>By registering as a vendor, submitting products for listing, or using the vendor services provided by Techpoint
+          , you acknowledge that you have read, understood, and agree to be bound by this Agreement.</p>
               </div>
+
+              <h3>2.1 Eligibility</h3>
+              <p>To become a vendor on Techpoint
+        :</p>
+              <ol>
+                <li>You must provide accurate registration information.</li>
+                <li>You may not maintain multiple vendor accounts without prior approval from Techpoint
+          .</li>
+                <li>Techpoint
+           reserves the right to approve, reject, suspend, or terminate any vendor application at its sole discretion.</li>
+                <li>Techpoint
+           may introduce identity verification, business verification, ownership verification, or additional compliance requirements in future updates.</li>
+              </ol>
 
               <h3>2.2 Product Listing Requirements</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add product listing requirements here — e.g. accurate descriptions, genuine products, correct pricing
-              </div>
+              <p><strong>Approved Products</strong> — The Platform may be used to list and sell electronics and technology-related products, including but not limited to:</p>
+              <ul>
+                <li>Smartphones</li>
+                <li>Laptops</li>
+                <li>Desktop computers</li>
+                <li>Tablets</li>
+                <li>Gaming consoles</li>
+                <li>Computer accessories</li>
+                <li>Networking equipment</li>
+                <li>Consumer electronics</li>
+                <li>Other approved technology products</li>
+              </ul>
+              <p>Techpoint
+         reserves the right to determine whether any product qualifies for listing.</p>
+
+              <p><strong>Prohibited Products</strong> — The following products are strictly prohibited:</p>
+              <ul>
+                <li>Counterfeit products</li>
+                <li>Stolen goods</li>
+                <li>Illegal devices</li>
+                <li>Fraudulent products</li>
+                <li>Products with altered or removed serial numbers, IMEI numbers, or identification markings</li>
+                <li>Products prohibited by Nigerian law</li>
+                <li>Misrepresented products</li>
+                <li>Any product that may expose Techpoint
+          , customers, or third parties to legal or safety risks</li>
+              </ul>
+              <p>Techpoint
+         may remove any prohibited product without notice.</p>
+
+              <p><strong>Listing Standards</strong> — Vendors shall:</p>
+              <ol>
+                <li>Provide accurate product descriptions.</li>
+                <li>Accurately disclose product specifications.</li>
+                <li>Upload genuine product photographs.</li>
+                <li>Keep pricing information current.</li>
+                <li>Keep stock information current.</li>
+                <li>Clearly disclose any defects, limitations, or conditions affecting the product.</li>
+              </ol>
+              <p>Stock images may only be used where permitted by Techpoint
+        , including for certain recognized brands. Misleading listings are prohibited.</p>
 
               <h3>2.3 Listing Fees & Commission</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your listing fee and commission structure here
-              </div>
+              <p>Techpoint
+         may charge vendors one or more of the following:</p>
+              <ul>
+                <li>Monthly subscription fees</li>
+                <li>Sales commissions</li>
+                <li>Listing fees</li>
+                <li>Promotional fees</li>
+                <li>Other marketplace service fees as may be introduced from time to time</li>
+              </ul>
+              <p>At the launch of the Platform, vendors shall be required to pay a monthly subscription fee and any applicable sales commissions communicated by Techpoint
+        . Listing fees are not currently charged but may be introduced in future updates.</p>
+              <p>Techpoint
+         reserves the right to modify, introduce, remove, or combine fee structures at any time, including offering vendors different pricing plans based on monthly subscriptions, sales commissions, listing fees, hybrid pricing models, or other marketplace pricing structures.</p>
+              <p>All fees paid to Techpoint
+         are non-refundable unless expressly stated otherwise. Vendors are responsible for ensuring that all fees, subscriptions, commissions, and other charges are paid when due.</p>
+
+              <p><strong>Non-Payment of Fees and Commissions</strong> — If a vendor fails to pay any subscription fee, commission, listing fee, or other amount due to Techpoint
+        , the Marketplace may, at its sole discretion:</p>
+              <ul>
+                <li>Remove one or more product listings</li>
+                <li>Suspend approval of new listings</li>
+                <li>Restrict access to vendor features</li>
+                <li>Temporarily suspend the vendor account</li>
+                <li>Permanently terminate the vendor account for repeated or serious violations</li>
+              </ul>
+              <p>Any unpaid fees, commissions, subscriptions, or charges shall remain payable even after account suspension or termination. Techpoint
+         reserves the right to pursue lawful recovery of outstanding amounts owed by vendors. Failure to pay required subscription fees may result in the removal of all active listings from the Platform until payment obligations have been satisfied.</p>
 
               <h3>2.4 Product Approval Process</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your product review and approval process here
-              </div>
+              <ol>
+                <li>All listings are subject to manual review.</li>
+                <li>Techpoint
+           may approve, reject, edit, suspend, or remove listings.</li>
+                <li>Approval of a listing does not guarantee continued availability on the Platform.</li>
+                <li>Vendors may be notified when listings are rejected.</li>
+              </ol>
 
               <h3>2.5 Vendor Obligations</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add vendor obligations here — e.g. stock availability, accurate descriptions, timely fulfilment
-              </div>
+              <p><strong>Order Fulfilment</strong> — Vendors are solely responsible for:</p>
+              <ul>
+                <li>Processing orders</li>
+                <li>Product packaging</li>
+                <li>Shipping and delivery</li>
+                <li>Delivery accuracy</li>
+                <li>Customer support</li>
+                <li>Product warranties</li>
+                <li>Product authenticity</li>
+                <li>Refund obligations</li>
+                <li>Customer complaints</li>
+              </ul>
+              <p>Techpoint
+         is not responsible for fulfilment failures by vendors.</p>
+
+              <p><strong>General Conduct</strong> — Vendors agree to:</p>
+              <ul>
+                <li>Sell only lawful products</li>
+                <li>Provide accurate information</li>
+                <li>Comply with Nigerian laws and regulations</li>
+                <li>Comply with tax obligations</li>
+                <li>Maintain professional conduct</li>
+                <li>Cooperate with investigations conducted by Techpoint
+          </li>
+              </ul>
+
+              <p><strong>Prohibited Conduct</strong> — Vendors shall not:</p>
+              <ul>
+                <li>Sell counterfeit products</li>
+                <li>Sell stolen goods</li>
+                <li>Misrepresent products</li>
+                <li>Manipulate reviews</li>
+                <li>Spam customers</li>
+                <li>Upload offensive, misleading, or unlawful content</li>
+                <li>Engage in fraudulent activity</li>
+                <li>Circumvent Techpoint
+           policies</li>
+              </ul>
+              <p>Violations may result in immediate and permanent account termination.</p>
+
+              <p><strong>Customer Data</strong> — Vendors may access only information necessary to fulfil orders, arrange delivery, or resolve complaints. Vendors may not sell customer data, share customer data without authorization, or use customer data for unauthorized purposes.</p>
 
               <h3>2.6 Product Condition Standards</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add standards for NEW, USED and REFURBISHED products here
-              </div>
+              <p>Used, refurbished, and imported products may be listed provided that:</p>
+              <ol>
+                <li>The product remains functional and in good condition.</li>
+                <li>The product is lawfully owned.</li>
+                <li>The product is not counterfeit.</li>
+                <li>The product is not stolen.</li>
+                <li>The vendor accurately describes the product condition.</li>
+              </ol>
 
               <h3>2.7 Payment & Payouts</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your payment and payout terms here
-              </div>
+              <p>Techpoint
+         does not process, hold, or handle any payment for the sale of products between customers and vendors. All payment for products is made directly between the customer and the vendor — typically arranged after the customer contacts the vendor via WhatsApp, visits the vendor's shop, or otherwise agrees a payment and delivery method directly with the vendor.</p>
+              <p>The Vendor is solely responsible for issuing receipts or proof of payment to customers for any sale concluded outside the Platform.</p>
+              <p>Techpoint
+          's role is limited to collecting listing fees and applicable sales commissions from vendors, as separately communicated by Techpoint
+        . These payments are made via bank transfer or cash, directly to Techpoint
+      .</p>
+              <ul>
+                <li><strong>Listing fees</strong> are payable before a product is approved and published on the Platform.</li>
+                <li><strong>Sales commissions</strong> are payable immediately following a confirmed sale.</li>
+              </ul>
+              <p>Since sales are concluded off-platform via WhatsApp, vendors are expected to self-report completed sales for the purpose of commission calculation, in good faith and in accordance with this Agreement. Techpoint
+         reserves the right to introduce verification measures in future updates.</p>
 
               <h3>2.8 Account Suspension & Termination</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add grounds for account suspension and termination here
-              </div>
+              <p>Techpoint
+         may suspend or terminate vendor accounts without prior notice. Upon termination:</p>
+              <ol>
+                <li>Product listings may be removed.</li>
+                <li>Vendor access may be revoked.</li>
+                <li>Outstanding obligations remain enforceable.</li>
+              </ol>
+              <p>Vendors may voluntarily close their accounts at any time.</p>
 
-              <a href="#top" class="egotec-back-to-top">
-                <i class="fas fa-arrow-up"></i> Back to top
-              </a>
+              <h3>Intellectual Property</h3>
+              <p>Vendors may not upload content that infringes the intellectual property rights of others. Vendors represent and warrant that they possess all rights necessary to use uploaded images, product descriptions, trademarks, and other content. Vendors are solely responsible for any intellectual property infringement claims arising from their content.</p>
+              <p>Vendors grant Techpoint
+         a non-exclusive, worldwide, royalty-free license to use, reproduce, display, modify, distribute, and promote product listings, images, descriptions, logos, and related content for marketplace operations, advertising, marketing, and promotional activities.</p>
+
+              <h3>Limitation of Liability</h3>
+              <p>Techpoint
+         acts solely as a marketplace platform. To the fullest extent permitted by law, Techpoint
+         shall not be liable for product defects, product quality issues, delivery delays, lost shipments, vendor misconduct, customer disputes, warranty claims, or financial losses arising from vendor transactions. Customers and vendors are responsible for resolving disputes directly where appropriate.</p>
+
+              <h3>Indemnification</h3>
+              <p>The Vendor agrees to indemnify, defend, and hold harmless Techpoint
+        , its owners, administrators, employees, contractors, and affiliates from any claims, damages, losses, liabilities, judgments, penalties, costs, or legal expenses arising from vendor products, vendor listings, vendor conduct, intellectual property violations, consumer complaints, regulatory violations, or breach of this Agreement.</p>
+
+              <h3>Dispute Resolution</h3>
+              <p>The parties shall attempt to resolve disputes through negotiation, mediation, or arbitration, where appropriate, before seeking court action. Nothing in this Agreement prevents either party from seeking legal remedies through a court of competent jurisdiction.</p>
+
+              <h3>Changes to This Agreement</h3>
+              <p>Techpoint
+         may modify this Agreement from time to time. Changes may be communicated through email notifications, platform notices, vendor dashboard notifications, or product submission pages. Continued use of the Platform after changes become effective constitutes acceptance of the updated Agreement.</p>
+
+              <h3>Acceptance</h3>
+              <p>By checking the acceptance box, registering as a vendor, submitting products, or continuing to use the Platform, the Vendor confirms that:</p>
+              <ol>
+                <li>Products listed are genuine and lawfully owned.</li>
+                <li>Information provided is accurate.</li>
+                <li>Listings comply with marketplace policies.</li>
+                <li>The Vendor agrees to be bound by this Agreement.</li>
+              </ol>
+
+              <h3>Contact Information</h3>
+              <p>Questions regarding this Agreement may be directed to: <strong>support@Techpoint
+        .com</strong></p>
+              <p>Techpoint
+         reserves all rights not expressly granted herein.</p>
+
+              <a href="#top" class="egotec-back-to-top"><i class="fas fa-arrow-up"></i> Back to top</a>
             </div>
 
             <!-- ── SECTION 3: Returns & Exchange ── -->
@@ -447,56 +589,35 @@
               </div>
 
               <h3>3.1 Return Window</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your return window policy here — e.g. customers have 7 days from delivery to request a return
-              </div>
+              <p>Techpoint
+         does not impose a fixed, platform-wide return window. Each vendor determines their own return window for the products they list. Customers are responsible for confirming the applicable return window directly with the vendor — via WhatsApp or in person — before completing payment for a product.</p>
 
               <h3>3.2 Eligible Products</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add which products are eligible for return here — e.g. new products only, sealed items, etc.
-              </div>
+              <p>Eligibility for return is determined by each individual vendor based on the specific product, its condition (NEW, USED, or REFURBISHED), and the circumstances of the request. Customers are advised to ask the vendor directly which products and conditions qualify for return before completing a purchase.</p>
 
               <h3>3.3 Non-Returnable Products</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add non-returnable products here — e.g. used products, refurbished products, opened software, etc.
-              </div>
+              <p>Whether a product qualifies as non-returnable (for example, due to its condition, type, or nature) is determined by the individual vendor. Customers should clarify any non-returnable conditions with the vendor directly before completing payment.</p>
 
               <h3>3.4 Return Conditions</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add conditions for a valid return here — e.g. product must be unused, in original packaging, with all accessories
-              </div>
+              <p>Any conditions that must be met to request a return — such as proof of purchase, product packaging, or contacting the vendor within a specific window — are set by the individual vendor and should be confirmed with them directly.</p>
+              <p>Techpoint
+         is not involved in, and does not mediate, disputes between customers and vendors regarding returns, refunds, or exchanges. Such matters are strictly between the customer and the vendor to resolve.</p>
 
               <h3>3.5 Return Shipping</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add who bears the return shipping cost here — e.g. vendor bears return shipping cost
-              </div>
+              <p>Responsibility for return shipping costs is at the discretion of the vendor.</p>
 
               <h3>3.6 Refund Process</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your refund process here — e.g. refunds processed within 7 business days after return is approved
-              </div>
+              <p>As Techpoint
+         does not process or hold payment for any transaction, refunds — where applicable — are issued directly by the vendor to the customer, at the vendor's discretion. The refund timeframe is agreed directly between the customer and the vendor.</p>
 
               <h3>3.7 Exchange Process</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your exchange process here — e.g. how to request an exchange, timeline, conditions
-              </div>
+              <p>Whether a vendor offers product exchanges (for example, swapping for a different item or variant) is entirely at the vendor's discretion. Techpoint
+         does not mandate a formal exchange process; customers should confirm with the vendor directly whether an exchange option is available.</p>
 
-              <h3>3.8 Damaged or Defective Products</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your policy for damaged or defective products here
-              </div>
+              <h3>3.8 Vendor Return Obligations</h3>
+              <p>Vendors shall maintain and honor return and refund policies. Where returns are permitted, vendors shall clearly communicate return conditions, honor approved returns, and bear return shipping costs unless otherwise disclosed and permitted by law.</p>
 
-              <a href="#top" class="egotec-back-to-top">
-                <i class="fas fa-arrow-up"></i> Back to top
-              </a>
+              <a href="#top" class="egotec-back-to-top"><i class="fas fa-arrow-up"></i> Back to top</a>
             </div>
 
             <!-- ── SECTION 4: Privacy Policy ── -->
@@ -507,55 +628,47 @@
                 </div>
                 <div>
                   <h2>Privacy Policy</h2>
-                  <p class="egotec-terms-meta mb-0">How EgoTech collects, uses and protects your data</p>
+                  <p class="egotec-terms-meta mb-0">How Techpoint
+             collects, uses and protects your data</p>
                 </div>
               </div>
 
               <h3>4.1 Information We Collect</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add what information you collect here — e.g. name, email, phone, address, order history
-              </div>
+              <p>Since Techpoint
+         does not require account creation, we collect only limited information necessary to facilitate inquiries and platform operations:</p>
+              <ul>
+                <li><strong>Phone number</strong> — collected when you submit a "Buy Now" inquiry, so the relevant vendor can be contacted and the inquiry logged for our records.</li>
+                <li><strong>Merchant submission data</strong> — when you register as a vendor, we collect your name, email, phone number, business name, and business address.</li>
+              </ul>
+              <p>We do not currently collect email addresses from customers, as no account system exists. We do not currently track detailed browsing behaviour or use analytics cookies, though this may be introduced in future updates to this Policy.</p>
 
               <h3>4.2 How We Use Your Information</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add how you use collected information here — e.g. order processing, customer support, marketing
-              </div>
+              <p>Information collected through the Platform is used to:</p>
+              <ul>
+                <li>Log product inquiries and orders for internal record-keeping;</li>
+                <li>Connect customers with the relevant vendor;</li>
+                <li>Communicate with merchants regarding their listings and account status;</li>
+                <li>Send promotional offers, updates, or newsletters where applicable.</li>
+              </ul>
 
               <h3>4.3 Information Sharing</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your information sharing policy here — e.g. shared with vendors only for order fulfilment
-              </div>
+              <p>Vendors may access only customer information necessary to fulfil orders, arrange delivery, or resolve complaints. Vendors may not sell customer data, share customer data without authorization, or use customer data for unauthorized purposes.</p>
 
               <h3>4.4 Data Security</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your data security measures here
-              </div>
+              <p>Customer and vendor information is stored on secure third-party systems. All data transmitted between your browser and our Platform is protected using encrypted connections (HTTPS).</p>
 
               <h3>4.5 Cookies</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add your cookie policy here
-              </div>
+              <p>Techpoint
+         does not currently use cookies or browser tracking technologies, but may introduce them in future updates to improve site functionality. Where applicable, this Privacy Policy will be updated accordingly.</p>
 
               <h3>4.6 Your Rights</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add user rights here — e.g. right to access, correct or delete personal data
-              </div>
+              <p>Customers and vendors may request that their personal data be corrected or deleted from our records at any time by contacting us directly at the email address below.</p>
 
               <h3>4.7 Contact Us</h3>
-              <div class="egotec-terms-placeholder">
-                <i class="fas fa-pen"></i>
-                Add privacy contact details here — e.g. email address for privacy enquiries
-              </div>
+              <p>Questions regarding privacy may be directed to: <strong>support@Techpoint
+        .com</strong></p>
 
-              <a href="#top" class="egotec-back-to-top">
-                <i class="fas fa-arrow-up"></i> Back to top
-              </a>
+              <a href="#top" class="egotec-back-to-top"><i class="fas fa-arrow-up"></i> Back to top</a>
             </div>
 
           </div>
@@ -563,60 +676,97 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+
+    <!-- Footer Section -->
     <footer class="egotec-footer">
       <div class="container">
+        <!-- Footer Main Content -->
         <div class="row egotec-footer-main py-5">
+          <!-- About Column -->
           <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
-            <h3 class="egotec-footer-brand mb-3">EgoTech</h3>
-            <p class="egotec-footer-text">Your trusted destination for premium electronics and smart home solutions.</p>
+            <h3 class="egotec-footer-brand mb-3">Techpoint</h3>
+            <p class="egotec-footer-text">
+              Your trusted destination for premium electronics and smart home
+              solutions. Quality products, unbeatable prices.
+            </p>
             <div class="egotec-footer-social mt-4">
-              <a href="#" class="egotec-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="egotec-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="egotec-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="egotec-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" class="egotec-social-link" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="egotec-social-link" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="egotec-social-link" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="egotec-social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
             </div>
           </div>
+
+        
+
+                    <!-- Quick Links Column -->
           <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
             <h5 class="egotec-footer-heading mb-3">Quick Links</h5>
             <ul class="egotec-footer-links">
               <li><a href="index.html">Home</a></li>
               <li><a href="shop.html">Shop</a></li>
+              <li><a href="product.html">Categories</a></li>
               <li><a href="contact.html">Contact</a></li>
-              <li><a href="terms.html">Terms & Conditions</a></li>
             </ul>
           </div>
+
+                   <!-- Customer Service Column -->
           <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
             <h5 class="egotec-footer-heading mb-3">Customer Service</h5>
             <ul class="egotec-footer-links">
-              <li><a href="#">Help Center</a></li>
-              <li><a href="terms.html#returns-exchange">Returns & Exchange</a></li>
-              <li><a href="terms.html#privacy-policy">Privacy Policy</a></li>
-              <li><a href="#">Track Order</a></li>
+              <li><a href="contact.html">Help Center</a></li>
+              <li><a href="terms.html#returns-exchange">Returns & Exchanges</a></li>
+              <li><a href="terms.html#vendor-agreement">Vendor Agreement</a></li>
             </ul>
           </div>
+
+          <!-- Contact Info Column -->
           <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
             <h5 class="egotec-footer-heading mb-3">Contact Us</h5>
             <ul class="egotec-footer-contact">
-              <li><i class="fas fa-map-marker-alt"></i><span>Computer Village, Ikeja, Lagos, Nigeria</span></li>
-              <li><i class="fas fa-phone"></i><span>+234 810 503 1964</span></li>
-              <li><i class="fas fa-envelope"></i><span>support@egotech.com</span></li>
-              <li><i class="fas fa-clock"></i><span>Mon – Sat: 9:00 AM – 7:00 PM</span></li>
+              <li>
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Computer village, Ikeja</span>
+              </li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span>+234 810 503 1964</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span>ocheialoysius@gmail.com</span>
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                <span>Mon - Fri: 9:00 AM - 6:00 PM</span>
+              </li>
             </ul>
           </div>
         </div>
+
+        <!-- Footer Bottom -->
         <div class="egotec-footer-bottom py-4">
           <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-              <p class="egotec-footer-copyright mb-0">&copy; 2025 EgoTech. All rights reserved.</p>
+              <p class="egotec-footer-copyright mb-0">
+                &copy; 2025 TECHPOINT. All rights reserved.
+              </p>
             </div>
             <div class="col-md-6 text-center text-md-end">
-              <ul class="egotec-footer-legal">
-                <li><a href="terms.html#privacy-policy">Privacy Policy</a></li>
-                <li><a href="terms.html">Terms of Service</a></li>
-                <li><a href="#">Cookie Policy</a></li>
-              </ul>
-            </div>
+           <ul class="egotec-footer-legal">
+              <li><a href="terms.html#privacy-policy">Privacy Policy</a></li>
+              <li><a href="terms.html">Terms of Service</a></li>
+              <li><a href="terms.html#privacy-policy">Cookie Policy</a></li>
+          </ul>
+      </div>
           </div>
         </div>
       </div>
@@ -625,10 +775,8 @@
     <!-- Bootstrap JS -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/cart-dropdown.js"></script>
 
     <script>
-      // Smooth scroll for nav links
       document.querySelectorAll('.egotec-terms-nav a, .egotec-back-to-top').forEach(link => {
         link.addEventListener('click', function(e) {
           const href = this.getAttribute('href');

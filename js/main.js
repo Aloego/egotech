@@ -195,11 +195,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>
               </div>
-             <button class="egotec-add-to-cart-btn egotec-btn-add-cart"
-                data-product-id="${product.id}"
-                ${Number(product.stock) === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
-                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'shopping-cart'}"></i>
-                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Add to Cart'}
+             <button class="egotec-buy-now"
+                onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
+                ${Number(product.stock) === 0 ? 'disabled' : ''}>
+                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
+                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
               </button>
               <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
@@ -272,11 +272,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="product-details.html?id=${product.id}">${product.name}</a>
               </h3>
               <div class="egotec-product-price">${formattedPrice}</div>
-             <button class="egotec-add-to-cart-btn egotec-btn-add-cart"
-                data-product-id="${product.id}"
-                ${Number(product.stock) === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
-                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'shopping-cart'}"></i>
-                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Add to Cart'}
+            <button class="egotec-buy-now"
+                onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
+                ${Number(product.stock) === 0 ? 'disabled' : ''}>
+                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
+                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
               </button>
               <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
@@ -362,11 +362,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>
               </div>
-              <button class="egotec-add-to-cart-btn egotec-btn-add-cart"
-                data-product-id="${product.id}"
-                ${outOfStock ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
-                <i class="fas fa-${outOfStock ? 'ban' : 'shopping-cart'}"></i>
-                ${outOfStock ? 'Out of Stock' : 'Add to Cart'}
+             <button class="egotec-buy-now"
+                onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
+                ${Number(product.stock) === 0 ? 'disabled' : ''}>
+                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
+                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
               </button>
               <a href="product-details.html?id=${product.id}"
                 class="egotec-quick-view-link egotec-btn-quick-view"
