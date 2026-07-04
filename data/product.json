@@ -4,7 +4,7 @@
       "id": 1,
       "name": "HP Pavilion 15",
       "brand": "HP",
-      "category": "Laptop",
+      "category": "Laptops",
       "price": 350000,
       "currency": "NGN",
       "image": "assets/images/products/product01.png",
@@ -19,7 +19,7 @@
       "featured": true,
       "condition": "new",
       "rating": 4.5,
-      "stock": 0,
+      "stock": 10,
       "features": [
         "Intel Core i5 Processor",
         "8GB RAM",
@@ -56,7 +56,7 @@
       "id": 2,
       "name": "Dell Inspiron 14",
       "brand": "Dell",
-      "category": "Laptop",
+      "category": "Laptops",
       "price": 420000,
       "currency": "NGN",
       "image": "assets/images/products/product03.png",
@@ -202,7 +202,7 @@
       "id": 7,
       "name": "Apple MacBook Air",
       "brand": "Apple",
-      "category": "Laptop",
+      "category": "Laptops",
       "price": 800000,
       "currency": "NGN",
       "image": "assets/images/products/product05.png",
@@ -653,6 +653,44 @@
   "merchantPhone": "+2348105031964",
   "merchantBusiness": "EgoTech Electronics",
   "merchantAddress": "Computer Village, Ikeja, Lagos"
+},
+  
+  {
+  "id": 20,
+  "name": "HP 15.6\" Monitor",
+  "brand": "HP",
+  "category": "Monitor",
+  "price": 60000,
+  "currency": "NGN",
+  "image": "assets/images/products/hp_monitor.png",
+  "images": [
+    "assets/images/products/hp_monitor.png",
+    "assets/images/products/hp_monitor.png",
+    "assets/images/products/hp_monitor.png"
+  ],
+  "shortDescription": "A sleek Full HD monitor for work and entertainment.",
+  "description": "The HP Pavilion 15.6\" Monitor offers crisp and vibrant visuals with its Full HD resolution, making it ideal for productivity, streaming, and gaming. Designed with a slim profile and anti-glare technology, it ensures comfortable viewing even during long hours. Its lightweight build and modern design make it a perfect companion for laptops or desktop setups.",
+  "newArrival": true,
+  "featured": false,
+  "condition": "new",
+  "rating": 4.3,
+  "stock": 12,
+  "features": [
+    "15.6 inch Full HD Display",
+    "Anti-glare Technology",
+    "Slim and Lightweight Design",
+    "Energy Efficient",
+    "Wide Viewing Angles"
+  ],
+  "specifications": {
+    "Display": "15.6 inch FHD (1920x1080)",
+    "Panel Type": "IPS",
+    "Refresh Rate": "60Hz",
+    "Response Time": "5ms",
+    "Brightness": "250 nits",
+    "Contrast Ratio": "1000:1",
+    "Weight": "1.2 kg"
+  }
 }
 
 

@@ -16,8 +16,6 @@ const pagination = document.getElementById("pagination");
 const loadingIndicator = document.getElementById("loadingIndicator");
 const noResults = document.getElementById("noResults");
 const productCount = document.getElementById("productCount");
-const promoBannerContainer = document.getElementById("promoBannerContainer");
-const shopPromoBanner = document.getElementById("shopPromoBanner");
 
 // Filter elements
 const categoryFilter = document.getElementById("categoryFilter");
@@ -33,7 +31,7 @@ const clearFiltersBtn = document.getElementById("clearFilters");
 // ============================================
 document.addEventListener("DOMContentLoaded", function () {
   loadProducts();
-  loadPromoData();
+  // loadPromoData();
   setupEventListeners();
 });
 
@@ -299,12 +297,11 @@ function renderProducts() {
     filteredProducts.length !== 1 ? "s" : ""
   }`;
 
-  // Check if there are products to display
+ // Check if there are products to display
   if (filteredProducts.length === 0) {
     productGrid.innerHTML = "";
     noResults.classList.remove("d-none");
     pagination.innerHTML = "";
-    promoBannerContainer.classList.add("d-none");
     return;
   }
 
@@ -319,28 +316,12 @@ function renderProducts() {
   // Clear grid
   productGrid.innerHTML = "";
 
-  // Render products
-  productsToShow.forEach((product, index) => {
+ // Render products
+  productsToShow.forEach((product) => {
     const productCard = createProductCard(product);
     productGrid.appendChild(productCard);
-
-    // Insert promo banner after 8th product (on first page)
-    if (currentPage === 1 && index === 7) {
-      // Move promo banner before next row
-      const row = document.createElement("div");
-      row.className = "col-12 my-4";
-      row.appendChild(promoBannerContainer.cloneNode(true));
-      productGrid.appendChild(row);
-    }
   });
-
-  // Show promo banner on first page if we have enough products
-  if (currentPage === 1 && filteredProducts.length >= 8) {
-    promoBannerContainer.classList.remove("d-none");
-  } else {
-    promoBannerContainer.classList.add("d-none");
-  }
-
+  
   // Render pagination
   renderPagination(totalPages);
 
@@ -558,41 +539,40 @@ function renderPagination(totalPages) {
 // ============================================
 // LOAD PROMO DATA
 // ============================================
-async function loadPromoData() {
-  try {
-    const response = await fetch("data/promos.json");
-    if (!response.ok) throw new Error("Failed to load promo data");
-
-    const data = await response.json();
-    if (data.promo) {
-      renderPromoBanner(data.promo);
-    }
-  } catch (error) {
-    console.error("Error loading promo data:", error);
-  }
-}
+// async function loadPromoData() {
+//   try {
+//     const response = await fetch("data/promos.json");
+//     if (!response.ok) throw new Error("Failed to load promo data");
+//     const data = await response.json();
+//     if (data.shopPromo) {
+//       renderPromoBanner(data.shopPromo);
+//     }
+//   } catch (error) {
+//     console.error("Error loading promo data:", error);
+//   }
+// }
 
 // ============================================
 // RENDER PROMO BANNER
 // ============================================
-function renderPromoBanner(promo) {
-  const backgroundImage = promo.image || "assets/images/default-promo.jpg";
+// function renderPromoBanner(promo) {
+//   const backgroundImage = promo.image || "assets/images/default-promo.jpg";
 
-  shopPromoBanner.style.backgroundImage = `url('${backgroundImage}')`;
-  shopPromoBanner.innerHTML = `
-    <div class="egotec-shop-promo-overlay"></div>
-    <div class="egotec-shop-promo-content">
-      <h2 class="egotec-shop-promo-title">${promo.title || "Special Offer"}</h2>
-      <p class="egotec-shop-promo-message">${
-        promo.message || "Don't miss out on our amazing deals!"
-      }</p>
-      <a href="${promo.buttonLink || "#shop"}" class="egotec-shop-promo-btn">
-        ${promo.buttonText || "Shop Now"}
-        <i class="fas fa-arrow-right"></i>
-      </a>
-    </div>
-  `;
-}
+//   shopPromoBanner.style.backgroundImage = `url('${backgroundImage}')`;
+//   shopPromoBanner.innerHTML = `
+//     <div class="egotec-shop-promo-overlay"></div>
+//     <div class="egotec-shop-promo-content">
+//       <h2 class="egotec-shop-promo-title">${promo.title || "Special Offer"}</h2>
+//       <p class="egotec-shop-promo-message">${
+//         promo.message || "Don't miss out on our amazing deals!"
+//       }</p>
+//       <a href="${promo.buttonLink || "#shop"}" class="egotec-shop-promo-btn">
+//         ${promo.buttonText || "Shop Now"}
+//         <i class="fas fa-arrow-right"></i>
+//       </a>
+//     </div>
+//   `;
+// }
 
 // ============================================
 // WISHLIST FUNCTIONALITY

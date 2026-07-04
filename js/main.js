@@ -20,8 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
           promo.message || "Save on top tech picks. Limited time only!";
         const buttonText = promo.buttonText || "Shop Now";
         const buttonLink = promo.buttonLink || "#shop";
-        const image = promo.image || "assets/images/promo-banner.jpg";
-
+        const image = promo.image || "";
         promoTitleEl.textContent = title;
         promoMessageEl.textContent = message;
 
@@ -36,8 +35,10 @@ document.addEventListener("DOMContentLoaded", function () {
           promoCtaEl.classList.add("d-none");
         }
 
-        promoSection.style.backgroundImage = `url('${image}')`;
-        initPromoReveal();
+      promoSection.style.backgroundImage = image
+       ? `url('${image}')`
+       : "linear-gradient(135deg, var(--Accent-color3) 0%, #6b4fc8 100%)";
+          initPromoReveal();
       })
       .catch((e) => {
         promoTitleEl.textContent = "Latest Promotions";
@@ -49,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         promoCtaEl.appendChild(icon);
         promoCtaEl.setAttribute("href", "#shop");
         promoSection.style.backgroundImage =
-          "linear-gradient(135deg, #1f1c2c 0%, #928dab 100%)";
+        "linear-gradient(135deg, var(--Accent-color3) 0%, #6b4fc8 100%)";
         initPromoReveal();
       });
   }
@@ -195,12 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>
               </div>
-             <button class="egotec-buy-now"
-                onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
-                ${Number(product.stock) === 0 ? 'disabled' : ''}>
-                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
-                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
-              </button>
+            
               <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
               </a>
@@ -272,12 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <a href="product-details.html?id=${product.id}">${product.name}</a>
               </h3>
               <div class="egotec-product-price">${formattedPrice}</div>
-            <button class="egotec-buy-now"
-                onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
-                ${Number(product.stock) === 0 ? 'disabled' : ''}>
-                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
-                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
-              </button>
+           
               <a href="product-details.html?id=${product.id}" class="egotec-quick-view-link egotec-btn-quick-view" data-product-id="${product.id}">
                 <i class="fas fa-eye"></i> Quick View
               </a>
@@ -362,12 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${starsHTML}
                 <span class="egotec-rating-value">(${rating.toFixed(1)})</span>
               </div>
-             <button class="egotec-buy-now"
-                onclick="EgoTechUtils.buyNowInquiry(${JSON.stringify(product).replace(/"/g, '&quot;')})"
-                ${Number(product.stock) === 0 ? 'disabled' : ''}>
-                <i class="fas fa-${Number(product.stock) === 0 ? 'ban' : 'bolt'}"></i>
-                ${Number(product.stock) === 0 ? 'Out of Stock' : 'Buy Now'}
-              </button>
+             
               <a href="product-details.html?id=${product.id}"
                 class="egotec-quick-view-link egotec-btn-quick-view"
                 data-product-id="${product.id}">
