@@ -1,79 +1,57 @@
 # EgoTech E-commerce Migration Specification
 
-**Version:** 1.0  
+**Version:** 2.0  
 **Branch:** `techpoint-v2`  
-**Target:** Supabase PostgreSQL  
+**Target:** Supabase PostgreSQL (database only)  
 **Source:** Airtable + local JSON files  
+**Architecture:** Static HTML/CSS/JS frontend → Node.js/Express backend → Supabase PostgreSQL  
 **Status:** Draft — for review and approval
 
 ---
 
 ## 1. Overview
 
-This document defines the migration of the EgoTech e-commerce platform from the current architecture (Node.js + Express + Airtable + JSON data files) to a Supabase-powered stack (PostgreSQL + Supabase Auth + Edge Functions).
+This document defines the migration of the EgoTech e-commerce platform's **database layer** from Airtable + JSON files to Supabase PostgreSQL. The application architecture remains:
 
-### 1.1 Current State
-- Static HTML frontend (no framework)
-- Node.js/Express backend on Render
-- Airtable as primary database (4 tables: Products, Merchants, Orders, OrderItems)
-- Local JSON fallbacks for product data (`data/product.json`, `data/promos.json`, etc.)
-- No user authentication
-- Off-platform transactions via WhatsApp
-- Open CORS (`origin: "*"`)
-- Hardcoded Cloudinary unsigned preset in client code
+- **Frontend:** Static HTML/CSS/JavaScript (no framework, no build step)
+- **Backend:** Node.js/Express on Render (retains all API routes)
+- **Database:** Supabase PostgreSQL (replaces Airtable)
+- **Supporting services:** Supabase Auth and Storage may be evaluated later — **not approved for implementation yet**
 
-### 1.2 Target State
+### 1.1 Current State (Verified)
+
+| Component | Technology | Notes |
+|-----------|------------|-------|
+| Frontend | Static HTML + Bootstrap 5 + jQuery + Owl Carousel | 7 pages: index, shop, product-details, merchant, contact, terms, product (categories) |
+| Backend | Node.js/Express on Render | 4 API routes: `GET /api/products`, `POST /api/products`, `POST /api/order`, `POST /api/inquiry` |
+| Primary DB | Airtable | 4 tables: Products, Merchants, Orders, OrderItems |
+| Fallback data | Local JSON files | `data/product.json` (20 products), `data/promos.json`, `data/shipping-zones.json`, `data/tax-rates.json`, `data/lga-towns.json`, `data/cart.json` |
+| Auth | None | Terms state: "does not require visitors or customers to create an account" |
+| Payments | None | Off-platform via WhatsApp; no payment gateway |
+| Images | Cloudinary (unsigned preset `rezukj30` in client JS) | Merchant form uploads only |
+| CORS | `origin: "*"` | Open — security concern |
+
+### 1.2 Target State (Proposed)
+
 - Supabase PostgreSQL as primary database
-- Supabase Auth for user management
-- Edge Functions or lightweight Node.js server for API routes
-- Static frontend unchanged (backward compatible)
-- Row-level security (RLS) on all tables
-- Proper CORS configuration
+- Express backend continues to serve all API routes, now querying Supabase via service-role key
+- Static frontend unchanged — continues calling Express endpoints
+- Row-level security (RLS) on all tables — **designs require validation before implementation**
+- Proper CORS configuration on Express
+- Supabase Auth and Storage: **deferred** — explicit approval required
 
 ---
 
-## 2. Database Schema
+## 2. Database Schema (Proposed Design — Requires Validation)
 
-All tables use Supabase conventions: `id` as UUID primary key, `created_at`/`updated_at` timestamps, RLS enabled.
+All tables use UUID primary keys (`gen_random_uuid()`), `created_at`/`updated_at` timestamps, and RLS enabled. **Every RLS policy below is a design proposal requiring validation before implementation.**
 
-### 2.1 `products` Table
-
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Product unique identifier |
-| `name` | TEXT | NOT NULL | Product name |
-| `brand` | TEXT | — | Brand name (HP, Dell, Apple, etc.) |
-| `category` | TEXT | — | Product category |
-| `price` | DECIMAL(10,2) | NOT NULL, CHECK (`price` > 0) | Price in NGN |
-| `currency` | TEXT | DEFAULT `'NGN'` | Currency code |
-| `description` | TEXT | — | Full product description (HTML stored as text) |
-| `short_description` | TEXT | — | Short summary (max 120 chars) |
-| `image` | TEXT | — | Main image URL (Cloudinary) |
-| `images` | TEXT[] | — | Array of image URLs |
-| `rating` | DECIMAL(3,1) | DEFAULT 0, CHECK (`rating` >= 0 AND `rating` <= 5) | Average star rating |
-| `stock` | INTEGER | DEFAULT 0, CHECK (`stock` >= 0) | Inventory count |
-| `featured` | BOOLEAN | DEFAULT FALSE | Featured product flag |
-| `new_arrival` | BOOLEAN | DEFAULT FALSE | New arrival flag |
-| `condition` | TEXT | CHECK (`condition` IN (`'NEW'`, `'USED'`, `'REFURBISHED'`, `''`)) | Product condition |
-| `merchant_name` | TEXT | — | Denormalized — vendor name |
-| `merchant_phone` | TEXT | — | Denormalized — vendor phone |
-| `merchant_business` | TEXT | — | Denormalized — vendor business name |
-| `merchant_address` | TEXT | — | Denormalized — vendor address |
-| `features` | TEXT[] | — | Array of feature strings |
-| `specifications` | JSONB | — | Key-value spec pairs |
-| `reviews` | JSONB | — | Array of {name, rating, date, comment} |
-| `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Creation timestamp |
-| `updated_at` | TIMESTAMPTZ | DEFAULT `now()` | Last update timestamp |
-
-**RLS Policy:** Vendors can SELECT/INSERT their own products. Admins have full access.
-
----
-
-### 2.2 `merchants` Table
+### 2.1 `merchants` Table
 
 | Column | Type | Constraints | Description |
 |--------|------|-------------|-------------|
 | `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Merchant unique identifier |
+| `user_id` | UUID | REFERENCES `auth.users(id)`, UNIQUE, NULLABLE | Link to Supabase Auth identity — **NULL for migrated merchants without accounts** |
 | `merchant_name` | TEXT | NOT NULL | Full name of vendor |
 | `merchant_email` | TEXT | NOT NULL, UNIQUE | Email address |
 | `merchant_phone` | TEXT | NOT NULL | Phone number (E.164 format) |
@@ -83,7 +61,49 @@ All tables use Supabase conventions: `id` as UUID primary key, `created_at`/`upd
 | `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Account creation timestamp |
 | `updated_at` | TIMESTAMPTZ | DEFAULT `now()` | Last status update |
 
-**RLS Policy:** Vendors can SELECT/UPDATE their own row. Admins have full access.
+**RLS Policy Proposals (require validation):**
+- Public read: `SELECT` for `anon`, `authenticated` — `USING (true)`
+- Vendor update own: `UPDATE` for `authenticated` — `USING (user_id = auth.uid())`
+- Service role (backend): full access via service-role key (bypasses RLS)
+
+**Critical:** Do not assume existing Airtable merchants have `auth.users` accounts. `user_id` remains `NULL` until a merchant signs up and is linked.
+
+---
+
+### 2.2 `products` Table
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Product unique identifier |
+| `merchant_id` | UUID | REFERENCES `merchants(id)`, NULLABLE | **FK to merchant — NULL for historical/unassigned products** |
+| `name` | TEXT | NOT NULL | Product name |
+| `brand` | TEXT | — | Brand name |
+| `category` | TEXT | — | Product category |
+| `price` | DECIMAL(10,2) | NOT NULL, CHECK (`price` > 0) | Price in NGN |
+| `currency` | TEXT | DEFAULT `'NGN'` | Currency code |
+| `description` | TEXT | — | Full product description (HTML stored as text) |
+| `short_description` | TEXT | — | Short summary (max 120 chars) |
+| `image` | TEXT | — | Main image URL (Cloudinary or future Storage) |
+| `images` | TEXT[] | DEFAULT `'{}'` | Array of image URLs |
+| `rating` | DECIMAL(3,1) | DEFAULT 0, CHECK (`rating` >= 0 AND `rating` <= 5) | Average star rating |
+| `stock` | INTEGER | DEFAULT 0, CHECK (`stock` >= 0) | Inventory count |
+| `featured` | BOOLEAN | DEFAULT FALSE | Featured product flag |
+| `new_arrival` | BOOLEAN | DEFAULT FALSE | New arrival flag |
+| `condition` | TEXT | DEFAULT `''`, CHECK (`condition` IN (`'NEW'`, `'USED'`, `'REFURBISHED'`, `''`)) | Product condition |
+| `features` | TEXT[] | DEFAULT `'{}'` | Array of feature strings |
+| `specifications` | JSONB | — | Key-value spec pairs |
+| `reviews` | JSONB | — | Array of {name, rating, date, comment} |
+| `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Creation timestamp |
+| `updated_at` | TIMESTAMPTZ | DEFAULT `now()` | Last update timestamp |
+
+**Removed from v1 schema:** `merchant_name`, `merchant_phone`, `merchant_business`, `merchant_address` (denormalized duplicates). These are replaced by `merchant_id` FK. Historical products without a merchant keep `merchant_id = NULL`.
+
+**RLS Policy Proposals (require validation):**
+- Public read: `SELECT` for `anon`, `authenticated` — `USING (true)`
+- Vendor insert: `INSERT` for `authenticated` — `WITH CHECK (merchant_id IN (SELECT id FROM merchants WHERE user_id = auth.uid()))`
+- Vendor update own: `UPDATE` for `authenticated` — `USING (merchant_id IN (SELECT id FROM merchants WHERE user_id = auth.uid()))`
+- Vendor delete own: `DELETE` for `authenticated` — `USING (merchant_id IN (SELECT id FROM merchants WHERE user_id = auth.uid()))`
+- Service role (backend): full access via service-role key
 
 ---
 
@@ -99,12 +119,15 @@ All tables use Supabase conventions: `id` as UUID primary key, `created_at`/`upd
 | `address` | TEXT | NOT NULL | Delivery address |
 | `country` | TEXT | NOT NULL | Country |
 | `state` | TEXT | NOT NULL | State/region |
-| `cart_items` | JSONB | NOT NULL | Array of {product_id, product_name, quantity, price} |
+| `cart_items` | JSONB | NOT NULL | Array of {product_id, product_name, quantity, price} — **prices validated server-side** |
 | `order_date` | TIMESTAMPTZ | NOT NULL | Order placement timestamp |
 | `status` | TEXT | DEFAULT `'pending'`, CHECK (`status` IN (`'pending'`, `'confirmed'`, `'shipped'`, `'delivered'`, `'cancelled'`)) | Order lifecycle status |
 | `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Creation timestamp |
 
-**RLS Policy:** Customers can SELECT their own orders. Admins have full access.
+**RLS Policy Proposals (require validation):**
+- Customer read own: `SELECT` for `authenticated` — `USING (email = auth.jwt() ->> 'email')` — **only works if customers have accounts (not currently implemented)**
+- Guest insert: `INSERT` for `anon`, `authenticated` — `WITH CHECK (true)` — checkout remains guest-friendly
+- Service role (backend): full access
 
 ---
 
@@ -114,129 +137,185 @@ All tables use Supabase conventions: `id` as UUID primary key, `created_at`/`upd
 |--------|------|-------------|-------------|
 | `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Order item unique identifier |
 | `order_id` | UUID | NOT NULL, REFERENCES `orders(id)` ON DELETE CASCADE | Parent order |
-| `product_name` | TEXT | NOT NULL | Product name at time of purchase |
-| `product_id` | TEXT | — | Product ID (may be original Airtable/JSON ID) |
+| `product_id` | UUID | REFERENCES `products(id)`, NULLABLE | Product FK (NULL if product deleted) |
+| `product_name` | TEXT | NOT NULL | Product name at time of purchase (snapshot) |
 | `quantity` | INTEGER | NOT NULL, CHECK (`quantity` > 0) | Number of units |
-| `price` | DECIMAL(10,2) | NOT NULL, CHECK (`price` > 0) | Unit price at purchase |
-| `merchant_name` | TEXT | NOT NULL | Vendor name |
-| `merchant_phone` | TEXT | — | Vendor phone |
-| `merchant_business` | TEXT | — | Vendor business name |
-| `merchant_address` | TEXT | — | Vendor address |
+| `price` | DECIMAL(10,2) | NOT NULL, CHECK (`price` > 0) | Unit price at purchase (snapshot) |
+| `merchant_id` | UUID | REFERENCES `merchants(id)`, NULLABLE | Merchant FK at time of purchase |
+| `merchant_name` | TEXT | NOT NULL | Vendor name (snapshot) |
+| `merchant_phone` | TEXT | — | Vendor phone (snapshot) |
+| `merchant_business` | TEXT | — | Vendor business name (snapshot) |
+| `merchant_address` | TEXT | — | Vendor address (snapshot) |
 | `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Creation timestamp |
 
-**RLS Policy:** Customers can SELECT items from their own orders. Admins have full access.
+**Merchant snapshots preserved** on order_items for historical accuracy even if merchant record changes.
+
+**RLS Policy Proposals (require validation):**
+- Customer read own: `SELECT` for `authenticated` — `USING (order_id IN (SELECT id FROM orders WHERE email = auth.jwt() ->> 'email'))`
+- Service role (backend): full access
 
 ---
 
-### 2.5 `profiles` Table (Supabase Auth integration)
+### 2.5 `inquiries` Table (New — Separates WhatsApp Inquiries from Orders)
 
 | Column | Type | Constraints | Description |
 |--------|------|-------------|-------------|
-| `id` | UUID | PRIMARY KEY, REFERENCES `auth.users(id)` | Linked to Supabase Auth |
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Inquiry unique identifier |
+| `product_id` | UUID | REFERENCES `products(id)`, NULLABLE | Product inquired about |
+| `product_name` | TEXT | NOT NULL | Product name at time of inquiry (snapshot) |
+| `merchant_id` | UUID | REFERENCES `merchants(id)`, NULLABLE | Merchant FK |
+| `merchant_phone` | TEXT | NOT NULL | Merchant phone (for WhatsApp link) |
+| `customer_name` | TEXT | — | Customer name (only if provided) |
+| `customer_phone` | TEXT | — | Customer phone (only if provided) |
+| `customer_email` | TEXT | — | Customer email (only if provided) |
+| `status` | TEXT | DEFAULT `'new'`, CHECK (`status` IN (`'new'`, `'contacted'`, `'converted'`, `'closed'`)) | Inquiry lifecycle |
+| `notes` | TEXT | — | Internal notes |
+| `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Inquiry timestamp |
+
+**Key design rules:**
+- An inquiry **does not create an order** — no fake order records
+- Merchant phone stored for WhatsApp link; **customer phone/email only stored if actually provided**
+- Preserves current WhatsApp customer journey: frontend opens `wa.me` link, backend logs inquiry
+- No payment, no order status, no cart items
+
+**RLS Policy Proposals (require validation):**
+- Public insert: `INSERT` for `anon`, `authenticated` — `WITH CHECK (true)` (frontend posts to `/api/inquiry`)
+- Merchant read own: `SELECT` for `authenticated` — `USING (merchant_id IN (SELECT id FROM merchants WHERE user_id = auth.uid()))`
+- Service role (backend): full access
+
+---
+
+### 2.6 `profiles` Table (Supabase Auth Link — Deferred)
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PRIMARY KEY, REFERENCES `auth.users(id)` ON DELETE CASCADE | Linked to Supabase Auth |
 | `full_name` | TEXT | — | User's full name |
 | `role` | TEXT | DEFAULT `'customer'`, CHECK (`role` IN (`'customer'`, `'vendor'`)) | User role |
 | `phone` | TEXT | — | User's phone number |
 | `created_at` | TIMESTAMPTZ | DEFAULT `now()` | Profile creation timestamp |
 
+**Status:** Supabase Auth not approved. This table is defined for future use only. Do not create until approved.
+
 ---
 
-## 3. Data Migration Plan
+### 2.7 `product_migrations` Table (Mapping Table)
 
-### 3.1 Product Data (`data/product.json`)
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | Mapping record ID |
+| `source_system` | TEXT | NOT NULL, CHECK (`source_system` IN (`'airtable'`, `'json'`)) | Source system |
+| `source_id` | TEXT | NOT NULL | Original ID from source (Airtable record ID or JSON integer) |
+| `product_id` | UUID | NOT NULL, REFERENCES `products(id)` ON DELETE CASCADE | Destination product UUID |
+| `migrated_at` | TIMESTAMPTZ | DEFAULT `now()` | Migration timestamp |
+| UNIQUE (`source_system`, `source_id`) | | | Prevents duplicate migrations |
 
-**Current state:** 20 products with inconsistent schema:
-- Products 1-10: Basic fields (name, brand, category, price, description, image, rating, stock, featured, newArrival, condition)
-- Products 11-20: Include denormalized merchant fields (merchantName, merchantPhone, merchantBusiness, merchantAddress)
+**Purpose:** Reliable mapping between source IDs and generated UUIDs. **Never pass integer JSON IDs into UUID columns.**
+
+---
+
+### 2.8 Supporting Tables (Assessed Individually)
+
+| JSON File | Proposed Table | Status |
+|-----------|----------------|--------|
+| `promos.json` | `promos` | **Proposed** — single-row promo banner, used by homepage |
+| `shipping-zones.json` | `shipping_zones` | **Proposed** — used by checkout (not yet implemented) |
+| `tax-rates.json` | `tax_rates` | **Proposed** — used by checkout (not yet implemented) |
+| `lga-towns.json` | `lga_towns` | **Proposed** — address autocomplete reference data |
+| `cart.json` | — | **Not migrated** — verify usage first; appears unused (no cart.html/checkout.html) |
+
+**Decision required:** Confirm which JSON files are actively used by the frontend before creating tables.
+
+---
+
+## 3. Data Migration Plan (Proposed — Requires Airtable Export & Inspection First)
+
+### 3.1 Prerequisites (Must Complete Before Migration)
+
+1. **Export all Airtable tables** (Products, Merchants, Orders, OrderItems) to CSV/JSON
+2. **Inspect actual field formats** for:
+   - `images` (comma-separated? array? Cloudinary URLs?)
+   - `specifications` (object? stringified JSON? nested structure?)
+   - `reviews` (array of objects? stringified?)
+   - Merchant fields on products (present on all? only some? format?)
+3. **Record source row counts** for each table
+4. **Identify duplicates, missing required fields, referential integrity issues**
+
+**Do not finalize migration mappings until Airtable export is inspected.**
+
+### 3.2 Product Migration (`data/product.json` + Airtable Products)
+
+**Current state (verified):**
+- `data/product.json`: 20 products, inconsistent schema
+  - Products 1-10: Basic fields only (no merchant info)
+  - Products 11-20: Include `merchantName`, `merchantPhone`, `merchantBusiness`, `merchantAddress`
+- Airtable Products table: Unknown schema — **requires export**
 
 **Migration approach:**
-1. Parse `data/product.json`
-2. For products 1-10: Set `merchant_name`, `merchant_phone`, `merchant_business`, `merchant_address` to `NULL` or default values
-3. For products 11-20: Extract merchant fields and create corresponding `merchants` table rows
-4. Map product IDs: JSON integers → UUIDs (store mapping for reference)
-5. Convert `images` from comma-separated string to TEXT[] array
-6. Convert `specifications` and `reviews` from stored format to JSONB
+1. Create `product_migrations` entries for each source record
+2. Generate UUID for each product in Supabase
+3. For products with merchant info: look up or create merchant by email (exact match only — **no name/phone fuzzy matching**)
+4. Set `merchant_id` FK on product; **do not copy denormalized merchant fields**
+5. For products without merchant info: `merchant_id = NULL`
+6. Convert `images` → `TEXT[]` (split on comma, trim)
+6. Convert `specifications` → `JSONB` (parse if stringified)
+7. Convert `reviews` → `JSONB` (parse if stringified)
+8. Record source/destination row counts; validate no data loss
 
-**Sample migration script (Node.js):**
-```javascript
-const { createClient } = require('@supabase/supabase-js');
-const fs = require('fs');
+**Mapping strategy:**
+- JSON products: `source_system = 'json'`, `source_id = String(json_id)`
+- Airtable products: `source_system = 'airtable'`, `source_id = airtable_record_id`
 
-const supa = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+### 3.3 Merchant Migration (Airtable Merchants)
 
-const products = JSON.parse(fs.readFileSync('data/product.json', 'utf8'));
-
-for (const product of products) {
-  const { data, error } = await supa
-    .from('products')
-    .insert({
-      id: product.id, // Will be UUID generated by DB default
-      name: product.name,
-      brand: product.brand,
-      category: product.category,
-      price: product.price,
-      currency: product.currency || 'NGN',
-      description: product.description,
-      short_description: product.shortDescription,
-      image: product.image,
-      images: product.images ? product.images.split(',').map(u => u.trim()) : [],
-      rating: product.rating || 0,
-      stock: product.stock || 0,
-      featured: product.featured || false,
-      new_arrival: product.newArrival || false,
-      condition: product.condition || '',
-      // Merchant fields - NULL for products 1-10, actual values for 11-20
-      merchant_name: product.merchantName || null,
-      merchant_phone: product.merchantPhone || null,
-      merchant_business: product.merchantBusiness || null,
-      merchant_address: product.merchantAddress || null,
-      features: product.features || [],
-      specifications: product.specifications ? JSON.stringify(product.specifications) : null,
-      reviews: product.reviews ? JSON.stringify(product.reviews) : null,
-    })
-    .select();
-  
-  if (error) console.error(`Error migrating product ${product.name}:`, error);
-}
-```
-
-### 3.2 Merchant Data
-
-**Current state:** Airtable Merchants table (records from merchant form submissions)
+**Current state:** Airtable Merchants table — **requires export**
 
 **Migration approach:**
 1. Export all merchants from Airtable
-2. For each merchant, insert into `merchants` table
-3. Link products to merchants via `merchant_name`/`merchant_email` (or add `merchant_id` UUID foreign key later)
-4. Set initial `status` to `'pending'` (requires admin approval)
+2. For each, insert into `merchants` with `user_id = NULL` (no auth accounts yet)
+3. Set `status = 'pending'` (requires admin approval)
+4. Record in `product_migrations` not needed; merchant mapping by email
 
-### 3.3 Order Data
+**Critical:** Do not create merchant records inferred from product data. Only migrate explicit merchant records from Airtable.
 
-**Current state:** No orders in the static frontend (cart/checkout missing). Airtable Orders + OrderItems tables may have historical data.
+### 3.4 Order Migration (Airtable Orders + OrderItems)
 
-**Migration approach:**
-1. If historical orders exist in Airtable, export and migrate
-2. Since the new version doesn't have cart/checkout yet, orders will be created via the new `/api/order` endpoint
-3. Map Airtable order IDs to Supabase UUIDs if needed
-
-### 3.4 OrderItems Data
-
-**Current state:** Airtable OrderItems table (denormalized with merchant info)
+**Current state:** Airtable Orders + OrderItems — **requires export**. Frontend has no cart/checkout pages (`cart.html`, `checkout.html` missing).
 
 **Migration approach:**
-1. Export from Airtable
-2. Insert into `order_items` table with `order_id` foreign key
-3. Preserve `product_id`, `quantity`, `price`, and merchant denormalized fields
+1. Export Orders and OrderItems from Airtable
+2. Migrate Orders → `orders` table (generate UUIDs, map via `product_migrations` for product_id)
+3. Migrate OrderItems → `order_items` with `order_id` FK
+4. Preserve merchant snapshots on `order_items`
+5. If no historical orders exist, skip — new orders created via `/api/order`
+
+### 3.5 Inquiry Migration (Airtable — if any)
+
+**Current state:** `/api/inquiry` logs to Airtable — **check if table exists**
+
+**Migration approach:** If inquiry data exists, migrate to `inquiries` table.
+
+### 3.6 Validation & Rollback Testing
+
+Before considering migration complete:
+- [ ] Source row count = destination row count for each table
+- [ ] All required fields populated (no NULLs where NOT NULL)
+- [ ] FK relationships valid (`merchant_id` references existing merchant, `product_id` references existing product)
+- [ ] No duplicate `product_migrations` entries
+- [ ] Spot-check 10% of records for data fidelity
+- [ ] Rollback test: truncate Supabase tables, re-run migration from source
+
+**Keep Airtable and JSON data intact until all validation passes.**
 
 ---
 
-## 4. API Route Mappings
+## 4. API Route Mappings (Express → Supabase via Service Role)
 
-### 4.1 `GET /api/products` → Supabase Query
+**Architecture decision:** Frontend continues calling Express endpoints. Express uses Supabase service-role key (server-side only) to query PostgreSQL. **No direct Supabase queries from frontend. No Edge Functions.**
 
-**Current:**
+### 4.1 `GET /api/products` → Express + Supabase
+
+**Current (Express + Airtable):**
 ```javascript
 // server.js
 app.get('/api/products', async (req, res) => {
@@ -245,33 +324,72 @@ app.get('/api/products', async (req, res) => {
 });
 ```
 
-**Target:** Supabase Edge Function or direct query
-
+**Target (Express + Supabase):**
 ```javascript
-// Edge Function: /api/products
-export default async function handler(req) {
-  const { data, error } = await supabase
+// server.js
+app.get('/api/products', async (req, res) => {
+  const { data, error } = await supabaseAdmin
     .from('products')
     .select('*')
-    .eq('featured', true) // Optional filtering
     .order('created_at', { ascending: false });
   
-  if (error) return new Response(error.message, { status: 500 });
-  return new Response(JSON.stringify(data), { status: 200 });
-}
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
 ```
 
-### 4.2 `POST /api/products` → Supabase Insert
+**Notes:**
+- Remove `featured = false` filter — return all products (shop page filters client-side)
+- Keep response format backward-compatible (array of product objects)
+- `supabaseAdmin` = Supabase client with service-role key (server-only)
+
+### 4.2 `POST /api/products` → Express + Supabase (Merchant Form)
 
 **Current:** Validates required fields, uploads image to Cloudinary, inserts to Airtable
 
-**Target:** Supabase with storage + RLS
+**Target:** Express validates, uploads to Cloudinary (unchanged), inserts to Supabase via service role
 
 ```javascript
-// Edge Function: /api/products
-export default async function handler(req) {
-  const body = await req.json();
-  const { data, error } = await supabase
+// server.js
+app.post('/api/products', async (req, res) => {
+  const body = req.body;
+  
+  // Server-side validation (authoritative)
+  const required = ['name', 'category', 'brand', 'price', 'description', 'image'];
+  for (const field of required) {
+    if (!body[field]) return res.status(400).json({ error: `Missing ${field}` });
+  }
+  if (Number(body.price) <= 0) return res.status(400).json({ error: 'Price must be > 0' });
+  
+  // Merchant handling: look up by email, create if new
+  let merchantId = null;
+  if (body.merchantEmail) {
+    const { data: merchant } = await supabaseAdmin
+      .from('merchants')
+      .select('id')
+      .eq('merchant_email', body.merchantEmail)
+      .single();
+    if (merchant) merchantId = merchant.id;
+    else {
+      const { data: newMerchant, error: mErr } = await supabaseAdmin
+        .from('merchants')
+        .insert({
+          merchant_name: body.merchantName,
+          merchant_email: body.merchantEmail,
+          merchant_phone: body.merchantPhone,
+          merchant_business: body.merchantBusiness,
+          merchant_address: body.merchantAddress,
+          status: 'pending',
+        })
+        .select('id')
+        .single();
+      if (mErr) return res.status(500).json({ error: mErr.message });
+      merchantId = newMerchant.id;
+    }
+  }
+  
+  // Insert product
+  const { data, error } = await supabaseAdmin
     .from('products')
     .insert({
       name: body.name,
@@ -281,60 +399,75 @@ export default async function handler(req) {
       currency: body.currency || 'NGN',
       description: body.description,
       short_description: body.shortDescription,
-      image: body.imageUrl, // Cloudinary URL from upload
-      images: body.imageUrls, // Array of Cloudinary URLs
-      rating: body.rating,
-      stock: body.stock,
-      featured: body.featured,
-      new_arrival: body.newArrival,
-      condition: body.condition,
-      merchant_name: body.merchantName,
-      merchant_phone: body.merchantPhone,
-      merchant_business: body.merchantBusiness,
-      merchant_address: body.merchantAddress,
-      features: body.features,
-      specifications: body.specifications,
-      reviews: body.reviews,
+      image: body.image,
+      images: body.images || [],
+      rating: body.rating || 0,
+      stock: body.stock || 0,
+      featured: body.featured || false,
+      new_arrival: body.newArrival || false,
+      condition: body.condition || '',
+      merchant_id: merchantId,
+      features: body.features || [],
+      specifications: body.specifications || null,
+      reviews: body.reviews || null,
     })
-    .select();
+    .select()
+    .single();
   
-  // Also create merchant row if new vendor
-  if (body.isNewVendor) {
-    await supabase.from('merchants').insert({
-      merchant_name: body.merchantName,
-      merchant_email: body.merchantEmail,
-      merchant_phone: body.merchantPhone,
-      merchant_business: body.merchantBusiness,
-      merchant_address: body.merchantAddress,
-      status: 'pending',
-    });
-  }
-  
-  if (error) return new Response(error.message, { status: 500 });
-  return new Response(JSON.stringify(data), { status: 201 });
-}
+  if (error) return res.status(500).json({ error: error.message });
+  res.status(201).json(data);
+});
 ```
 
-### 4.3 `POST /api/order` → Supabase Transaction
+**Notes:**
+- Merchant lookup by **exact email match only** — no fuzzy matching
+- New merchants created with `status = 'pending'`, `user_id = NULL`
+- Cloudinary upload unchanged (frontend → Cloudinary → returns URL → Express inserts URL)
+- Response format: single product object (backward-compatible)
 
-**Current:** Validates form data, creates Airtable Orders + OrderItems records
+### 4.3 `POST /api/order` → Express + Supabase (Atomic Transaction)
 
-**Target:** Supabase with proper validation and RLS
+**Current:** Validates form data, creates Airtable Orders + OrderItems
+
+**Target:** Express validates, **authoritative pricing from database**, atomic insert via Supabase RPC or transaction
 
 ```javascript
-// Edge Function: /api/order
-export default async function handler(req) {
-  const body = await req.json();
+// server.js
+app.post('/api/order', async (req, res) => {
+  const body = req.body;
   
   // Validation
-  if (!body.firstName || !body.lastName || !body.email || !body.phone) {
-    return new Response('Missing required fields', { status: 400 });
+  const required = ['firstName', 'lastName', 'email', 'phone', 'address', 'country', 'state', 'cartItems', 'orderDate'];
+  for (const field of required) {
+    if (!body[field]) return res.status(400).json({ error: `Missing ${field}` });
+  }
+  if (!Array.isArray(body.cartItems) || body.cartItems.length === 0) {
+    return res.status(400).json({ error: 'Cart cannot be empty' });
   }
   
-  // Create order
-  const { data: order, error: orderError } = await supabase
-    .from('orders')
-    .insert({
+  // Authoritative pricing: fetch product prices from DB, compare with submitted
+  const productIds = body.cartItems.map(item => item.productId).filter(Boolean);
+  const { data: products, error: pErr } = await supabaseAdmin
+    .from('products')
+    .select('id, price, name, merchant_id, merchant_name, merchant_phone, merchant_business, merchant_address')
+    .in('id', productIds);
+  
+  if (pErr) return res.status(500).json({ error: pErr.message });
+  
+  const priceMap = new Map(products.map(p => [p.id, p]));
+  
+  // Validate each item price matches DB (allow small rounding diff)
+  for (const item of body.cartItems) {
+    const product = priceMap.get(item.productId);
+    if (!product) return res.status(400).json({ error: `Product ${item.productId} not found` });
+    if (Math.abs(Number(item.price) - Number(product.price)) > 0.01) {
+      return res.status(400).json({ error: `Price mismatch for ${product.name}` });
+    }
+  }
+  
+  // Atomic order + items via RPC (defined in Section 2)
+  const { data: orderId, error } = await supabaseAdmin.rpc('create_order', {
+    p_order: {
       first_name: body.firstName,
       last_name: body.lastName,
       email: body.email,
@@ -345,121 +478,126 @@ export default async function handler(req) {
       cart_items: body.cartItems,
       order_date: body.orderDate,
       status: 'pending',
-    })
-    .select();
+    },
+    p_items: body.cartItems.map(item => {
+      const product = priceMap.get(item.productId);
+      return {
+        product_id: item.productId,
+        product_name: product?.name || item.productName,
+        quantity: item.quantity,
+        price: product?.price || item.price, // authoritative price from DB
+        merchant_id: product?.merchant_id || null,
+        merchant_name: product?.merchant_name || item.merchantName,
+        merchant_phone: product?.merchant_phone || item.merchantPhone,
+        merchant_business: product?.merchant_business || item.merchantBusiness,
+        merchant_address: product?.merchant_address || item.merchantAddress,
+      };
+    }),
+  });
   
-  if (orderError) return new Response(orderError.message, { status: 500 });
-  
-  // Create order items
-  for (const item of body.cartItems) {
-    await supabase.from('order_items').insert({
-      order_id: order[0].id,
-      product_name: item.productName,
-      product_id: item.productId,
-      quantity: item.quantity,
-      price: item.price,
-      merchant_name: item.merchantName,
-      merchant_phone: item.merchantPhone,
-      merchant_business: item.merchantBusiness,
-      merchant_address: item.merchantAddress,
-    });
-  }
-  
-  // TODO: Trigger WhatsApp inquiry (same as current /api/inquiry)
-  
-  return new Response(JSON.stringify({ orderId: order[0].id }), { status: 201 });
-}
+  if (error) return res.status(500).json({ error: error.message });
+  res.status(201).json({ orderId });
+});
 ```
 
-### 4.4 `POST /api/inquiry` → WhatsApp + Order Creation
+**Key requirements:**
+- **Atomic:** Order + all items succeed or fail together (via `create_order` RPC)
+- **Authoritative pricing:** Server fetches prices from `products` table; rejects mismatches
+- **Merchant snapshots:** Pulled from product record at order time
+- **No payment processing implied** — WhatsApp journey unchanged
 
-**Current:** Logs inquiry to Airtable, opens WhatsApp URL
+### 4.4 `POST /api/inquiry` → Express + Supabase (Inquiries Table)
 
-**Target:** Same behavior but with Supabase-backed order creation
+**Current:** Logs to Airtable, opens WhatsApp URL
+
+**Target:** Express inserts to `inquiries` table, returns WhatsApp URL
 
 ```javascript
-// Edge Function: /api/inquiry
-export default async function handler(req) {
-  const body = await req.json();
-  const { productId, productName, productPrice, merchantPhone } = body;
+// server.js
+app.post('/api/inquiry', async (req, res) => {
+  const { productId, productName, productPrice, merchantPhone } = req.body;
   
-  // Create order item for the inquiry
-  const { data, error } = await supabase
-    .from('orders')
+  if (!productId || !productName || !merchantPhone) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+  
+  // Look up product for merchant_id
+  const { data: product } = await supabaseAdmin
+    .from('products')
+    .select('id, merchant_id')
+    .eq('id', productId)
+    .single();
+  
+  // Insert inquiry (no order created)
+  const { data: inquiry, error } = await supabaseAdmin
+    .from('inquiries')
     .insert({
-      first_name: '',
-      last_name: '',
-      email: '',
-      phone: merchantPhone,
-      address: '',
-      country: 'Nigeria',
-      state: '',
-      cart_items: JSON.stringify([{
-        productId,
-        productName,
-        quantity: 1,
-        price: productPrice,
-      }]),
-      order_date: new Date().toISOString(),
-      status: 'pending',
+      product_id: productId,
+      product_name: productName,
+      merchant_id: product?.merchant_id || null,
+      merchant_phone: merchantPhone,
+      // Customer contact only if provided by frontend
+      customer_name: req.body.customerName || null,
+      customer_phone: req.body.customerPhone || null,
+      customer_email: req.body.customerEmail || null,
+      status: 'new',
     })
-    .select();
+    .select('id')
+    .single();
   
-  if (error) return new Response(error.message, { status: 500 });
-  
-  // Open WhatsApp (same as current frontend logic)
-  const waUrl = `https://wa.me/${merchantPhone.replace(/^0/, '234')}`;
+  if (error) return res.status(500).json({ error: error.message });
   
   // Return WhatsApp URL for frontend to open
-  return new Response(JSON.stringify({ waUrl, orderId: data[0].id }), { status: 200 });
-}
+  const waUrl = `https://wa.me/${merchantPhone.replace(/^0/, '234')}?text=${encodeURIComponent(`Inquiry about ${productName}`)}`;
+  res.json({ waUrl, inquiryId: inquiry.id });
+});
 ```
 
-### 4.5 Other Routes
+**Notes:**
+- **No order created** — inquiry is separate entity
+- Customer contact fields optional (only stored if provided)
+- Frontend still opens WhatsApp link (journey unchanged)
 
-| Current Route | Target |
-|--------------|--------|
-| `GET /` (health check) | Same, or Supabase health check |
-| `POST /api/inquiry` | Edge Function as above |
-| Static file serving | Supabase Edge Functions or CDN |
+### 4.5 Response Format Compatibility
+
+| Endpoint | Current Response | Target Response | Breaking Change? |
+|----------|------------------|-----------------|------------------|
+| `GET /api/products` | Array of products | Array of products | No (same fields, UUID `id`) |
+| `POST /api/products` | Created product | Created product | No (same fields, UUID `id`, adds `merchant_id`) |
+| `POST /api/order` | `{ orderId }` | `{ orderId }` | No |
+| `POST /api/inquiry` | WhatsApp URL (or nothing) | `{ waUrl, inquiryId }` | **Yes** — adds `inquiryId` |
+
+**Frontend impact:** Only `/api/inquiry` response changes (adds `inquiryId`). Frontend can ignore extra field.
 
 ---
 
-## 5. Frontend Changes
+## 5. Frontend Changes (Minimal — Express API Contract Preserved)
 
-### 5.1 `js/utils.js` — `fetchProducts()`
+### 5.1 No Direct Supabase Queries from Frontend
 
-**Current:** Fetches from both backend API and `data/product.json` via `Promise.allSettled`
+**Removed from v1 spec:** All examples showing `supabase.from()` in frontend code. Frontend continues calling `/api/*` endpoints.
 
-**Target:** Fetch from Supabase only (or keep JSON fallback for offline/dev mode)
+### 5.2 `js/utils.js` — `fetchProducts()` (Unchanged Behavior)
 
 ```javascript
-// utils.js - fetchProducts()
+// utils.js - fetchProducts() — NO CHANGE to calling code
 export const fetchProducts = async () => {
   try {
-    const { data, error } = await supabase.from('products').select('*').eq('featured', false);
-    
-    if (error) throw error;
-    return data;
+    const response = await fetch('/api/products');
+    if (!response.ok) throw new Error('Failed to fetch');
+    return await response.json();
   } catch (error) {
-    console.error('Error fetching products from Supabase:', error);
-    // Fallback to JSON (for dev/offline)
+    console.error('Error fetching products:', error);
     const fallback = await fetch('/data/product.json');
     return fallback.json();
   }
 };
 ```
 
-**Note:** Supabase client initialization needs to happen early in the app (in `main.js` or `index.html`).
-
-### 5.2 `js/utils.js` — `buyNowInquiry()`
-
-**Current:** Calls `/api/inquiry`, opens WhatsApp, errors swallowed
-
-**Target:** Same behavior, but API now calls Supabase Edge Function
+### 5.3 `js/utils.js` — `buyNowInquiry()` (Unchanged Behavior)
 
 ```javascript
-// utils.js - buyNowInquiry()
+// utils.js - buyNowInquiry() — NO CHANGE to calling code
 export const buyNowInquiry = async (product, merchant) => {
   try {
     const response = await fetch('/api/inquiry', {
@@ -479,236 +617,190 @@ export const buyNowInquiry = async (product, merchant) => {
     window.open(waUrl, '_blank');
   } catch (error) {
     console.error('Buy Now inquiry error:', error);
-    // Fallback: open WhatsApp directly
     const waUrl = `https://wa.me/${merchant.phone.replace(/^0/, '234')}`;
     window.open(waUrl, '_blank');
   }
 };
 ```
 
-### 5.3 `js/merchant.js` — Form Submission
+### 5.4 `js/merchant.js` — Form Submission (Unchanged Behavior)
 
-**Current:** Uploads to Cloudinary via unsigned preset, posts to `/api/products`
+- Frontend uploads to Cloudinary (unchanged)
+- Posts to `/api/products` (unchanged)
+- Handles response (unchanged)
 
-**Target:** Upload to Supabase Storage, then create product + merchant records
+### 5.5 No Supabase Client Initialization in Frontend
 
-```javascript
-// merchant.js - form submission
-document.getElementById('merchantForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  // Collect form data
-  const formData = {
-    productName: document.getElementById('productName').value,
-    productBrand: document.getElementById('productBrand').value,
-    productCategory: document.getElementById('productCategory').value,
-    productPrice: document.getElementById('productPrice').value,
-    productShortDesc: document.getElementById('productShortDesc').value,
-    productDesc: document.getElementById('productDesc').value,
-    // ... other fields
-  };
-  
-  // Upload images to Supabase Storage instead of Cloudinary
-  // ... image upload logic using supabase.storage.upload()
-  
-  // Create product + merchant in one transaction
-  const { error } = await supabase.rpc('submit_product', {
-    // Or use a stored procedure / edge function
-  });
-  
-  if (error) {
-    showError(error.message);
-  } else {
-    showSuccess();
-    resetForm();
-  }
-});
-```
-
-**Alternative:** Keep using Cloudinary for image hosting, but change the API endpoint from `https://egotech.onrender.com/api/products` to the Supabase Edge Function.
-
-### 5.4 `js/main.js` — Supabase Initialization
-
-**Current:** No Supabase integration
-
-**Target:** Initialize Supabase client and make it available to all pages
-
-```javascript
-// main.js - at the top
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://your-project.supabase.co';
-const supabaseAnonKey = 'your-anon-key';
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-// Now available as window.supabase or via import in other scripts
-window.supabase = supabase;
-```
-
-### 5.5 Authentication Integration
-
-**Current:** No auth (Terms state "does not require visitors or customers to create an account")
-
-**Target:** Add Supabase Auth optionally for vendors only
-
-- **Customers:** Can browse without auth (public access)
-- **Vendors:** Must sign up/log in to submit products
-- **RLS policies:** Vendors can only CRUD their own products/merchants
-
-```sql
--- Enable Supabase Auth for vendors
-ALTER TABLE products ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Vendors can insert their own products"
-  ON products FOR INSERT
-  TO authenticated
-  WITH CHECK (auth.role() = 'authenticated');
-
-CREATE POLICy "Vendors can update their own products"
-  ON products FOR UPDATE
-  TO authenticated
-  USING (merchant_name = current_setting('app.vendor_name'));
-
--- Public read access
-CREATE POLICY "Anyone can view products"
-  ON products FOR SELECT
-  TO public
-  USING (true);
-```
+**Removed from v1 spec:** `main.js` Supabase initialization. Service-role key **never** in frontend.
 
 ---
 
-## 6. Security Hardening
+## 6. Security Hardening (Express Layer)
 
 ### 6.1 CORS
 - **Current:** `cors({ origin: "*" })`
 - **Target:** `cors({ origin: process.env.ALLOWED_ORIGINS || 'http://localhost:3000' })`
-- **Edge Functions:** Configure CORS headers in each function response
+- Configure in `server.js` only
 
-### 6.2 Authentication
-- Enable Supabase Auth
-- Use email/password or social login (Google, GitHub)
-- Protect vendor-only routes with `supabase.auth.getUser()`
+### 6.2 Authentication (Deferred — Requires Approval)
+
+- Supabase Auth not approved
+- If approved later: vendor accounts only, linked via `merchants.user_id`
+- **No customer accounts** unless explicitly approved
+- Backend validates vendor identity via session/JWT before privileged operations
 
 ### 6.3 Rate Limiting
-- Add middleware: `npm install express-rate-limit`
-- Or configure at Edge Function level (Supabase limits per-project)
+- Add `express-rate-limit` middleware to all `/api/*` routes
+- Separate limits for read vs write endpoints
 
-### 6.4 Input Validation
-- Use `zod` or `joi` for schema validation
-- Sanitize product descriptions (escape HTML entities before storing)
-- Validate email format, phone format, price > 0
+### 6.4 Input Validation (Server-Side Authoritative)
+- All `POST` endpoints validate required fields, types, ranges
+- Price validation against database (see `/api/order`)
+- Sanitize text fields (strip scripts, limit length)
 
 ### 6.5 XSS Prevention
-- Never use `innerHTML` with unsanitized data
-- If product descriptions contain HTML, use a sanitizer (DOMPurify)
-- Store descriptions as TEXT, render safely
+- Product descriptions stored as TEXT, rendered safely by frontend
+- If HTML allowed, sanitize server-side (DOMPurify) before insert
 
-### 6.6 Environment Variables
-| Variable | Current | Target |
-|----------|---------|--------|
-| `AIRTABLE_API_URL` | Used in server.js | Remove (migrate to Supabase) |
-| `AIRTABLE_TOKEN` | Used in server.js | Remove |
-| `AIRTABLE_PRODUCTS_URL` | Used in server.js | Remove |
-| `AIRTABLE_MERCHANTS_URL` | Used in server.js | Remove |
-| `AIRTABLE_ORDER_ITEMS_URL` | Used in server.js | Remove |
-| `CLOUDINARY_PRESET` | `rezukj30` in merchant.js | Remove (use Supabase Storage) |
-| `SUPABASE_URL` | — | New |
-| `SUPABASE_ANON_KEY` | — | New |
-| `SUPABASE_SERVICE_ROLE_KEY` | — | New |
-| `ALLOWED_ORIGINS` | — | New (replace `*`) |
+### 6.6 Environment Variables (Server-Only)
+
+| Variable | Purpose | Location |
+|----------|---------|----------|
+| `SUPABASE_URL` | Supabase project URL | `server.js` only |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service-role key (bypasses RLS) | `server.js` only — **never in frontend** |
+| `ALLOWED_ORIGINS` | CORS allowlist | `server.js` |
+| `AIRTABLE_*` | Keep until migration validated | `server.js` |
+| `CLOUDINARY_*` | Keep for merchant uploads | `server.js` + frontend (unsigned preset) |
 
 ### 6.7 CSRF Protection
-- Add CSRF tokens for state-changing POST requests
-- Supabase Auth provides automatic CSRF protection for its endpoints
+- Add CSRF tokens for state-changing POST endpoints
+- Double-submit cookie pattern or `csurf` middleware
 
 ---
 
-## 7. Migration Checklist
+## 7. Migration Checklist (Revised)
 
-### Phase 1: Infrastructure ✅
+### Phase 0: Prerequisites (Must Complete First)
+- [ ] Export all Airtable tables (Products, Merchants, Orders, OrderItems)
+- [ ] Inspect Airtable field formats, row counts, data quality
+- [ ] Verify which JSON files are actively used by frontend
+- [ ] Confirm `cart.json` usage (appears unused — no cart/checkout pages)
+- [ ] Get approval on: Supabase Auth scope, image hosting, merchant onboarding, historical order migration
+
+### Phase 1: Infrastructure
 - [ ] Create Supabase project
-- [ ] Set up environment variables (`SUPABASE_URL`, `SUPABASE_ANON_KEY`)
-- [ ] Enable required APIs (PostgREST, Storage, Auth)
-- [ ] Create database tables (schema from Section 2)
-- [ ] Set up RLS policies
+- [ ] Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` in Render env vars
+- [ ] Run `supabase/schema.sql` (Section 2) in Supabase SQL Editor
+- [ ] Verify RLS policies are **disabled** initially (enable after validation)
+- [ ] Test service-role connection from Render
 
-### Phase 2: Data Migration 🔄
-- [ ] Export Airtable records (Products, Merchants, Orders, OrderItems)
-- [ ] Parse `data/product.json` and `data/promos.json`, etc.
-- [ ] Run migration scripts (Node.js or Supabase SQL)
-- [ ] Verify data integrity (row counts, field mappings)
-- [ ] Test product listing, merchant form, order creation
+### Phase 2: Data Migration
+- [ ] Run migration scripts (dry-run first)
+- [ ] Record source/destination row counts per table
+- [ ] Validate FK relationships, required fields, no duplicates
+- [ ] Spot-check data fidelity
+- [ ] **Rollback test:** truncate, re-run from source
+- [ ] Keep Airtable + JSON intact
 
-### Phase 3: API Migration 🔄
-- [ ] Create Edge Functions for: `/api/products`, `/api/order`, `/api/inquiry`
-- [ ] Update `server.js` to route to Edge Functions (or delete if no longer needed)
-- [ ] Test all API endpoints with Supabase backend
-- [ ] Remove Airtable dependencies from server.js
+### Phase 3: API Migration (Express → Supabase)
+- [ ] Update `server.js` to use `supabaseAdmin` for all 4 routes
+- [ ] Implement authoritative pricing in `/api/order`
+- [ ] Implement `inquiries` table insert in `/api/inquiry`
+- [ ] Test all endpoints with Supabase backend
+- [ ] Verify response format compatibility
+- [ ] Remove Airtable dependencies from `server.js`
 
-### Phase 4: Frontend Migration 🔄
-- [ ] Add Supabase client initialization to `main.js`
-- [ ] Update `utils.js` `fetchProducts()` to use Supabase
-- [ ] Update `merchant.js` to use Supabase Storage + API
-- [ ] Update `buyNowInquiry()` WhatsApp flow
-- [ ] Keep HTML pages unchanged (backward compatible)
-- [ ] Test all pages: index, shop, product-details, merchant, contact, terms
-
-### Phase 5: Security & Polish ✅
-- [ ] Configure CORS (replace `origin: "*"`)
-- [ ] Set up Supabase Auth (vendors only, or customers if needed)
+### Phase 4: Security Hardening
+- [ ] Configure CORS allowlist
 - [ ] Add rate limiting
-- [ ] Add input validation and XSS sanitization
-- [ ] Remove hardcoded Cloudinary preset from client code
-- [ ] Test form submissions, error handling
-- [ ] Deploy to production (Supabase free tier or paid plan)
+- [ ] Add input validation/sanitization
+- [ ] Add CSRF protection
+- [ ] **RLS policies:** Enable one table at a time, test thoroughly
 
-### Phase 6: Post-Migration 🔄
-- [ ] Monitor Supabase usage and performance
-- [ ] Backup Airtable data until migration is confirmed stable
-- [ ] Update documentation
-- [ ] Train team on new Supabase dashboard (if applicable)
-- [ ] Plan future features: user accounts, cart/checkout, payment gateway
+### Phase 5: Validation & Cutover
+- [ ] End-to-end test: product listing, merchant form, order, inquiry
+- [ ] Verify frontend works unchanged
+- [ ] Monitor Supabase usage/performance
+- [ ] Cutover: point production to new backend
 
----
-
-## 8. Rollback Plan
-
-If migration fails or causes critical issues:
-
-1. **Keep Airtable active** — Do not delete Airtable base or records until Supabase is confirmed stable
-2. **Revert `server.js`** — Restore original Airtable API routes
-3. **Restore JSON fallbacks** — Ensure `data/` directory remains intact
-4. **Deploy previous version** — The `techpoint-v2` branch can be rolled back to commit `c8d77f4498d4476e5f4f5b13af1c35b0ad2dee64`
-5. **Data sync** — If some data migrated to Supabase, use Airtable as source of truth until issues resolved
-
-**Communication:** Notify stakeholders if migration is paused or reverted. The existing site (`techpoint-v2` branch) must remain functional during the transition.
+### Phase 6: Post-Migration
+- [ ] Backup Airtable (keep for 90 days)
+- [ ] Decommission Airtable API keys
+- [ ] Document new schema and API contracts
 
 ---
 
-## 9. Open Questions / Decisions Needed
+## 8. Rollback Strategy (Database-Aware)
 
-| Question | Options | Recommendation |
-|----------|---------|----------------|
-| **Image hosting** | Keep Cloudinary, migrate to Supabase Storage, or use both? | Supabase Storage (simpler, unified with DB) — but Cloudinary has better image transformations |
-| **Authentication** | No auth, Supabase Auth (email+password), Supabase Auth (social) | No auth for customers (current model); Supabase Auth for vendors only |
-| **Product IDs** | Keep JSON integer IDs, switch to UUIDs, or use mapping table? | UUIDs in Supabase, map old IDs in a `product_migrations` table for reference |
-| **Merchant onboarding** | Manual approval via Supabase Dashboard, automated email flow, or both? | Manual approval initially (set merchant status to `'pending'`), then email notifications |
-| **Email notifications** | Supabase built-in, SendGrid integration, or none? | Supabase Auth emails + custom SendGrid for order confirmations if needed |
-| **Search functionality** | Supabase native search, Algolia integration, or client-side only? | Start with client-side filtering; add Algolia or Supabase full-text search later |
+**Git revert does not reverse database writes.** Separate database rollback required.
+
+### 8.1 Code Rollback (Git)
+- Revert `server.js` to Airtable version
+- Redeploy to Render
+- **Does not affect Supabase data**
+
+### 8.2 Database Rollback (Supabase)
+If migration validation fails or cutover issues:
+1. **Truncate all migrated tables** in Supabase (preserves schema)
+2. **Re-run migration from source** (Airtable + JSON) after fixes
+3. If schema changes needed: create new migration SQL, apply, re-migrate
+
+### 8.3 Full Rollback (Return to Airtable)
+1. Revert `server.js` to Airtable version (Git)
+2. Redeploy to Render
+3. Supabase project retained for investigation
+4. **Do not delete Airtable base or records** until cutover confirmed stable for 30 days
+
+### 8.4 Recovery Point Verification
+- Commit `c8d77f4498d4476e5f4f5b13af1c35b0ad2dee64` is the pre-migration baseline
+- **Verify** this commit builds and runs correctly before relying on it
+- Tag the commit: `git tag pre-migration-baseline`
 
 ---
 
-## 10. References
+## 9. Decisions Requiring Your Approval
 
-- **Current codebase:** `server.js`, `js/utils.js`, `js/merchant.js`, `js/main.js`, `data/product.json`
-- **Airtable tables:** Products, Merchants, Orders, OrderItems
+| # | Decision | Status | Notes |
+|---|----------|--------|-------|
+| 1 | **Supabase Auth for vendors** | ❌ Not approved | Current: no auth. Proposed: vendor signup/login linked to `merchants.user_id`. Requires approval before implementation. |
+| 2 | **Supabase Storage for images** | ❌ Not approved | Current: Cloudinary unsigned preset. Proposed: migrate to Supabase Storage. Requires approval. |
+| 3 | **Merchant onboarding flow** | ❌ Not approved | Current: form → Airtable → manual review. Proposed: form → Supabase → `status='pending'` → admin approval. Email notifications? Auto-approval? |
+| 4 | **Historical order migration** | ❌ Not approved | Airtable Orders/OrderItems may have data. Export and inspect first. Decision: migrate all, migrate none, or migrate recent only? |
+| 5 | **Customer accounts** | ❌ Not approved | Terms state no accounts required. Do not implement without explicit approval. |
+| 6 | **Payment processing** | ❌ Not approved | Current: WhatsApp only. No payment gateway. Do not imply or design for payments. |
+| 7 | **JSON file migration scope** | ❌ Not approved | `promos.json`, `shipping-zones.json`, `tax-rates.json`, `lga-towns.json` — confirm each is actively used before creating tables. `cart.json` appears unused. |
+| 8 | **RLS policy designs** | ❌ Not validated | All RLS policies in Section 2 are proposals. Must be validated against actual access patterns before enabling. |
+| 9 | **Merchant identity linking** | ❌ Not approved | How to link existing Airtable merchants to future Supabase Auth accounts? Email match? Manual? |
+| 10 | **Inquiry-to-order conversion tracking** | ❌ Not approved | `inquiries.status` includes `'converted'` — who updates this? Manual? Webhook? |
+
+---
+
+## 10. Classification of Statements
+
+| Category | Label | Meaning |
+|----------|-------|---------|
+| **Verified** | ✅ | Observed in current codebase (source files, audit commit `c8d77f4498d4476e5f4f5b13af1c35b0ad2dee64`) |
+| **Proposed Design** | 📐 | Design proposal in this spec — requires review/approval |
+| **Assumption** | ⚠️ | Inferred from code but not directly verified — flagged for confirmation |
+| **Decision Required** | ❌ | Explicit approval needed before implementation |
+
+**Examples in this document:**
+- "Current state: 20 products in `data/product.json`" → ✅ Verified
+- "Add `merchant_id` FK on products" → 📐 Proposed design
+- "Airtable Products table has same fields as JSON" → ⚠️ Assumption (requires export)
+- "Enable Supabase Auth for vendors" → ❌ Decision required
+
+---
+
+## 11. References
+
+- **Current codebase:** `server.js`, `js/utils.js`, `js/merchant.js`, `js/main.js`, `data/product.json`, `index.html`, `shop.html`, `product-details.html`, `merchant.html`, `contact.html`, `terms.html`, `product.html`
+- **Airtable tables:** Products, Merchants, Orders, OrderItems (schemas unverified — require export)
 - **Supabase docs:** https://supabase.com/docs
-- **Edge Functions:** https://supabase.com/docs/guides/functions
 - **Row Level Security:** https://supabase.com/docs/guides/row-level-security
-- **Storage API:** https://supabase.com/docs/guides/storage
+- **PostgreSQL transactions:** https://www.postgresql.org/docs/current/tutorial-transactions.html
 
 ---
 
-**Document prepared:** Based on audit commit `c8d77f4498d4476e5f4f5b13af1c35b0ad2dee64`  
-**Next action:** Review with team, approve migration approach, begin Phase 1 infrastructure setup
+**Document revised:** Based on audit commit `c8d77f4498d4476e5f4f5b13af1c35b0ad2dee64` and review requirements  
+**Next action:** Review with stakeholder, approve/reject decisions in Section 9, then begin Phase 0 prerequisites
