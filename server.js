@@ -3,11 +3,12 @@
 const express = require("express");
 const fetch = require("node-fetch");
 const cors = require("cors");
+const crypto = require("crypto");
 
 const app = express();
 app.use(cors({
   origin: "*",
-  methods: ["GET", "POST", "OPTIONS"],
+  methods: ["GET", "POST", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.options("*", cors());
@@ -303,6 +304,145 @@ app.post("/api/order", async (req, res) => {
   } catch (err) {
     console.error("Order error:", err);
     res.status(500).json({ error: "Failed to save order" });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN: order status manager (used by admin.html)
+// Everything below is locked behind a password that you set in the
+// ADMIN_PASSWORD environment variable on Render. Without it, the
+// admin routes stay switched off.
+// ═══════════════════════════════════════════════════════════
+app.set("trust proxy", 1); // so we see the visitor's real IP behind Render
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ORDER_STATUSES = ["pending", "paid", "processing", "shipped", "delivered", "cancelled"];
+
+// Stop password guessing: after 10 wrong tries, an IP is blocked for 15 minutes
+const MAX_FAILED_LOGINS = 10;
+const LOCKOUT_MS = 15 * 60 * 1000;
+const failedLogins = new Map(); // ip -> { count, first }
+
+// Tidy the list now and then so it never grows forever
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, rec] of failedLogins) {
+    if (now - rec.first > LOCKOUT_MS) failedLogins.delete(ip);
+  }
+}, LOCKOUT_MS).unref();
+
+function adminAuth(req, res, next) {
+  if (!ADMIN_PASSWORD) {
+    return res.status(503).json({ error: "Admin is not set up on the server yet" });
+  }
+
+  const ip = req.ip;
+  const now = Date.now();
+  let rec = failedLogins.get(ip);
+  if (rec && now - rec.first > LOCKOUT_MS) {
+    failedLogins.delete(ip);
+    rec = undefined;
+  }
+  if (rec && rec.count >= MAX_FAILED_LOGINS) {
+    return res.status(429).json({ error: "Too many wrong attempts. Try again in 15 minutes." });
+  }
+
+  const header = req.headers.authorization || "";
+  const supplied = header.startsWith("Bearer ") ? header.slice(7) : "";
+  // Compare hashes so the check takes the same time whatever is typed
+  const a = crypto.createHash("sha256").update(supplied).digest();
+  const b = crypto.createHash("sha256").update(ADMIN_PASSWORD).digest();
+
+  if (!crypto.timingSafeEqual(a, b)) {
+    const updated = rec || { count: 0, first: now };
+    updated.count += 1;
+    failedLogins.set(ip, updated);
+    return res.status(401).json({ error: "Wrong password" });
+  }
+
+  failedLogins.delete(ip);
+  next();
+}
+
+function ordersBaseUrl() {
+  return (AIRTABLE_API_URL || "").replace(/\/+$/, "");
+}
+
+// ── GET /api/admin/orders ──────────────────────────
+// All orders and WhatsApp inquiries, newest first (up to 1000)
+app.get("/api/admin/orders", adminAuth, async (req, res) => {
+  try {
+    let records = [];
+    let offset;
+
+    do {
+      const params = new URLSearchParams({ pageSize: "100" });
+      params.append("sort[0][field]", "orderDate");
+      params.append("sort[0][direction]", "desc");
+      if (offset) params.append("offset", offset);
+
+      const response = await fetch(`${ordersBaseUrl()}?${params}`, {
+        headers: { Authorization: "Bearer " + AIRTABLE_TOKEN },
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Admin load orders error:", JSON.stringify(data));
+        return res.status(502).json({ error: "Could not load orders from Airtable" });
+      }
+
+      records = records.concat(data.records || []);
+      offset = data.offset;
+    } while (offset && records.length < 1000);
+
+    res.json({
+      statuses: ORDER_STATUSES,
+      orders: records.map((rec) => ({
+        id: rec.id,
+        createdTime: rec.createdTime,
+        fields: rec.fields,
+      })),
+    });
+  } catch (err) {
+    console.error("Admin orders error:", err);
+    res.status(500).json({ error: "Failed to load orders" });
+  }
+});
+
+// ── PATCH /api/admin/orders/:id/status ─────────────
+// Change one order's status
+app.patch("/api/admin/orders/:id/status", adminAuth, async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body || {};
+
+  if (!/^rec[A-Za-z0-9]{14}$/.test(id)) {
+    return res.status(400).json({ error: "Invalid order id" });
+  }
+  if (!ORDER_STATUSES.includes(status)) {
+    return res.status(400).json({ error: "Invalid status" });
+  }
+
+  try {
+    const response = await fetch(`${ordersBaseUrl()}/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: "Bearer " + AIRTABLE_TOKEN,
+        "Content-Type": "application/json",
+      },
+      // typecast lets Airtable accept a status it hasn't seen before
+      body: JSON.stringify({ fields: { status }, typecast: true }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Admin status update error:", JSON.stringify(data));
+      return res.status(502).json({ error: "Airtable would not update this order" });
+    }
+
+    res.json({ id: data.id, status: data.fields.status });
+  } catch (err) {
+    console.error("Admin status error:", err);
+    res.status(500).json({ error: "Failed to update status" });
   }
 });
 

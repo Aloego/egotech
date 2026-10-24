@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Order desk — Techpoint</title>
+  <style>
+    :root {
+      --ink: #111111;
+      --muted: #686868;
+      --purple: #503aa8;
+      --purple-soft: #e7e3f6;
+      --yellow: #ffee58;
+      --panel: #f6f5fb;
+      --line: #dad6ea;
+      --green: #1e7b4f;
+      --green-soft: #d9efe3;
+      --danger: #b3261e;
+      --radius: 4px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--ink);
+      font: 16px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    [hidden] { display: none !important; }
+
+    h1 {
+      margin: 0;
+      font: 700 1.75rem/1.15 Georgia, serif;
+    }
+
+    button, input { font: inherit; color: inherit; }
+
+    :focus-visible {
+      outline: 3px solid var(--purple);
+      outline-offset: 2px;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px 96px;
+    }
+
+    /* ── Buttons ─────────────────────────────── */
+    .btn {
+      min-height: 44px;
+      padding: 0 14px;
+      white-space: nowrap;
+      border: 1px solid var(--ink);
+      border-radius: var(--radius);
+      background: #ffffff;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--panel); }
+    .btn-primary {
+      border-color: var(--purple);
+      background: var(--purple);
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .btn-primary:hover { background: #432f8f; }
+    .btn-primary:focus-visible { outline-color: var(--ink); }
+    .btn[disabled] { opacity: 0.6; cursor: wait; }
+
+    .link-btn {
+      flex: none;
+      white-space: nowrap;
+      padding: 10px 0;
+      border: 0;
+      background: none;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .link-btn:hover { color: var(--ink); }
+
+    /* ── Login ───────────────────────────────── */
+    .login {
+      max-width: 360px;
+      margin: 14vh auto 0;
+    }
+    .login p { margin: 8px 0 20px; color: var(--muted); }
+    .field-label { display: block; margin-bottom: 6px; font-weight: 700; }
+    .input {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid var(--muted);
+      border-radius: var(--radius);
+      background: #ffffff;
+    }
+    .login .btn { width: 100%; margin-top: 14px; }
+
+    .alert {
+      margin: 14px 0 0;
+      padding: 10px 12px;
+      border-left: 4px solid var(--danger);
+      background: #fdeceb;
+      color: #7a1812;
+    }
+
+    /* ── Header and controls ─────────────────── */
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .top-actions { display: flex; gap: 8px; }
+    .summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2px 14px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .summary strong { color: var(--ink); }
+
+    .search { margin: 18px 0 12px; }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      margin: 0 -16px;
+      padding: 2px 16px 10px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .chip {
+      flex: none;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .chip .count {
+      margin-left: 6px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .chip[aria-pressed="true"] {
+      border-color: var(--purple);
+      background: var(--purple);
+      color: #ffffff;
+    }
+    .chip[aria-pressed="true"] .count { color: #ffffff; }
+    .chip[aria-pressed="true"]:focus-visible { outline-color: var(--ink); }
+
+    /* On wider screens there's room for every filter, so let them wrap */
+    @media (min-width: 760px) {
+      .chips { flex-wrap: wrap; margin: 0; padding: 2px 0 10px; overflow: visible; }
+    }
+
+    /* ── Order cards ─────────────────────────── */
+    .list { margin: 4px 0 0; padding: 0; list-style: none; }
+
+    .card {
+      margin: 0 0 12px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+    }
+    .card[aria-busy="true"] { opacity: 0.6; pointer-events: none; }
+    .card.is-cancelled { border-style: dashed; background: #ffffff; }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 24px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .badge {
+      padding: 2px 8px;
+      border-radius: var(--radius);
+      background: var(--yellow);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .card-body {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .items { margin: 0; padding: 0; list-style: none; font-weight: 700; }
+    .items li + li { margin-top: 2px; }
+    .items .qty { color: var(--muted); font-weight: 400; }
+    .amount {
+      flex: none;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* The status track: tap a stage to set it */
+    .track {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      margin: 14px 0 2px;
+    }
+    .stop {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-height: 56px;
+      padding: 2px 0 0;
+      border: 0;
+      background: none;
+      color: var(--muted);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .stop::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      right: 50%;
+      width: 100%;
+      height: 3px;
+      background: var(--line);
+    }
+    .stop:first-child::before { display: none; }
+    .stop .dot {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--line);
+      border-radius: 50%;
+      background: #ffffff;
+      color: #ffffff;
+      font-size: 13px;
+      line-height: 1;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .stop.reached::before { background: var(--purple); }
+    .stop.reached .dot { border-color: var(--purple); background: var(--purple); }
+    .stop.current { color: var(--ink); font-weight: 700; }
+    .stop.current .dot { box-shadow: 0 0 0 4px var(--purple-soft); }
+    .stop.final.current .dot {
+      border-color: var(--green);
+      background: var(--green);
+      box-shadow: 0 0 0 4px var(--green-soft);
+    }
+    .stop.reached.current.final::before { background: var(--green); }
+    .stop:hover:not(.current) .dot { border-color: var(--purple); }
+
+    .cancelled-note {
+      margin: 14px 0 2px;
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .card-foot a { color: var(--purple); font-weight: 700; }
+
+    /* ── Empty and loading ───────────────────── */
+    .empty {
+      margin: 32px 0;
+      padding: 0 4px;
+      color: var(--muted);
+    }
+    .empty strong { display: block; margin-bottom: 4px; color: var(--ink); }
+
+    /* ── Toast ───────────────────────────────── */
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      left: 16px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #ffffff;
+      transform: translateY(0);
+      transition: transform 0.2s, opacity 0.2s, visibility 0s;
+    }
+    .toast[hidden] {
+      display: flex !important;
+      transform: translateY(24px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: transform 0.2s, opacity 0.2s, visibility 0s 0.2s;
+    }
+    .toast button {
+      min-height: 36px;
+      padding: 0 8px;
+      border: 0;
+      background: none;
+      color: var(--yellow);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+
+    <!-- Sign in -->
+    <section class="login" id="login">
+      <h1>Order desk</h1>
+      <p>Enter the admin password to see your orders and Buy Now inquiries.</p>
+      <form id="loginForm">
+        <label class="field-label" for="password">Password</label>
+        <input class="input" id="password" type="password" autocomplete="current-password" required />
+        <button class="btn btn-primary" id="loginBtn" type="submit">Open order desk</button>
+      </form>
+      <div class="alert" id="loginError" role="alert" hidden></div>
+    </section>
+
+    <!-- Order desk -->
+    <section id="desk" hidden>
+      <div class="top">
+        <div>
+          <h1>Order desk</h1>
+          <div class="summary">
+            <span><strong id="pendingCount">0</strong> pending</span>
+            <span id="updatedAt"></span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="btn" id="refreshBtn" type="button">Refresh</button>
+          <button class="btn" id="signOutBtn" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <div class="search">
+        <input class="input" id="search" type="search" aria-label="Search orders" placeholder="Search by product, name or phone" />
+      </div>
+
+      <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
+
+      <div class="alert" id="deskError" role="alert" hidden></div>
+      <ul class="list" id="list"></ul>
+      <div class="empty" id="empty" hidden></div>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span id="toastText"></span>
+    <button type="button" id="toastAction" hidden>Undo</button>
+  </div>
+
+  <script>
+    // ── Settings ────────────────────────────────────────────
+    // The server that holds your orders. (On your own computer you can
+    // test against a local server by adding ?api=http://localhost:8080)
+    const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
+    const API_BASE =
+      (isLocal && new URLSearchParams(location.search).get("api")) ||
+      "https://egotech.onrender.com";
+
+    const STAGES = ["pending", "paid", "processing", "shipped", "delivered"];
+    const FILTERS = [...STAGES, "cancelled", "all"];
+    const LABEL = {
+      pending: "Pending",
+      paid: "Paid",
+      processing: "Processing",
+      shipped: "Shipped",
+      delivered: "Delivered",
+      cancelled: "Cancelled",
+      all: "All",
+    };
+
+    // ── State ───────────────────────────────────────────────
+    let password = "";
+    let orders = [];
+    let filter = "pending";
+    let query = "";
+    let lastLoaded = 0;
+    let toastTimer = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function readSaved() {
+      try { return sessionStorage.getItem("techpoint_admin") || ""; } catch { return ""; }
+    }
+    function writeSaved(value) {
+      try {
+        if (value) sessionStorage.setItem("techpoint_admin", value);
+        else sessionStorage.removeItem("techpoint_admin");
+      } catch { /* storage unavailable: you'll just sign in again next time */ }
+    }
+
+    // ── Small helpers ───────────────────────────────────────
+    // Builds page elements without ever treating data as HTML,
+    // so nothing a customer types can run as code.
+    function h(tag, props = {}, ...kids) {
+      const el = document.createElement(tag);
+      for (const [key, value] of Object.entries(props)) {
+        if (value == null || value === false) continue;
+        if (key === "class") el.className = value;
+        else if (key.startsWith("on")) el.addEventListener(key.slice(2), value);
+        else el.setAttribute(key, value === true ? "" : value);
+      }
+      for (const kid of kids.flat()) {
+        if (kid != null && kid !== false) el.append(kid);
+      }
+      return el;
+    }
+
+    function naira(value) {
+      return "₦" + Number(value || 0).toLocaleString("en-NG");
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+      if (isNaN(date)) return "";
+      return date.toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" });
+    }
+
+    function whatsappLink(phone) {
+      let digits = String(phone || "").replace(/\D/g, "");
+      if (digits.startsWith("0")) digits = "234" + digits.slice(1);
+      return digits.length >= 10 ? `https://wa.me/${digits}` : "";
+    }
+
+    // ── Talking to the server ───────────────────────────────
+    class ApiError extends Error {
+      constructor(status, message) {
+        super(message);
+        this.status = status;
+      }
+    }
+
+    async function api(path, options = {}) {
+      let response;
+      try {
+        response = await fetch(API_BASE + path, {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + password,
+          },
+        });
+      } catch {
+        throw new ApiError(
+          0,
+          "Can't reach the server. It may be waking up, so wait 30 seconds and tap Refresh."
+        );
+      }
+
+      let body = {};
+      try { body = await response.json(); } catch { /* no JSON in the reply */ }
+
+      if (!response.ok) {
+        let message = body.error || "Something went wrong. Try again.";
+        if (response.status === 503) {
+          message = "The admin password isn't set on the server yet. Add ADMIN_PASSWORD on Render, then try again.";
+        }
+        throw new ApiError(response.status, message);
+      }
+      return body;
+    }
+
+    // ── Reading an order ────────────────────────────────────
+    function normalise(record) {
+      const f = record.fields || {};
+
+      let items = [];
+      try {
+        const parsed = typeof f.cartItems === "string" ? JSON.parse(f.cartItems) : f.cartItems;
+        if (Array.isArray(parsed)) items = parsed;
+      } catch { /* leave items empty */ }
+
+      const rawStatus = String(f.status || "pending").toLowerCase();
+      const status = LABEL[rawStatus] && rawStatus !== "all" ? rawStatus : "pending";
+      const isInquiry = f.firstName === "WhatsApp" && f.lastName === "Inquiry";
+      const customer = [f.firstName, f.lastName].filter(Boolean).join(" ");
+      const total = items.reduce((sum, i) => sum + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
+
+      return {
+        id: record.id,
+        status,
+        isInquiry,
+        customer,
+        phone: f.phone || "",
+        items,
+        total,
+        date: f.orderDate || record.createdTime,
+        busy: false,
+      };
+    }
+
+    // ── Showing things ──────────────────────────────────────
+    function visibleOrders() {
+      const needle = query.trim().toLowerCase();
+      return orders.filter((order) => {
+        if (filter !== "all" && order.status !== filter) return false;
+        if (!needle) return true;
+        const text = [
+          order.customer,
+          order.phone,
+          ...order.items.map((i) => i.name),
+        ].join(" ").toLowerCase();
+        return text.includes(needle);
+      });
+    }
+
+    function renderChips() {
+      const counts = { all: orders.length };
+      for (const order of orders) counts[order.status] = (counts[order.status] || 0) + 1;
+
+      $("chips").replaceChildren(
+        ...FILTERS.map((key) =>
+          h(
+            "button",
+            {
+              class: "chip",
+              type: "button",
+              "aria-pressed": String(filter === key),
+              onclick: () => { filter = key; render(); },
+            },
+            LABEL[key],
+            h("span", { class: "count" }, String(counts[key] || 0))
+          )
+        )
+      );
+
+      $("pendingCount").textContent = String(counts.pending || 0);
+    }
+
+    function renderTrack(order) {
+      const current = STAGES.indexOf(order.status);
+      return h(
+        "div",
+        { class: "track", role: "group", "aria-label": "Order status" },
+        ...STAGES.map((stage, index) => {
+          const classes = ["stop"];
+          if (index <= current) classes.push("reached");
+          if (index === current) classes.push("current");
+          if (index === STAGES.length - 1) classes.push("final");
+          return h(
+            "button",
+            {
+              class: classes.join(" "),
+              type: "button",
+              "aria-pressed": String(index === current),
+              onclick: () => setStatus(order, stage),
+            },
+            h("span", { class: "dot", "aria-hidden": "true" }, index === current && stage === "delivered" ? "✓" : ""),
+            LABEL[stage]
+          );
+        })
+      );
+    }
+
+    function renderCard(order) {
+      const cancelled = order.status === "cancelled";
+
+      const itemLines = order.items.length
+        ? order.items.map((item) =>
+            h(
+              "li",
+              {},
+              String(item.name || "Unnamed product"),
+              h("span", { class: "qty" }, ` × ${Number(item.qty) || 1}`)
+            )
+          )
+        : [h("li", {}, "Items unavailable")];
+
+      let footLeft;
+      if (order.isInquiry) {
+        footLeft = h("span", {}, "Customer details are in your WhatsApp chat.");
+      } else {
+        const link = whatsappLink(order.phone);
+        footLeft = h(
+          "span",
+          {},
+          order.customer || "Customer",
+          link ? " · " : "",
+          link ? h("a", { href: link, target: "_blank", rel: "noopener" }, "Message on WhatsApp") : ""
+        );
+      }
+
+      const footRight = cancelled
+        ? h("button", { class: "link-btn", type: "button", onclick: () => setStatus(order, "pending") }, "Reopen as pending")
+        : h("button", { class: "link-btn", type: "button", onclick: () => setStatus(order, "cancelled") }, "Cancel order");
+
+      return h(
+        "li",
+        {
+          class: "card" + (cancelled ? " is-cancelled" : ""),
+          "aria-busy": String(order.busy),
+        },
+        h(
+          "div",
+          { class: "card-head" },
+          order.isInquiry ? h("span", { class: "badge" }, "Buy Now inquiry") : h("span", {}, "Order"),
+          h("span", {}, formatDate(order.date))
+        ),
+        h(
+          "div",
+          { class: "card-body" },
+          h("ul", { class: "items" }, itemLines),
+          h("div", { class: "amount" }, naira(order.total))
+        ),
+        cancelled ? h("p", { class: "cancelled-note" }, "Cancelled") : renderTrack(order),
+        h("div", { class: "card-foot" }, footLeft, footRight)
+      );
+    }
+
+    function render() {
+      renderChips();
+
+      const shown = visibleOrders();
+      $("list").replaceChildren(...shown.map(renderCard));
+
+      const empty = $("empty");
+      if (shown.length) {
+        empty.hidden = true;
+      } else {
+        empty.hidden = false;
+        if (!orders.length) {
+          empty.replaceChildren(
+            h("strong", {}, "No orders yet"),
+            "Buy Now clicks and orders will show up here."
+          );
+        } else if (query.trim()) {
+          empty.replaceChildren(
+            h("strong", {}, "Nothing matches your search"),
+            "Try a product name, a customer name or a phone number."
+          );
+        } else {
+          empty.replaceChildren(
+            h("strong", {}, `No ${LABEL[filter].toLowerCase()} orders`),
+            "Pick another status above to see the rest."
+          );
+        }
+      }
+    }
+
+    function showToast(message, action) {
+      clearTimeout(toastTimer);
+      $("toastText").textContent = message;
+      const button = $("toastAction");
+      button.hidden = !action;
+      button.onclick = action
+        ? () => { hideToast(); action(); }
+        : null;
+      $("toast").hidden = false;
+      toastTimer = setTimeout(hideToast, 7000);
+    }
+
+    function hideToast() {
+      clearTimeout(toastTimer);
+      $("toast").hidden = true;
+    }
+
+    // ── Actions ─────────────────────────────────────────────
+    function showSignIn(message) {
+      password = "";
+      writeSaved("");
+      orders = [];
+      lastLoaded = 0;
+      $("desk").hidden = true;
+      $("login").hidden = false;
+      $("password").value = "";
+      const box = $("loginError");
+      box.hidden = !message;
+      box.textContent = message || "";
+      $("password").focus();
+    }
+
+    function showDeskError(message) {
+      const box = $("deskError");
+      box.hidden = !message;
+      box.textContent = message || "";
+    }
+
+    async function loadOrders() {
+      showDeskError("");
+      $("refreshBtn").disabled = true;
+      try {
+        const data = await api("/api/admin/orders");
+        orders = (data.orders || []).map(normalise);
+        lastLoaded = Date.now();
+        $("updatedAt").textContent =
+          "Updated " + new Date().toLocaleTimeString("en-NG", { hour: "numeric", minute: "2-digit" });
+        render();
+      } catch (error) {
+        if (error.status === 401 || error.status === 429) {
+          showSignIn(error.message);
+        } else {
+          if (!lastLoaded) $("list").replaceChildren();
+          showDeskError(error.message);
+        }
+      } finally {
+        $("refreshBtn").disabled = false;
+      }
+    }
+
+    async function setStatus(order, next, { undo = false } = {}) {
+      const previous = order.status;
+      if (previous === next || order.busy) return;
+
+      order.status = next;
+      order.busy = true;
+      render();
+
+      try {
+        await api(`/api/admin/orders/${encodeURIComponent(order.id)}/status`, {
+          method: "PATCH",
+          body: JSON.stringify({ status: next }),
+        });
+        order.busy = false;
+        render();
+        if (undo) showToast(`Back to ${LABEL[next]}`);
+        else showToast(`Marked ${LABEL[next]}`, () => setStatus(order, previous, { undo: true }));
+      } catch (error) {
+        order.status = previous;
+        order.busy = false;
+        render();
+        if (error.status === 401 || error.status === 429) showSignIn(error.message);
+        else showToast(error.message);
+      }
+    }
+
+    async function openDesk() {
+      $("login").hidden = true;
+      $("desk").hidden = false;
+      $("list").replaceChildren(h("li", { class: "empty" }, "Loading orders…"));
+      await loadOrders();
+    }
+
+    // ── Wiring ──────────────────────────────────────────────
+    $("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      password = $("password").value;
+      if (!password) return;
+
+      const button = $("loginBtn");
+      button.disabled = true;
+      $("loginError").hidden = true;
+
+      try {
+        // Asking for the orders doubles as the password check
+        const data = await api("/api/admin/orders");
+        writeSaved(password);
+        orders = (data.orders || []).map(normalise);
+        lastLoaded = Date.now();
+        $("updatedAt").textContent =
+          "Updated " + new Date().toLocaleTimeString("en-NG", { hour: "numeric", minute: "2-digit" });
+        $("login").hidden = true;
+        $("desk").hidden = false;
+        render();
+      } catch (error) {
+        password = "";
+        $("loginError").textContent =
+          error.status === 401 ? "Wrong password. Try again." : error.message;
+        $("loginError").hidden = false;
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $("refreshBtn").addEventListener("click", loadOrders);
+    $("signOutBtn").addEventListener("click", () => showSignIn(""));
+    $("search").addEventListener("input", (event) => {
+      query = event.target.value;
+      render();
+    });
+
+    // Refresh when you come back to the tab after a while
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && password && Date.now() - lastLoaded > 30000) loadOrders();
+    });
+
+    // Pick up where you left off if the tab is still open
+    password = readSaved();
+    if (password) openDesk();
+    else $("password").focus();
+  </script>
+</body>
+</html>
