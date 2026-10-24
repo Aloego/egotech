@@ -146,18 +146,11 @@ async buyNowInquiry(product, quantity = 1) {
 
 
 
-  // Normalize phone number to international format
-  let phone = (product.merchantPhone || "").replace(/[^0-9]/g, "");
-  if (phone.startsWith("0")) {
-    phone = "234" + phone.slice(1);
-  }
+  // All "Buy Now" clicks go to this single WhatsApp number.
+  // Change it here only (international format, digits only, no + or spaces).
+  const WHATSAPP_NUMBER = "2348105031964";
 
-  if (phone) {
-    // Try WhatsApp first
-    window.open(`https://wa.me/${phone}?text=${encodedMessage}`, "_blank");
-  } else {
-    alert("Sorry, contact details for this merchant are not available.");
-  }
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
 },
 
 };
