@@ -5,8 +5,7 @@ owl.carousel.min.js
 owljquery.min.js
 
 node_modules/
-package.json
-supabase/
-serverOld.js
-utilsoldcopy.js
+
+
+
 
