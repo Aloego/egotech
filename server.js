@@ -21,6 +21,7 @@ const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
 const AIRTABLE_PRODUCTS_URL = process.env.AIRTABLE_PRODUCTS_URL;
 const AIRTABLE_MERCHANTS_URL = process.env.AIRTABLE_MERCHANTS_URL;
 const AIRTABLE_ORDER_ITEMS_URL = process.env.AIRTABLE_ORDER_ITEMS_URL;
+const AIRTABLE_INQUIRIES_URL = process.env.AIRTABLE_INQUIRIES_URL;
 
 // Health check route for UptimeRobot
 app.get("/", (req, res) => {
@@ -333,7 +334,7 @@ setInterval(() => {
 
 function adminAuth(req, res, next) {
   if (!ADMIN_PASSWORD) {
-    return res.status(503).json({ error: "Admin is not set up on the server yet" });
+    return res.status(503).json({ error: "The admin password isn't set on the server yet. Add ADMIN_PASSWORD on Render, then try again." });
   }
 
   const ip = req.ip;
@@ -364,36 +365,43 @@ function adminAuth(req, res, next) {
   next();
 }
 
-function ordersBaseUrl() {
-  return (AIRTABLE_API_URL || "").replace(/\/+$/, "");
+function inquiriesBaseUrl() {
+  return (AIRTABLE_INQUIRIES_URL || "").replace(/\/+$/, "");
 }
 
 // ── GET /api/admin/orders ──────────────────────────
-// All orders and WhatsApp inquiries, newest first (up to 1000)
+// All Buy Now inquiries, newest first (up to 1000)
 app.get("/api/admin/orders", adminAuth, async (req, res) => {
+  if (!inquiriesBaseUrl()) {
+    return res.status(503).json({
+      error: "The Inquiries table isn't set up on the server yet. Add AIRTABLE_INQUIRIES_URL on Render, then try again.",
+    });
+  }
+
   try {
     let records = [];
     let offset;
 
     do {
       const params = new URLSearchParams({ pageSize: "100" });
-      params.append("sort[0][field]", "orderDate");
-      params.append("sort[0][direction]", "desc");
       if (offset) params.append("offset", offset);
 
-      const response = await fetch(`${ordersBaseUrl()}?${params}`, {
+      const response = await fetch(`${inquiriesBaseUrl()}?${params}`, {
         headers: { Authorization: "Bearer " + AIRTABLE_TOKEN },
       });
       const data = await response.json();
 
       if (!response.ok) {
-        console.error("Admin load orders error:", JSON.stringify(data));
-        return res.status(502).json({ error: "Could not load orders from Airtable" });
+        console.error("Admin load inquiries error:", JSON.stringify(data));
+        return res.status(502).json({ error: "Could not load inquiries from Airtable" });
       }
 
       records = records.concat(data.records || []);
       offset = data.offset;
     } while (offset && records.length < 1000);
+
+    // Newest first, using the time Airtable created each row
+    records.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
 
     res.json({
       statuses: ORDER_STATUSES,
@@ -404,17 +412,22 @@ app.get("/api/admin/orders", adminAuth, async (req, res) => {
       })),
     });
   } catch (err) {
-    console.error("Admin orders error:", err);
-    res.status(500).json({ error: "Failed to load orders" });
+    console.error("Admin inquiries error:", err);
+    res.status(500).json({ error: "Failed to load inquiries" });
   }
 });
 
 // ── PATCH /api/admin/orders/:id/status ─────────────
-// Change one order's status
+// Change one inquiry's status
 app.patch("/api/admin/orders/:id/status", adminAuth, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body || {};
 
+  if (!inquiriesBaseUrl()) {
+    return res.status(503).json({
+      error: "The Inquiries table isn't set up on the server yet. Add AIRTABLE_INQUIRIES_URL on Render, then try again.",
+    });
+  }
   if (!/^rec[A-Za-z0-9]{14}$/.test(id)) {
     return res.status(400).json({ error: "Invalid order id" });
   }
@@ -423,7 +436,7 @@ app.patch("/api/admin/orders/:id/status", adminAuth, async (req, res) => {
   }
 
   try {
-    const response = await fetch(`${ordersBaseUrl()}/${id}`, {
+    const response = await fetch(`${inquiriesBaseUrl()}/${id}`, {
       method: "PATCH",
       headers: {
         Authorization: "Bearer " + AIRTABLE_TOKEN,
@@ -436,7 +449,7 @@ app.patch("/api/admin/orders/:id/status", adminAuth, async (req, res) => {
 
     if (!response.ok) {
       console.error("Admin status update error:", JSON.stringify(data));
-      return res.status(502).json({ error: "Airtable would not update this order" });
+      return res.status(502).json({ error: "Airtable would not update this inquiry" });
     }
 
     res.json({ id: data.id, status: data.fields.status });
@@ -446,18 +459,57 @@ app.patch("/api/admin/orders/:id/status", adminAuth, async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
 // ── POST /api/inquiry ──────────────────────────────
-// Log a Buy Now / WhatsApp inquiry to Orders + OrderItems
+// Saves a Buy Now inquiry (the product and the buyer's phone number)
+// to the Inquiries table. This one is public, because every shopper's
+// Buy Now click calls it, so it checks its input and limits how often
+// one visitor can send inquiries.
+const INQUIRY_LIMIT = 20; // inquiries allowed per visitor...
+const INQUIRY_WINDOW_MS = 60 * 60 * 1000; // ...per hour
+const inquiryHits = new Map(); // ip -> { count, first }
+
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, rec] of inquiryHits) {
+    if (now - rec.first > INQUIRY_WINDOW_MS) inquiryHits.delete(ip);
+  }
+}, INQUIRY_WINDOW_MS).unref();
+
 app.post("/api/inquiry", async (req, res) => {
-  const { productId, productName, price, quantity, merchantName, merchantPhone, merchantBusiness, merchantAddress } = req.body;
+  if (!inquiriesBaseUrl()) {
+    console.error("Inquiry received but AIRTABLE_INQUIRIES_URL is not set");
+    return res.status(503).json({ error: "Inquiries are not set up on the server yet" });
+  }
+
+  // Limit how many inquiries one visitor can send
+  const now = Date.now();
+  let hit = inquiryHits.get(req.ip);
+  if (!hit || now - hit.first > INQUIRY_WINDOW_MS) {
+    hit = { count: 0, first: now };
+    inquiryHits.set(req.ip, hit);
+  }
+  hit.count += 1;
+  if (hit.count > INQUIRY_LIMIT) {
+    return res.status(429).json({ error: "Too many inquiries. Please try again later." });
+  }
+
+  // Check and tidy what was sent
+  const body = req.body || {};
+  const productName = String(body.productName || "").trim().slice(0, 200);
+  const productId = String(body.productId == null ? "" : body.productId).trim().slice(0, 100);
+  const buyerPhone = String(body.buyerPhone || "").replace(/\D/g, "");
+  const price = Number(body.price);
+  const quantity = Math.min(Math.max(parseInt(body.quantity, 10) || 1, 1), 100);
+
+  if (!productName) {
+    return res.status(400).json({ error: "Missing product name" });
+  }
+  if (buyerPhone.length < 11 || buyerPhone.length > 15) {
+    return res.status(400).json({ error: "Invalid phone number" });
+  }
 
   try {
-    // ── Save to Orders table ──
-    const orderResponse = await fetch(AIRTABLE_API_URL, {
+    const response = await fetch(inquiriesBaseUrl(), {
       method: "POST",
       headers: {
         Authorization: "Bearer " + AIRTABLE_TOKEN,
@@ -465,51 +517,29 @@ app.post("/api/inquiry", async (req, res) => {
       },
       body: JSON.stringify({
         fields: {
-          firstName: "WhatsApp",
-          lastName: "Inquiry",
-          email: "n/a",
-          phone: merchantPhone || "n/a",
-          address: "n/a",
-          country: "Nigeria",
-          state: "n/a",
-          cartItems: JSON.stringify([{ id: productId, name: productName, price, qty: quantity || 1 }]),
-          orderDate: new Date().toISOString(),
+          productId,
+          productName,
+          price: Number.isFinite(price) && price >= 0 ? price : 0,
+          quantity,
+          buyerPhone,
           status: "pending",
         },
+        typecast: true,
       }),
     });
+    const saved = await response.json();
 
-    const orderSaved = await orderResponse.json();
-    if (!orderResponse.ok) {
-      console.error("Inquiry order error:", JSON.stringify(orderSaved));
-      return res.status(500).json({ error: "Failed to log inquiry" });
+    if (!response.ok) {
+      console.error("Inquiry save error:", JSON.stringify(saved));
+      return res.status(502).json({ error: "Failed to log inquiry" });
     }
 
-    // ── Save to OrderItems table ──
-    await fetch(AIRTABLE_ORDER_ITEMS_URL, {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + AIRTABLE_TOKEN,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fields: {
-          orderId: orderSaved.id,
-          productName: productName || "",
-          productId: String(productId) || "",
-          quantity: Number(quantity) || 1,
-          price: Number(price) || 0,
-          merchantName: merchantName || "",
-          merchantPhone: merchantPhone || "",
-          merchantBusiness: merchantBusiness || "",
-          merchantAddress: merchantAddress || "",
-        },
-      }),
-    });
-
-    res.status(200).json({ success: true, orderId: orderSaved.id });
+    res.status(200).json({ success: true, id: saved.id });
   } catch (err) {
     console.error("Inquiry error:", err);
     res.status(500).json({ error: "Failed to log inquiry" });
   }
 });
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

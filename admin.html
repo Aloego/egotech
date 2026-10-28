@@ -282,7 +282,16 @@
       font-size: 0.9rem;
       color: var(--muted);
     }
-    .card-foot a { color: var(--purple); font-weight: 700; }
+    .btn.notify {
+      display: inline-flex;
+      align-items: center;
+      border-color: var(--purple);
+      color: var(--purple);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .btn.notify:hover { background: var(--purple-soft); }
+    .buyer { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
 
     /* ── Empty and loading ───────────────────── */
     .empty {
@@ -341,7 +350,7 @@
     <!-- Sign in -->
     <section class="login" id="login">
       <h1>Order desk</h1>
-      <p>Enter the admin password to see your orders and Buy Now inquiries.</p>
+      <p>Enter the admin password to see your Buy Now inquiries.</p>
       <form id="loginForm">
         <label class="field-label" for="password">Password</label>
         <input class="input" id="password" type="password" autocomplete="current-password" required />
@@ -367,7 +376,7 @@
       </div>
 
       <div class="search">
-        <input class="input" id="search" type="search" aria-label="Search orders" placeholder="Search by product, name or phone" />
+        <input class="input" id="search" type="search" aria-label="Search inquiries" placeholder="Search by product or phone number" />
       </div>
 
       <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
@@ -452,6 +461,11 @@
       return date.toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" });
     }
 
+    function formatPhone(phone) {
+      const digits = String(phone || "").replace(/\D/g, "");
+      return digits ? "+" + digits : "No number";
+    }
+
     function whatsappLink(phone) {
       let digits = String(phone || "").replace(/\D/g, "");
       if (digits.startsWith("0")) digits = "234" + digits.slice(1);
@@ -487,11 +501,7 @@
       try { body = await response.json(); } catch { /* no JSON in the reply */ }
 
       if (!response.ok) {
-        let message = body.error || "Something went wrong. Try again.";
-        if (response.status === 503) {
-          message = "The admin password isn't set on the server yet. Add ADMIN_PASSWORD on Render, then try again.";
-        }
-        throw new ApiError(response.status, message);
+        throw new ApiError(response.status, body.error || "Something went wrong. Try again.");
       }
       return body;
     }
@@ -500,27 +510,17 @@
     function normalise(record) {
       const f = record.fields || {};
 
-      let items = [];
-      try {
-        const parsed = typeof f.cartItems === "string" ? JSON.parse(f.cartItems) : f.cartItems;
-        if (Array.isArray(parsed)) items = parsed;
-      } catch { /* leave items empty */ }
-
       const rawStatus = String(f.status || "pending").toLowerCase();
       const status = LABEL[rawStatus] && rawStatus !== "all" ? rawStatus : "pending";
-      const isInquiry = f.firstName === "WhatsApp" && f.lastName === "Inquiry";
-      const customer = [f.firstName, f.lastName].filter(Boolean).join(" ");
-      const total = items.reduce((sum, i) => sum + (Number(i.price) || 0) * (Number(i.qty) || 1), 0);
+      const quantity = Number(f.quantity) || 1;
 
       return {
         id: record.id,
         status,
-        isInquiry,
-        customer,
-        phone: f.phone || "",
-        items,
-        total,
-        date: f.orderDate || record.createdTime,
+        phone: String(f.buyerPhone || ""),
+        items: [{ name: f.productName || "", qty: quantity }],
+        total: (Number(f.price) || 0) * quantity,
+        date: record.createdTime,
         busy: false,
       };
     }
@@ -532,7 +532,6 @@
         if (filter !== "all" && order.status !== filter) return false;
         if (!needle) return true;
         const text = [
-          order.customer,
           order.phone,
           ...order.items.map((i) => i.name),
         ].join(" ").toLowerCase();
@@ -588,33 +587,42 @@
       );
     }
 
+    // The message that "Notify buyer" prepares for each status.
+    // {product} is replaced with the product name.
+    const NOTIFY_MESSAGE = {
+      pending: "Hi, this is Techpoint. Following up on your interest in {product}.",
+      paid: "Hi, this is Techpoint. We've received your payment for {product}. Thank you!",
+      processing: "Hi, this is Techpoint. Your order for {product} is being prepared.",
+      shipped: "Hi, this is Techpoint. Good news: your order for {product} has shipped.",
+      delivered: "Hi, this is Techpoint. Your order for {product} has been delivered. Thank you for shopping with us!",
+      cancelled: "Hi, this is Techpoint. Your order for {product} has been cancelled. Message us if you have any questions.",
+    };
+
+    // Opens WhatsApp to the buyer with the status message already typed
+    function notifyLink(order) {
+      const link = whatsappLink(order.phone);
+      if (!link) return "";
+      const name = (order.items[0] && order.items[0].name) || "your order";
+      const text = (NOTIFY_MESSAGE[order.status] || NOTIFY_MESSAGE.pending).replace("{product}", name);
+      return `${link}?text=${encodeURIComponent(text)}`;
+    }
+
     function renderCard(order) {
       const cancelled = order.status === "cancelled";
 
-      const itemLines = order.items.length
-        ? order.items.map((item) =>
-            h(
-              "li",
-              {},
-              String(item.name || "Unnamed product"),
-              h("span", { class: "qty" }, ` × ${Number(item.qty) || 1}`)
-            )
-          )
-        : [h("li", {}, "Items unavailable")];
-
-      let footLeft;
-      if (order.isInquiry) {
-        footLeft = h("span", {}, "Customer details are in your WhatsApp chat.");
-      } else {
-        const link = whatsappLink(order.phone);
-        footLeft = h(
-          "span",
+      const itemLines = order.items.map((item) =>
+        h(
+          "li",
           {},
-          order.customer || "Customer",
-          link ? " · " : "",
-          link ? h("a", { href: link, target: "_blank", rel: "noopener" }, "Message on WhatsApp") : ""
-        );
-      }
+          String(item.name || "Unnamed product"),
+          h("span", { class: "qty" }, ` × ${Number(item.qty) || 1}`)
+        )
+      );
+
+      const notify = notifyLink(order);
+      const footLeft = notify
+        ? h("a", { class: "btn notify", href: notify, target: "_blank", rel: "noopener" }, "Notify buyer")
+        : h("span", {}, "No buyer number saved");
 
       const footRight = cancelled
         ? h("button", { class: "link-btn", type: "button", onclick: () => setStatus(order, "pending") }, "Reopen as pending")
@@ -629,7 +637,7 @@
         h(
           "div",
           { class: "card-head" },
-          order.isInquiry ? h("span", { class: "badge" }, "Buy Now inquiry") : h("span", {}, "Order"),
+          h("span", { class: "buyer" }, formatPhone(order.phone)),
           h("span", {}, formatDate(order.date))
         ),
         h(
@@ -656,17 +664,17 @@
         empty.hidden = false;
         if (!orders.length) {
           empty.replaceChildren(
-            h("strong", {}, "No orders yet"),
-            "Buy Now clicks and orders will show up here."
+            h("strong", {}, "No inquiries yet"),
+            "Buy Now clicks will show up here with the buyer's phone number."
           );
         } else if (query.trim()) {
           empty.replaceChildren(
             h("strong", {}, "Nothing matches your search"),
-            "Try a product name, a customer name or a phone number."
+            "Try a product name or a phone number."
           );
         } else {
           empty.replaceChildren(
-            h("strong", {}, `No ${LABEL[filter].toLowerCase()} orders`),
+            h("strong", {}, `No ${LABEL[filter].toLowerCase()} inquiries`),
             "Pick another status above to see the rest."
           );
         }
@@ -762,7 +770,7 @@
     async function openDesk() {
       $("login").hidden = true;
       $("desk").hidden = false;
-      $("list").replaceChildren(h("li", { class: "empty" }, "Loading orders…"));
+      $("list").replaceChildren(h("li", { class: "empty" }, "Loading inquiries…"));
       await loadOrders();
     }
 
